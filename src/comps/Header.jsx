@@ -6,7 +6,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 const Header = () => {
   const navigation = [
     { name: 'About', pageName: '/About', current: true },
-    { name: 'Projects', pageName: '/Projects', current: false },
+    { name: 'Projects', pageName: '/Projects', current: false }
   ]
 
   return (
@@ -15,11 +15,11 @@ const Header = () => {
       className='bg-primary 
       text-white
       font-sans
-      contrast
       hover:text-active
       border-indigo-100
-      border-b-2 
-      border-dashed'>
+      border-b-2
+      '
+    >
       {({ open }) => (
         <>
           <div className=' mx-auto px-2 sm:px-6 lg:px-8'>
@@ -36,7 +36,8 @@ const Header = () => {
                   focus:ring-2 
                   focus:ring-inset 
                   focus:ring-white 
-                  focus:decoration-dashed'>
+                  focus:decoration-dashed'
+                >
                   <span className='sr-only'>Open main menu</span>
                   {open ? (
                     <XIcon className='block h-6 w-6' aria-hidden='true' />
@@ -49,7 +50,8 @@ const Header = () => {
                 <div className='flex-shrink-0 flex items-center'>
                   <Link
                     className='text-3xl sm:text-4xl md:text-5xl mr-3'
-                    to='/'>
+                    to='/'
+                  >
                     🚀
                   </Link>
                 </div>
@@ -59,9 +61,8 @@ const Header = () => {
                       <NavigationLink
                         key={navLink.name}
                         pageName={navLink.pageName}
-                        aria-current={
-                          navLink.current ? 'page' : undefined
-                        }></NavigationLink>
+                        aria-current={navLink.current ? 'page' : undefined}
+                      ></NavigationLink>
                     ))}
                   </div>
                 </div>
@@ -74,9 +75,8 @@ const Header = () => {
                 <NavigationLink
                   key={item.name}
                   pageName={item.pageName}
-                  aria-current={
-                    item.current ? 'page' : undefined
-                  }></NavigationLink>
+                  aria-current={item.current ? 'page' : undefined}
+                ></NavigationLink>
               ))}
             </div>
           </Disclosure.Panel>

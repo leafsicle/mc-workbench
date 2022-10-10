@@ -3,9 +3,10 @@ import React from 'react'
 const ExternalLink = ({ socialInfo }) => {
   return (
     <button
-      className='contrast text-2xl m-2 w-100 text-white font-sans border-2 border-white border-dashed hover:border-0'
-      title={'External link to ' + socialInfo.name}>
-      <a target='_blank' rel='noreferrer' href={socialInfo.url} className=''>
+      className='contrast text-2xl m-2 w-100 text-white font-sans  '
+      title={'External link to ' + socialInfo.name}
+    >
+      <a target='_blank' href={socialInfo.url} className='' rel='noreferrer'>
         <i
           className={
             socialInfo.icon +
