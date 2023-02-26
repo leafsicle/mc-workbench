@@ -1,0 +1,44 @@
+{
+  "plants": [
+    {
+      "id": 1,
+      "name": "Aloe Vera",
+      "description": "Aloe vera is a succulent plant. An evergreen perennial, it originates from the Arabian Peninsula, but grows wild in tropical, semi-tropical, and arid climates around the world. It is cultivated for agricultural and medicinal uses. The species is also used for decorative purposes and grows successfully indoors as a potted plant.",
+      "image": "aloe-vera.jpg",
+      "imageCredit": "https://unsplash.com/ja/@feeypflanzen?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
+      "funFact": "None. It's just a plant.",
+      "funFact2": "Really, it's just a plant.",
+      "price": 10.0,
+      "quantity": 10,
+      "genus": "Aloe",
+      "species": "Aloe vera"
+    },
+    {
+      "id": 2,
+      "name": "Snake Plant",
+      "description": "commonly known as snake plant, mother-in-law's tongue, or viper's bowstring hemp, is a flowering plant species in the family Asparagaceae, native to West Africa. It is a succulent plant, with stiff, sword-shaped leaves that grow in rosettes from a short stem. It is a popular houseplant.",
+      "image": "sansevieria-trifasciata.jpg",
+      "imageCredit": "https://unsplash.com/ja/@feeypflanzen?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
+      "funFact": "The snake plant is a succulent plant that can survive for months without water.",
+      "funFact2": "If you pluck a leaf from a snake plant and cut it into 3\" pieces, you can grow each into a new plant.",
+      "price": 10.0,
+      "quantity": 10,
+      "genus": "Sansevieria",
+      "species": "Sansevieria trifasciata"
+    },
+    {
+      "id": 3,
+      "name": "Monstera Deliciosa",
+      "commonName": "Swiss Cheese Plant",
+      "funFact": "The name Monstera deliciosa is derived from the Latin word monstrosus, meaning monstrous, and the Spanish word delicioso, meaning delicious.",
+      "funFact2": " The plant was named by Carl Linnaeus in 1753, who described it as a monstrous plant with delicious fruit.The fruit tastes like a combination of pineapple, banana, and mango! However, it's not as simple as just picking the fruit and eating it. The fruit is only ripe and safe to eat once it has fallen off the plant and started to decompose on the ground. Legend has it that the indigenous people of Central and South America used to tie the ripe fruit to a stick and leave it out in the sun to rot until it was soft and mushy. Then, they would use the stick to scoop out the delicious fruit from the inside. So, while Monstera deliciosa is most commonly grown as a houseplant for its ornamental leaves, it's also a tasty treat for those who are willing to put in a bit of effort to enjoy its fruit!",
+      "description": "A species of flowering plant native to tropical forests of southern Mexico, through Central America to northern South America. It is a climbing or trailing vine, growing to 10 m tall or more with aerial roots. The leaves are large, 30-60 cm long and 15-45 cm broad, with a deeply lobed margin",
+      "image": "monstera-deliciosa.jpg",
+      "imageCredit": "https://unsplash.com/ja/@feeypflanzen?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText",
+      "price": 10.0,
+      "quantity": 10,
+      "genus": "Monstera",
+      "species": "Monstera deliciosa"
+    }
+  ]
+}

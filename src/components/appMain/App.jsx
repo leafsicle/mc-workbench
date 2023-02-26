@@ -1,7 +1,6 @@
 import { Routes, Route, Outlet, Link } from 'react-router-dom'
 import './App.css'
 import Dashboard from '../dashboard'
-import About from '../about'
 import NotFound from '../404'
 import Header from '../header'
 
@@ -13,9 +12,7 @@ export default function App () {
             parent route elements. See the note about <Outlet> below. */}
       <Routes>
         <Route path='/' element={<Header />}>
-          <Route index element={<About />} />
-          <Route path='dashboard' element={<Dashboard />} />
-
+          <Route index element={<Dashboard />} />
           {/* Using path="*"" means "match anything", so this route
                 acts like a catch-all for URLs that we don't have explicit
                 routes for. */}
