@@ -3,7 +3,8 @@
 ##### Mobile
 
 ```bash
-    yarn run dev --host
+    yarn run dev
 ```
 
-then select the Network address: and navigate to it on your device
+Then, once running, select the Network address: and navigate to it on your device
+[Toast notifications](https://fkhadra.github.io/react-toastify/installation)

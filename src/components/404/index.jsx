@@ -21,7 +21,7 @@ const NotFound = () => {
       <p>{plant.name}</p>
       <em>{plant.scientificName}</em>
       <p>{plant.description}</p>
-      <img src={plant.image} alt={plant.name} style={{ maxWidth: '40%' }} />>
+      <img src={plant.image} alt={plant.name} style={{ maxWidth: '40%' }} />
     </div>
   )
 }

@@ -10,6 +10,12 @@ const Header = () => {
             <Link to='/'>Dashboard</Link>
           </li>
           <li>
+            <Link to='/about'>About</Link>
+          </li>
+          <li>
+            <Link to='/contact'>Contact</Link>
+          </li>
+          <li>
             <Link to='/nothing-here'>Click to see 404 for debug</Link>
           </li>
         </ul>
