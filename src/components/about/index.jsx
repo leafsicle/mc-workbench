@@ -5,7 +5,6 @@ const About = () => {
       <p>
         This is a sandbox for me to play with different technologies and ideas.
       </p>
-      
     </div>
   )
 }

@@ -26,8 +26,6 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          width: '80%',
-          maxWidth: '300px',
           height: '300px',
           borderRadius: '10px'
         }

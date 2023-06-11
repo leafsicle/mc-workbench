@@ -3,14 +3,14 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
-import { Grid } from '@mui/material'
 
 const PlantCard = ({ plant, useGlow = true }) => {
   const [hideDescription, setHideDescription] = useState(true)
   const [timerActive, setTimerActive] = useState(false)
-
   const handleMouseEnter = () => {
-    setTimerActive(false)
+    if (timerActive) {
+      setTimerActive(false)
+    }
   }
 
   const handleMouseLeave = () => {

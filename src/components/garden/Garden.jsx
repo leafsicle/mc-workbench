@@ -13,10 +13,11 @@ const Garden = () => {
             <Grid
               item
               xs={12}
-              sm={4}
+              sm={6}
               md={4}
+              lg={3}
               key={plant.id}
-              style={{ padding: '1rem' }}
+              style={{ padding: '.5rem' }}
             >
               <PlantCard plant={plant} key={plant.id} />
             </Grid>

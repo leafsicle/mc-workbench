@@ -3,14 +3,7 @@
   padding: 2rem;
 }
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.2rem;
   line-height: 1.5;
-}
-ol,
-ul {
-  list-style: none;
-  padding: 0;
-}
-.layout {
 }
