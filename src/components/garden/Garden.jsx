@@ -7,9 +7,20 @@ const Garden = () => {
   return (
     <Box>
       <h1>Current Plants</h1>
-      <Grid container>
+      <Grid container xs={12} flexWrap='wrap'>
         {plants.map(plant => {
-          return <PlantCard plant={plant} key={plant.id} />
+          return (
+            <Grid
+              item
+              xs={12}
+              sm={4}
+              md={4}
+              key={plant.id}
+              style={{ padding: '1rem' }}
+            >
+              <PlantCard plant={plant} key={plant.id} />
+            </Grid>
+          )
         })}
       </Grid>
     </Box>

@@ -39,6 +39,19 @@
       "quantity": 10,
       "genus": "Monstera",
       "species": "Monstera deliciosa"
+    },
+    {
+      "id": 4,
+      "name": "Pothos",
+      "description": "Pothos is a genus of flowering plants in the family Araceae (tribe Potheae). The genus is native to Southeast Asia and New Guinea. It is currently defined to contain only two species. The name Pothos is derived from the Greek word for \"drink\" or \"food\", and is a common plant in the home.",
+      "image": "pothos.jpg",
+      "imageCredit": "",
+      "funFact": "",
+      "funFact2": "",
+      "price": 10.0,
+      "quantity": 10,
+      "genus": "Epipremnum",
+      "species": "Epipremnum aureum"
     }
   ]
 }
