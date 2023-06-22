@@ -2,7 +2,6 @@ import { Routes, Route, Outlet, Link } from 'react-router-dom'
 import Garden from '../garden/Garden'
 import NotFound from '../404'
 import Header from '../header'
-import About from '../about'
 import ContactForm from '../contactForm'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,8 +18,7 @@ export default function App () {
         <Routes>
           <Route path='/' element={<Header />}>
             <Route index element={<Garden />} />
-            <Route path='/about' element={<About />} />
-            {/* <Route path='/contact' element={<ContactForm />} /> */}
+            <Route path='/contact' element={<ContactForm />} />
             <Route path='*' element={<NotFound />} />
           </Route>
         </Routes>

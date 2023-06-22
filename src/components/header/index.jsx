@@ -1,19 +1,21 @@
 import { Outlet, Link } from 'react-router-dom'
 import React, { useState } from 'react'
-import Box from '@mui/material/Box'
 import LunchDiningIcon from '@mui/icons-material/LunchDining'
 import IconButton from '@mui/material/IconButton'
-
+import SystemSecurityUpdateWarningIcon from '@mui/icons-material/SystemSecurityUpdateWarning'
+import GrassIcon from '@mui/icons-material/Grass'
 const links = [
   {
     id: 1,
     name: 'Garden',
-    path: '/'
+    path: '/',
+    icon: <GrassIcon />
   },
   {
     id: 2,
-    name: 'About',
-    path: '/about'
+    name: 'Contact',
+    path: '/contact',
+    icon: <SystemSecurityUpdateWarningIcon />
   }
 ]
 
@@ -37,7 +39,15 @@ const Header = () => {
           {links.map(link => {
             return (
               <li key={link.id} hidden={navCollapse}>
-                <Link to={link.path}>{link.name}</Link>
+                <Link to={link.path}>
+                  <IconButton
+                    variant='contained'
+                    color='primary'
+                    onClick={() => setNavCollapse(!navCollapse)}
+                    children={link.icon}
+                  />
+                  {link.name}
+                </Link>
               </li>
             )
           })}

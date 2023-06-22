@@ -7,7 +7,7 @@ const Garden = () => {
   return (
     <Box>
       <h1>Current Plants</h1>
-      <Grid container xs={12} flexWrap='wrap'>
+      <Grid container flexWrap='wrap'>
         {plants.map(plant => {
           return (
             <Grid

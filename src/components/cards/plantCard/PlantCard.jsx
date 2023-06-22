@@ -24,6 +24,7 @@ const PlantCard = ({ plant, useGlow = true }) => {
   return (
     <Card
       key={plant.id}
+      tabIndex={plant.id}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={() => setHideDescription(!hideDescription)}
@@ -32,7 +33,14 @@ const PlantCard = ({ plant, useGlow = true }) => {
         transition: 'all 0.3s ease-in-out',
         '&:hover': {
           boxShadow: useGlow ? '0 0 40px 0 rgba(20, 230, 0, 0.7)' : 'none',
-          transition: 'all 0.2s ease-in-out'
+          transition: 'all 0.2s pulse',
+          transform: 'scale(1.03)'
+        },
+        '&:focus': {
+          outline: 'none',
+          boxShadow: useGlow ? '0 0 40px 0 rgba(20, 230, 0, 0.9)' : 'none',
+          transition: 'all 0.2s pulse',
+          transform: 'scale(1.034)'
         }
       }}
     >
@@ -52,7 +60,8 @@ const PlantCard = ({ plant, useGlow = true }) => {
           variant='body2'
           color='text.secondary'
           style={{
-            maxHeight: '40%'
+            maxHeight: '40%',
+            transition: 'all 0.3s ease-in-out'
           }}
         >
           {!hideDescription && plant.description}
