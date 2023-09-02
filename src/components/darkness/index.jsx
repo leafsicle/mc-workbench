@@ -1,61 +1,50 @@
-import React, { useEffect, useRef } from 'react'
-import { Box } from '@mui/material'
-import Slider from '@mui/material/Slider'
+import React, { useEffect, useRef, useState } from 'react'
+import { Box, Slider } from '@mui/material'
+
+const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
+  const canvas = canvasRef.current
+  const ctx = canvas.getContext('2d')
+  const rect = canvas.getBoundingClientRect()
+  const x = event.clientX - rect.left
+  const y = event.clientY - rect.top
+  const radius = blurRadius
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+  ctx.beginPath()
+  ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
+  ctx.fillStyle = 'rgba(244,255,0,0.5)'
+  ctx.fill()
+  ctx.font = '30px Arial'
+  ctx.fillStyle = 'black'
+  ctx.fillText(canvasBodyText, 150, 150)
+}
+
 const PlainPage = () => {
+  const [canvasBodyText, setCanvasBodyText] = useState('Bacon Text')
   const canvasRef = useRef(null)
-  const [blurRadius, setBlurRadius] = React.useState(20)
-  const drawCircle = event => {
+  const [blurRadius, setBlurRadius] = useState(20)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const handler = drawCircle(canvasRef, blurRadius, canvasBodyText)
+
+    canvas.addEventListener('mousemove', handler)
+    return () => {
+      canvas.removeEventListener('mousemove', handler)
+    }
+  }, [blurRadius, canvasBodyText])
+
+  useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas.getContext('2d')
-    const rect = canvas.getBoundingClientRect()
-    const x = event.clientX - rect.left
-    const y = event.clientY - rect.top
-    const radius = blurRadius
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.beginPath()
-    ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
-    ctx.fillStyle = 'rgba(244,255,0,0.5)'
-    ctx.fill()
-    // Add text to the canvas
-    ctx.font = '30px Arial'
-    ctx.fillStyle = 'black'
-    ctx.fillText('Your text here', 150, 150)
-  }
-  useEffect(() => {
-    const canvas = canvasRef.current
-    const drawCircle = event => {
-      const canvas = canvasRef.current
-      const ctx = canvas.getContext('2d')
-      const rect = canvas.getBoundingClientRect()
-      const x = event.clientX - rect.left
-      const y = event.clientY - rect.top
-      const radius = blurRadius
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.beginPath()
-      ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
-      ctx.fillStyle = 'rgba(244,255,0,0.5)'
-      ctx.fill()
-      // Add text to the canvas
-      ctx.font = '30px Arial'
-      ctx.fillStyle = 'black'
-      ctx.fillText('Your text here', 150, 150)
-    }
-
-    canvas.addEventListener('mousemove', drawCircle)
-    return () => {
-      canvas.removeEventListener('mousemove', drawCircle)
-    }
-  }, [blurRadius])
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    canvas.addEventListener('mousemove', drawCircle)
-    return () => {
-      canvas.removeEventListener('mousemove', drawCircle)
-    }
-  }, [])
+    drawCircle(
+      canvasRef,
+      blurRadius,
+      canvasBodyText
+    )({ clientX: canvas.width / 2, clientY: canvas.height / 2 })
+  }, [canvasBodyText, blurRadius])
 
   return (
     <Box
@@ -67,13 +56,24 @@ const PlainPage = () => {
       }}
     >
       <Box style={{ backgroundColor: 'black' }}>
-        <Slider
-          aria-label='Volume'
-          value={blurRadius}
-          onChange={(event, newValue) => {
-            setBlurRadius(newValue)
-          }}
-        />
+        <Box style={{ width: '50%', margin: 'auto' }}>
+          <input
+            type='text'
+            placeholder='Enter text to display'
+            onChange={event => setCanvasBodyText(event.target.value)}
+          />
+          <Slider
+            aria-label='Volume'
+            value={blurRadius}
+            min={30}
+            max={100}
+            step={5}
+            onChange={(event, newValue) => {
+              setBlurRadius(newValue)
+            }}
+          />
+        </Box>
+
         <canvas
           ref={canvasRef}
           id='canvas'
