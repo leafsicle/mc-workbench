@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Slider } from '@mui/material'
+import { Box, Slider, TextField } from '@mui/material'
 
 const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
   const canvas = canvasRef.current
@@ -56,11 +56,22 @@ const PlainPage = () => {
       }}
     >
       <Box style={{ backgroundColor: 'black' }}>
-        <Box style={{ width: '50%', margin: 'auto' }}>
-          <input
-            type='text'
-            placeholder='Enter text to display'
+        <Box
+          style={{
+            width: '50%',
+            margin: 'auto',
+            height: '100px',
+            paddingTop: '50px'
+          }}
+        >
+          <TextField
+            label='Enter Display Text'
+            variant='outlined'
+            style={{ border: '1px solid yellow' }}
             onChange={event => setCanvasBodyText(event.target.value)}
+            InputLabelProps={{
+              style: { color: 'yellow' }
+            }}
           />
           <Slider
             aria-label='Volume'
@@ -78,7 +89,7 @@ const PlainPage = () => {
           ref={canvasRef}
           id='canvas'
           height={window.innerHeight - 100}
-          width={window.innerWidth - 100}
+          width={window.innerWidth}
           style={{ border: '1px solid black' }}
         ></canvas>
       </Box>
