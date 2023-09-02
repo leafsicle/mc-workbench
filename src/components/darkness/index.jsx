@@ -67,10 +67,10 @@ const PlainPage = () => {
           <TextField
             label='Enter Display Text'
             variant='outlined'
-            style={{ border: '1px solid yellow' }}
+            style={{ border: '1px solid yellow', borderRadius: '8px' }}
             onChange={event => setCanvasBodyText(event.target.value)}
             InputLabelProps={{
-              style: { color: 'yellow' }
+              shrink: false
             }}
           />
           <Slider
