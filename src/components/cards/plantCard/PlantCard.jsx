@@ -31,6 +31,7 @@ const PlantCard = ({ plant, useGlow = true }) => {
       sx={{
         boxShadow: useGlow ? '0 0 10px 0 rgba(0, 230, 0, 0.2)' : 'none',
         transition: 'all 0.3s ease-in-out',
+        backgroundColor: '#aaf0d1',
         '&:hover': {
           boxShadow: useGlow ? '0 0 40px 0 rgba(20, 230, 0, 0.7)' : 'none',
           transition: 'all 0.2s pulse',
@@ -52,16 +53,17 @@ const PlantCard = ({ plant, useGlow = true }) => {
         title={plant.name}
         alt={plant.name}
       />
-      <CardContent className='card-content'>
-        <Typography variant='h5' component='div'>
+      <CardContent>
+        <Typography variant='h5' component='div' >
           {plant.name}
         </Typography>
         <Typography
           variant='body2'
-          color='text.secondary'
           style={{
             maxHeight: '40%',
-            transition: 'all 0.3s ease-in-out'
+            transition: 'all 0.3s ease-in-out',
+            overflow: 'hidden',
+            padding: '1.5rem 0'
           }}
         >
           {!hideDescription && plant.description}
