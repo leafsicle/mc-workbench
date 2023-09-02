@@ -52,6 +52,71 @@
       "quantity": 10,
       "genus": "Epipremnum",
       "species": "Epipremnum aureum"
+    },
+    {
+      "id": 5,
+      "name": "Lavender",
+      "description": "Lavender is a genus of about 30 species of plants in the family Lamiaceae and is native to countries bordering the Mediterranean. It is a shrub that grows to be about 1–2 meters tall. Lavender is well-known for its fragrant flowers.",
+      "image": "lavender.jpg",
+      "imageCredit": "",
+      "funFact": "Lavender oil can be used for aromatherapy.",
+      "funFact2": "The plant is also used in culinary dishes.",
+      "price": 12.0,
+      "quantity": 8,
+      "genus": "Lavandula",
+      "species": "Lavandula angustifolia"
+    },
+    {
+      "id": 6,
+      "name": "Orchid",
+      "description": "Orchids make up one of the largest plant families and are known for their often intricate and delicate flowers. They can be found all over the world.",
+      "image": "orchid.jpg",
+      "imageCredit": "",
+      "funFact": "Some orchid species can live to be 100 years old.",
+      "funFact2": "Orchids have a symmetry similar to human faces.",
+      "price": 20.0,
+      "quantity": 5,
+      "genus": "Orchidaceae",
+      "species": "Phalaenopsis"
+    },
+    {
+      "id": 7,
+      "name": "Peace Lily",
+      "description": "The Peace Lily is a popular indoor plant, known for its ability to break down certain harmful chemicals like benzene, formaldehyde, and other pollutants.",
+      "image": "peace-lily.jpg",
+      "imageCredit": "",
+      "funFact": "Despite its name, the Peace Lily is not a true lily.",
+      "funFact2": "It is relatively easy to care for and can grow in low light conditions.",
+      "price": 15.0,
+      "quantity": 10,
+      "genus": "Spathiphyllum",
+      "species": "Spathiphyllum wallisii"
+    },
+    {
+      "id": 8,
+      "name": "Fiddle-Leaf Fig",
+      "description": "The Fiddle-Leaf Fig is known for its dramatic leaves that are shaped like a fiddle. It is native to western Africa and grows in lowland tropical rainforest.",
+      "image": "fiddle-leaf-fig.jpg",
+      "imageCredit": "",
+      "funFact": "This plant can grow up to 6 feet or taller indoors.",
+      "funFact2": "It's a favorite among interior designers.",
+      "price": 25.0,
+      "quantity": 7,
+      "genus": "Ficus",
+      "species": "Ficus lyrata"
+    },
+    {
+      "id": 9,
+      "name": "Spider Plant",
+      "description": "The Spider Plant is known for its ability to purify air and is one of the most common houseplants. It is native to southern Africa.",
+      "image": "spider-plant.jpg",
+      "imageCredit": "",
+      "funFact": "Spider plants are non-toxic and safe for pets.",
+      "funFact2": "They produce 'pups' which can be easily replanted.",
+      "price": 10.0,
+      "quantity": 12,
+      "genus": "Chlorophytum",
+      "species": "Chlorophytum comosum"
     }
   ]
 }
