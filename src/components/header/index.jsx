@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import LunchDiningIcon from '@mui/icons-material/LunchDining'
 import IconButton from '@mui/material/IconButton'
 import SystemSecurityUpdateWarningIcon from '@mui/icons-material/SystemSecurityUpdateWarning'
+import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
 import GrassIcon from '@mui/icons-material/Grass'
 const links = [
   {
@@ -16,6 +17,12 @@ const links = [
     name: 'Contact',
     path: '/contact',
     icon: <SystemSecurityUpdateWarningIcon />
+  },
+  {
+    id: 3,
+    name: 'Darkness',
+    path: '/darkness',
+    icon: <FlashlightOnIcon />
   }
 ]
 
@@ -34,8 +41,7 @@ const Header = () => {
             padding: '.5rem 0',
             '&:visited': {
               style: 'none'
-            },
-
+            }
           }}
         >
           {links.map(link => {

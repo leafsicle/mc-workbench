@@ -20,15 +20,17 @@ const Garden = () => {
   const filteredPlants = filterPlants(plants, query)
 
   return (
-    <Box>
+    <Box style={{ padding: '2rem' }}>
       <h1>Current Plants</h1>
-      <input
-        type='text'
-        placeholder='Search for a plant'
-        value={query}
-        onChange={e => setQuery(e.target.value)}
-      />
-      <Grid container flexWrap='wrap'>
+      <Box style={{ marginBottom: '1rem' }}>
+        <input
+          type='text'
+          placeholder='Search for a plant'
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+        />
+      </Box>
+      <Grid container flexWrap='wrap' spacing={2}>
         {filteredPlants.map(plant => {
           return (
             <Grid

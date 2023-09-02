@@ -1,6 +1,7 @@
 import { Routes, Route, Outlet, Link } from 'react-router-dom'
 import Garden from '../garden/Garden'
 import NotFound from '../404'
+import Darkness from '../darkness'
 import Header from '../header'
 import ContactForm from '../contactForm'
 import { ToastContainer } from 'react-toastify'
@@ -19,6 +20,7 @@ export default function App () {
           <Route path='/' element={<Header />}>
             <Route index element={<Garden />} />
             <Route path='/contact' element={<ContactForm />} />
+            <Route path='/darkness' element={<Darkness />} />
             <Route path='*' element={<NotFound />} />
           </Route>
         </Routes>
