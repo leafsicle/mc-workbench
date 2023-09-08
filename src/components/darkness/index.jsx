@@ -65,7 +65,7 @@ const PlainPage = () => {
           }}
         >
           <TextField
-            label='Enter Display Text'
+            label='Enter text to display'
             variant='outlined'
             style={{ border: '1px solid yellow', borderRadius: '8px' }}
             onChange={event => setCanvasBodyText(event.target.value)}
