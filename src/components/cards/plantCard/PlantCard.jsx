@@ -6,19 +6,12 @@ import Typography from '@mui/material/Typography'
 
 const PlantCard = ({ plant, useGlow = true }) => {
   const [hideDescription, setHideDescription] = useState(true)
-  const [timerActive, setTimerActive] = useState(false)
   const handleMouseEnter = () => {
-    if (timerActive) {
-      setTimerActive(false)
-    }
+    setTimerActive(false)
   }
 
   const handleMouseLeave = () => {
-    setTimerActive(true)
-    setTimeout(() => {
-      setHideDescription(true)
-      setTimerActive(false)
-    }, 3000)
+    setHideDescription(true)
   }
 
   return (
@@ -54,7 +47,7 @@ const PlantCard = ({ plant, useGlow = true }) => {
         alt={plant.name}
       />
       <CardContent>
-        <Typography variant='h5' component='div' >
+        <Typography variant='h5' component='div'>
           {plant.name}
         </Typography>
         <Typography
