@@ -3,6 +3,7 @@ import { Box } from '@mui/material'
 import { Grid } from '@mui/material'
 import { plants } from '../../data/plants'
 import PlantCard from '../cards/plantCard/PlantCard'
+import StyledButton from '../buttons/styledButton'
 
 const Garden = () => {
   const [query, setQuery] = useState('')
@@ -29,6 +30,7 @@ const Garden = () => {
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
+        <StyledButton text='add plant' color='secondary' />
       </Box>
       <Grid container flexWrap='wrap' spacing={2}>
         {filteredPlants.map(plant => {
