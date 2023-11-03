@@ -14,13 +14,13 @@ const links = [
   },
   {
     id: 2,
-    name: 'Contact',
+    name: 'Form',
     path: '/contact',
     icon: <SystemSecurityUpdateWarningIcon />
   },
   {
     id: 3,
-    name: 'Darkness',
+    name: '',
     path: '/darkness',
     icon: <FlashlightOnIcon />
   }
