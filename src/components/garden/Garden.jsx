@@ -3,10 +3,26 @@ import { Box } from '@mui/material'
 import { Grid } from '@mui/material'
 import { plants } from '../../data/plants'
 import PlantCard from '../cards/plantCard/PlantCard'
-import StyledButton from '../buttons/styledButton'
+import Button from '@mui/material/Button'
+import { toast } from 'react-toastify'
 
 const Garden = () => {
   const [query, setQuery] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
+
+  const callToast = () => {
+    toast('This will be a modal', {
+      type: toast.TYPE.SUCCESS,
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 1500,
+      key: 'submit'
+    })
+  }
+
+  const handleAddPlant = () => {
+    setIsOpen(!isOpen)
+    callToast()
+  }
 
   // fitler plants functon
   const filterPlants = (plants, query) => {
@@ -30,7 +46,17 @@ const Garden = () => {
           value={query}
           onChange={e => setQuery(e.target.value)}
         />
-        <StyledButton text='add plant' color='secondary' />
+        <Button
+          text='add plants'
+          color='primary'
+          variant='contained'
+          onClick={handleAddPlant}
+        >
+          Add Plant
+        </Button>
+      </Box>
+      <Box style={{ marginBottom: '1rem' }}>
+        {isOpen && <h1 style={{ color: 'white' }}> This is Modal</h1>}
       </Box>
       <Grid container flexWrap='wrap' spacing={2}>
         {filteredPlants.map(plant => {

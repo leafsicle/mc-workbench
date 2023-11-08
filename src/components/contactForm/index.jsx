@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -61,7 +61,7 @@ const useStyles = makeStyles({
     }
   },
   label: {
-    backgroundColor: 'inherit',
+    backgroundColor: 'inherit'
   }
 })
 const ContactForm = () => {
@@ -97,21 +97,21 @@ const ContactForm = () => {
                   {fieldName}
                 </label>
               </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <input
-                {...register(fieldName)}
-                tabIndex={index + 1}
-                aria-invalid={errors[fieldName] ? 'true' : 'false'}
-              />
+              <Grid item xs={12} sm={6} md={4}>
+                <input
+                  {...register(fieldName)}
+                  tabIndex={index + 1}
+                  aria-invalid={errors[fieldName] ? 'true' : 'false'}
+                />
+              </Grid>
             </Grid>
+            {errors[fieldName] && (
+              <p key={fieldName} role='alert' style={{ color: 'black' }}>
+                {errors[fieldName]?.message}
+              </p>
+            )}
           </Grid>
-          {errors[fieldName] && (
-            <p key={fieldName} role='alert' style={{ color: 'black' }}>
-              {errors[fieldName]?.message}
-            </p>
-          )}
         </Grid>
-      </Grid>
       ))}
       <input type='submit' tabIndex={4} />
       <input type='reset' onClick={reset} tabIndex={5} />
