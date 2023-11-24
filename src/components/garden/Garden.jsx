@@ -1,12 +1,20 @@
 import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import { Grid } from '@mui/material'
-import { plants } from '../../data/plants'
+import { plants as plantData } from '../../data/plants'
 import PlantCard from '../cards/plantCard/PlantCard'
 import Button from '@mui/material/Button'
 import { toast } from 'react-toastify'
 import Dialog from '@mui/material/Dialog'
+import DialogTitle from '@mui/material/DialogTitle'
 import CloseIcon from '@mui/icons-material/Close'
+import Input from '@mui/material/Input'
+import Select from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import OutlinedInput from '@mui/material/OutlinedInput'
+import { useQuery } from '@apollo/client'
+import { ApolloProvider, gql } from '@apollo/client'
+
 const Garden = () => {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -23,8 +31,20 @@ const Garden = () => {
   const handleAddPlant = () => {
     setIsOpen(!isOpen)
   }
+  const GET_PLANTS = gql`
+    query getAllPlants {
+      plants {
+        name
+        careSchedule
+        lightPreference
+        soilDescription
+      }
+    }
+  `
+  const { data, errors, loading } = useQuery(GET_PLANTS)
+  let plantInfo = data?.plants || []
+  console.log(plantInfo)
 
-  // fitler plants functon
   const filterPlants = (plants, query) => {
     if (!query) {
       return plants
@@ -34,8 +54,9 @@ const Garden = () => {
       return plantName.includes(query)
     })
   }
-  const filteredPlants = filterPlants(plants, query)
-
+  const filteredPlants = filterPlants(plantData, query)
+  if (loading) return 'Loading...'
+  if (errors) return `Error! ${errors.message}`
   return (
     <Box style={{ padding: '2rem' }}>
       <h1>Current Plants</h1>
@@ -71,23 +92,49 @@ const Garden = () => {
             </Grid>
           )
         })}
-        <Dialog open={!isOpen} onClose={() => setIsOpen(false)} fullWidth>
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)} fullWidth>
+          <DialogTitle>
+            Add a plant modal!
+            <Button
+              text='add plants'
+              color='primary'
+              variant='contained'
+              onClick={() => setIsOpen(!isOpen)}
+              style={{ float: 'right' }}
+            >
+              <CloseIcon />
+            </Button>
+          </DialogTitle>
           <Grid container>
-            <Grid item xs={12}>
-              <Button
-                text='add plants'
-                color='primary'
-                variant='contained'
-                onClick={() => setIsOpen(!isOpen)}
-                style={{ float: 'right' }}
-              >
-                <CloseIcon />
-              </Button>
-              <h1>Add a plant modal!</h1>
-              <input type='text' placeholder='name' />
-              <input type='text' placeholder='quantity' />
-              <input type='text' placeholder='watering frequency' />
-              <input type='text' placeholder='sunlight' />
+            <Grid container style={{ padding: '2rem' }} spacing={1}>
+              <Grid item xs={12} sm={6}>
+                <Input fullWidth id='name' placeholder='name' />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input fullWidth id='quanitity' placeholder='quanitity' />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Watering Frequency'
+                  fullWidth
+                  defaultValue={10}
+                  input={
+                    <OutlinedInput
+                      label={'label-text'}
+                      placeholder='Watering Frequency'
+                    />
+                  }
+                >
+                  <MenuItem value={10}>Daily</MenuItem>
+                  <MenuItem value={20}>Weekly</MenuItem>
+                  <MenuItem value={30}>Monthly</MenuItem>
+                </Select>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Input fullWidth id='sunlight' placeholder='sunlight' />
+              </Grid>
             </Grid>
           </Grid>
         </Dialog>
