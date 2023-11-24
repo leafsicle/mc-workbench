@@ -5,7 +5,8 @@ import { plants } from '../../data/plants'
 import PlantCard from '../cards/plantCard/PlantCard'
 import Button from '@mui/material/Button'
 import { toast } from 'react-toastify'
-
+import Dialog from '@mui/material/Dialog'
+import CloseIcon from '@mui/icons-material/Close'
 const Garden = () => {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -21,7 +22,6 @@ const Garden = () => {
 
   const handleAddPlant = () => {
     setIsOpen(!isOpen)
-    callToast()
   }
 
   // fitler plants functon
@@ -55,9 +55,6 @@ const Garden = () => {
           Add Plant
         </Button>
       </Box>
-      <Box style={{ marginBottom: '1rem' }}>
-        {isOpen && <h1 style={{ color: 'white' }}> This is Modal</h1>}
-      </Box>
       <Grid container flexWrap='wrap' spacing={2}>
         {filteredPlants.map(plant => {
           return (
@@ -74,6 +71,26 @@ const Garden = () => {
             </Grid>
           )
         })}
+        <Dialog open={!isOpen} onClose={() => setIsOpen(false)} fullWidth>
+          <Grid container>
+            <Grid item xs={12}>
+              <Button
+                text='add plants'
+                color='primary'
+                variant='contained'
+                onClick={() => setIsOpen(!isOpen)}
+                style={{ float: 'right' }}
+              >
+                <CloseIcon />
+              </Button>
+              <h1>Add a plant modal!</h1>
+              <input type='text' placeholder='name' />
+              <input type='text' placeholder='quantity' />
+              <input type='text' placeholder='watering frequency' />
+              <input type='text' placeholder='sunlight' />
+            </Grid>
+          </Grid>
+        </Dialog>
       </Grid>
     </Box>
   )
