@@ -6,9 +6,7 @@ import Typography from '@mui/material/Typography'
 
 const PlantCard = ({ plant, useGlow = true }) => {
   const [hideDescription, setHideDescription] = useState(true)
-  const handleMouseEnter = () => {
-    setTimerActive(false)
-  }
+  const handleMouseEnter = () => {}
 
   const handleMouseLeave = () => {
     setHideDescription(true)
