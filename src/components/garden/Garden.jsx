@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import { Grid } from '@mui/material'
-import { plants as plantData } from '../../data/plants'
+// import { plants as plantData } from '../../data/plants'
 import PlantCard from '../cards/plantCard/PlantCard'
 import Button from '@mui/material/Button'
-import { toast } from 'react-toastify'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import CloseIcon from '@mui/icons-material/Close'
@@ -13,34 +12,16 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { useQuery } from '@apollo/client'
-import { ApolloProvider, gql } from '@apollo/client'
+import { GET_PLANTS, ADD_PLANT } from './queries'
 
 const Garden = () => {
   const [query, setQuery] = useState('')
   const [isOpen, setIsOpen] = useState(false)
 
-  const callToast = () => {
-    toast('This will be a modal', {
-      type: toast.TYPE.SUCCESS,
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 1500,
-      key: 'submit'
-    })
-  }
-
   const handleAddPlant = () => {
     setIsOpen(!isOpen)
   }
-  const GET_PLANTS = gql`
-    query getAllPlants {
-      plants {
-        name
-        careSchedule
-        lightPreference
-        soilDescription
-      }
-    }
-  `
+
   const { data, errors, loading } = useQuery(GET_PLANTS)
   let plantInfo = data?.plants || []
   console.log(plantInfo)
@@ -54,7 +35,7 @@ const Garden = () => {
       return plantName.includes(query)
     })
   }
-  const filteredPlants = filterPlants(plantData, query)
+  const filteredPlants = filterPlants(plantInfo, query)
   if (loading) return 'Loading...'
   if (errors) return `Error! ${errors.message}`
   return (
@@ -77,7 +58,7 @@ const Garden = () => {
         </Button>
       </Box>
       <Grid container flexWrap='wrap' spacing={2}>
-        {filteredPlants.map(plant => {
+        {filteredPlants.map((plant, idx) => {
           return (
             <Grid
               item
@@ -85,10 +66,10 @@ const Garden = () => {
               sm={6}
               md={4}
               lg={3}
-              key={plant.id}
+              key={idx}
               style={{ padding: '.5rem' }}
             >
-              <PlantCard plant={plant} key={plant.id} />
+              <PlantCard plant={plant} />
             </Grid>
           )
         })}
