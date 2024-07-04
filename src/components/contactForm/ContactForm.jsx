@@ -1,10 +1,11 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import useToast from '../../hooks/useToast'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Grid from '@mui/material/Grid'
 import { makeStyles } from '@mui/styles'
+
 const schema = yup
   .object({
     firstName: yup
@@ -74,7 +75,9 @@ const ContactForm = () => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const onSubmit = data => {
-    toast(`${data.firstName} ${data.lastName}`, {
+    const showToast = useToast()
+
+    showToast(`${data.firstName} ${data.lastName}`, {
       type: toast.TYPE.SUCCESS,
       position: toast.POSITION.TOP_CENTER,
       autoClose: 1500,
