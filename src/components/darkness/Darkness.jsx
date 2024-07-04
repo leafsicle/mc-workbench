@@ -13,23 +13,23 @@ const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
   // First shadow
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
-  ctx.shadowBlur = 450; // Adjust the value to get the desired fuzziness
-  ctx.shadowColor = 'rgba(0,0,255,1)';
+  ctx.shadowBlur = 450 // Adjust the value to get the desired fuzziness
+  ctx.shadowColor = 'rgba(0,0,255,1)'
   ctx.fillStyle = 'rgba(244,255,0,0.5)'
   ctx.fill()
   // Second shadow
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
-  ctx.shadowBlur = 250; // Adjust the value to get the desired fuzziness
-  ctx.shadowColor = 'rgba(244,255,0,1)';
+  ctx.shadowBlur = 250 // Adjust the value to get the desired fuzziness
+  ctx.shadowColor = 'rgba(244,255,0,1)'
   ctx.fillStyle = 'rgba(244,255,0,0.5)'
   ctx.fill()
 
   // Third shadow
   ctx.beginPath()
   ctx.arc(x, y, radius, 0, 2 * Math.PI, false)
-  ctx.shadowBlur = 150; // Adjust the value to get the desired fuzziness
-  ctx.shadowColor = 'rgba(0,0,255,1)';
+  ctx.shadowBlur = 150 // Adjust the value to get the desired fuzziness
+  ctx.shadowColor = 'rgba(0,0,255,1)'
   ctx.fillStyle = 'rgba(244,255,0,0.5)'
   ctx.fill()
 
@@ -39,7 +39,8 @@ const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
 }
 
 const PlainPage = () => {
-  const [canvasBodyText, setCanvasBodyText] = useState('Bacon Text')
+  const canvasBodyText =
+    "Looks like you found this in the dark but that page doesn't exist"
   const canvasRef = useRef(null)
   const [blurRadius, setBlurRadius] = useState(20)
 
@@ -83,15 +84,6 @@ const PlainPage = () => {
             paddingTop: '50px'
           }}
         >
-          <TextField
-            label='Enter Display Text'
-            variant='outlined'
-            style={{ border: '1px solid yellow', borderRadius: '8px', backgroundColor: 'green',
-            color: 'white' }} // Add color here
-            onChange={event => setCanvasBodyText(event.target.value)}
-            InputLabelProps={{
-            }}
-          />
           <Slider
             aria-label='Volume'
             value={blurRadius}

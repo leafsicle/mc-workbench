@@ -1,13 +1,15 @@
 import { Routes, Route, Outlet, Link } from 'react-router-dom'
 import Garden from '../garden/Garden'
-import NotFound from '../404'
-import Darkness from '../darkness'
+import Darkness from '../darkness/Darkness'
 import Header from '../header'
-import ContactForm from '../contactForm'
+import ContactForm from '../contactForm/ContactForm'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { ThemeProvider } from '@mui/material'
 import theme from '../appMain/themes'
+import About from '../about/About'
+import Calculators from '../pages/calculators/index'
+
 export default function App () {
   return (
     <div>
@@ -18,10 +20,11 @@ export default function App () {
             parent route elements.  <Outlet> is child. */}
         <Routes>
           <Route path='/' element={<Header />}>
-            <Route index element={<Garden />} />
+            <Route index element={<About />} />
+            <Route path='/garden' element={<Garden />} />
             <Route path='/contact' element={<ContactForm />} />
-            <Route path='/darkness' element={<Darkness />} />
-            <Route path='*' element={<NotFound />} />
+            <Route path='/calculators' element={<Calculators />} />
+            <Route path='*' element={<Darkness />} />
           </Route>
         </Routes>
       </ThemeProvider>

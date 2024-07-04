@@ -5,11 +5,20 @@ import IconButton from '@mui/material/IconButton'
 import SystemSecurityUpdateWarningIcon from '@mui/icons-material/SystemSecurityUpdateWarning'
 import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
 import GrassIcon from '@mui/icons-material/Grass'
+import HomeSharpIcon from '@mui/icons-material/HomeSharp'
+import RamenDiningIcon from '@mui/icons-material/RamenDining'
+
 const links = [
+  {
+    id: 0,
+    name: 'Home',
+    path: '/',
+    icon: <HomeSharpIcon />
+  },
   {
     id: 1,
     name: 'Garden',
-    path: '/',
+    path: '/garden',
     icon: <GrassIcon />
   },
   {
@@ -20,9 +29,9 @@ const links = [
   },
   {
     id: 3,
-    name: '',
-    path: '/darkness',
-    icon: <FlashlightOnIcon />
+    name: 'Calculators',
+    path: '/calculators',
+    icon: <RamenDiningIcon />
   }
 ]
 
