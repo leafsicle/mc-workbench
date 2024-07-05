@@ -5,6 +5,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Grid from '@mui/material/Grid'
 import { makeStyles } from '@mui/styles'
+import GitHubIcon from '@mui/icons-material/GitHub'
+import LinkedInIcon from '@mui/icons-material/LinkedIn'
 
 const schema = yup
   .object({
@@ -67,6 +69,8 @@ const useStyles = makeStyles({
 })
 const ContactForm = () => {
   const classes = useStyles()
+  const showToast = useToast()
+
   const {
     register,
     handleSubmit,
@@ -75,50 +79,62 @@ const ContactForm = () => {
   } = useForm({ resolver: yupResolver(schema) })
 
   const onSubmit = data => {
-    const showToast = useToast()
-
-    showToast(`${data.firstName} ${data.lastName}`, {
-      type: toast.TYPE.SUCCESS,
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 1500,
+    showToast(`I see you, ${data.firstName} ${data.lastName}`, {
+      type: 'success',
       key: 'submit'
     })
   }
   return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      error={errors}
-      className={classes.formRoot}
-    >
-      {['firstName', 'lastName', 'email'].map((fieldName, index) => (
-        <Grid container key={index} justifyContent='center' alignItems='center'>
-          <Grid item xs={12} sm={6} md={4}>
-            <Grid container justifyContent='center' alignItems='center'>
+    <Grid container>
+      <Grid item xs={12} sm={3}>
+        <h3>Contact</h3>
+
+        <LinkedInIcon />
+        <a href='https://www.linkedin.com/in/cookem529/'>LinkedIn Profile</a>
+        <GitHubIcon />
+        <a href='https://github.com/leafsicle'>GitHub Profile</a>
+      </Grid>
+      <Grid item xs={12} sm={9}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          error={errors}
+          className={classes.formRoot}
+        >
+          {['FirstName', 'LastName', 'Email'].map((fieldName, index) => (
+            <Grid
+              container
+              key={index}
+              justifyContent='center'
+              alignItems='center'
+            >
               <Grid item xs={12} sm={6} md={4}>
-                <label htmlFor={fieldName} className={classes.label}>
-                  {fieldName}
-                </label>
-              </Grid>
-              <Grid item xs={12} sm={6} md={4}>
-                <input
-                  {...register(fieldName)}
-                  tabIndex={index + 1}
-                  aria-invalid={errors[fieldName] ? 'true' : 'false'}
-                />
+                <Grid container justifyContent='center' alignItems='center'>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <label htmlFor={fieldName} className={classes.label}>
+                      {fieldName.replace(/([A-Z])/g, ' $1')}
+                    </label>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={4}>
+                    <input
+                      {...register(fieldName)}
+                      tabIndex={index + 1}
+                      aria-invalid={errors[fieldName] ? 'true' : 'false'}
+                    />
+                  </Grid>
+                </Grid>
+                {errors[fieldName] && (
+                  <p key={fieldName} role='alert' style={{ color: 'black' }}>
+                    {errors[fieldName]?.message}
+                  </p>
+                )}
               </Grid>
             </Grid>
-            {errors[fieldName] && (
-              <p key={fieldName} role='alert' style={{ color: 'black' }}>
-                {errors[fieldName]?.message}
-              </p>
-            )}
-          </Grid>
-        </Grid>
-      ))}
-      <input type='submit' tabIndex={4} />
-      <input type='reset' onClick={reset} tabIndex={5} />
-    </form>
+          ))}
+          <input type='submit' tabIndex={4} />
+          <input type='reset' onClick={reset} tabIndex={5} />
+        </form>
+      </Grid>
+    </Grid>
   )
 }
 export default ContactForm

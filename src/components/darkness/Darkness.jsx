@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Box, Slider, TextField } from '@mui/material'
+import { Box, Slider } from '@mui/material'
 
 const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
   const canvas = canvasRef.current
@@ -33,9 +33,32 @@ const drawCircle = (canvasRef, blurRadius, canvasBodyText) => event => {
   ctx.fillStyle = 'rgba(244,255,0,0.5)'
   ctx.fill()
 
+  // Text wrapping
+  const maxWidth = 400
+  const lineHeight = 30
+  const xText = 150
+  const yText = 150
   ctx.font = '30px Arial'
   ctx.fillStyle = 'black'
-  ctx.fillText(canvasBodyText, 150, 150)
+  wrapText(ctx, canvasBodyText, xText, yText, maxWidth, lineHeight)
+}
+
+const wrapText = (ctx, text, x, y, maxWidth, lineHeight) => {
+  const words = text.split(' ')
+  let line = ''
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' '
+    const metrics = ctx.measureText(testLine)
+    const testWidth = metrics.width
+    if (testWidth > maxWidth && n > 0) {
+      ctx.fillText(line, x, y)
+      line = words[n] + ' '
+      y += lineHeight
+    } else {
+      line = testLine
+    }
+  }
+  ctx.fillText(line, x, y)
 }
 
 const PlainPage = () => {

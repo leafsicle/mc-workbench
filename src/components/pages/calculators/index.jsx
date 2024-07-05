@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useToast from '../../../hooks/useToast'
+import TextField from '@mui/material/TextField'
 
 const Calculators = () => {
   const [rawWeight, setRawWeight] = useState('')
@@ -14,11 +15,11 @@ const Calculators = () => {
     const cookedWeightNum = parseFloat(cookedWeight)
     const targetRawOzNum = parseFloat(targetRawOz)
 
-    if (rawWeightNum === 0 || cookedWeightNum === 0 || targetRawOzNum === 0) {
+    if (!rawWeightNum || !cookedWeightNum || !targetRawOzNum) {
       showToast('Please enter a valid number', 'error')
       return
-    } else if (rawWeightNum > cookedWeightNum) {
-      showToast('Raw weight cannot be greater than cooked weight', 'error')
+    } else if (rawWeightNum < cookedWeightNum) {
+      showToast('Cooked weight cannot be more than raw weight', 'error')
       return
     }
 
@@ -33,7 +34,7 @@ const Calculators = () => {
     )}g of cooked chicken.`
 
     setResult(resultText)
-    setHistory([...history, targetCookedWeight.toFixed(1)])
+    setHistory(prevHistory => [...prevHistory, targetCookedWeight.toFixed(1)])
     showToast(resultText, 'info')
   }
 
@@ -43,8 +44,10 @@ const Calculators = () => {
       <div>
         <label>
           Raw Weight (g):
-          <input
-            type='number'
+          <TextField
+            id='outlined-basic'
+            label='Outlined'
+            variant='outlined'
             value={rawWeight}
             onChange={e => setRawWeight(e.target.value)}
           />

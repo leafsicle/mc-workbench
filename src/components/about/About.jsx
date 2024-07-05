@@ -72,17 +72,6 @@ const About = () => {
           passion, and unwavering curiosity to make a meaningful impact.
         </p>
       </section>
-
-      <section>
-        <h3>Contact</h3>
-        <p>
-          LinkedIn:
-          <a href='https://www.linkedin.com/in/cookem529/'>LinkedIn Profile</a>
-        </p>
-        <p>
-          GitHub: <a href='https://github.com/leafsicle'>GitHub Profile</a>
-        </p>
-      </section>
     </div>
   )
 }

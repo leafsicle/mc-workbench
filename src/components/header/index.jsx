@@ -15,12 +15,12 @@ const links = [
     path: '/',
     icon: <HomeSharpIcon />
   },
-  {
-    id: 1,
-    name: 'Garden',
-    path: '/garden',
-    icon: <GrassIcon />
-  },
+  // {
+  //   id: 1,
+  //   name: 'Garden',
+  //   path: '/garden',
+  //   icon: <GrassIcon />
+  // },
   {
     id: 2,
     name: 'Form',
