@@ -27,7 +27,7 @@ cache.writeQuery({
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
+      <BrowserRouter basename='/mc-workbench'>
         <App />
       </BrowserRouter>
     </ApolloProvider>
