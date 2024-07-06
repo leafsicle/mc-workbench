@@ -1,5 +1,6 @@
 {
   "name": "matt-cooke-workbench",
+  "homepage": "https://leafsicle.github.io/mc-workbench",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -7,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d dist -t true"
   },
   "dependencies": {
@@ -34,6 +36,7 @@
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-react": "^3.1.0",
+    "gh-pages": "^6.1.1",
     "vite": "^4.1.0"
   }
 }
