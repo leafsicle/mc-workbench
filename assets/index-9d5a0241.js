@@ -235,4 +235,4 @@ this in the docs: http://dev.apollodata.com/core/fragments.html#unique-names`):s
     query GetLocalState {
       localState @client
     }
-  `,data:{localState:{}}});gp.createRoot(document.getElementById("root")).render(O(be.StrictMode,{children:O(gj,{client:bj,children:O(A_,{children:O(l4,{})})})}))});export default xj();
+  `,data:{localState:{}}});gp.createRoot(document.getElementById("root")).render(O(be.StrictMode,{children:O(gj,{client:bj,children:O(A_,{basename:"/mc-workbench",children:O(l4,{})})})}))});export default xj();
