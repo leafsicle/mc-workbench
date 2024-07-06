@@ -5,8 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import Grid from '@mui/material/Grid'
 import { makeStyles } from '@mui/styles'
-import GitHubIcon from '@mui/icons-material/GitHub'
-import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import Socials from '../socials'
 
 const schema = yup
   .object({
@@ -42,8 +41,8 @@ const useStyles = makeStyles({
     borderRadius: 3,
     boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     color: 'white',
-    padding: '0 30px',
-    margin: '0 auto',
+    padding: '1rem',
+    margin: '2rem auto',
     width: '40%',
     '& input': {
       border: '1px solid black',
@@ -85,15 +84,7 @@ const ContactForm = () => {
     })
   }
   return (
-    <Grid container>
-      <Grid item xs={12} sm={3}>
-        <h3>Contact</h3>
-
-        <LinkedInIcon />
-        <a href='https://www.linkedin.com/in/cookem529/'>LinkedIn Profile</a>
-        <GitHubIcon />
-        <a href='https://github.com/leafsicle'>GitHub Profile</a>
-      </Grid>
+    <Grid container justifyContent='center' direction='column'>
       <Grid item xs={12} sm={9}>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -108,7 +99,7 @@ const ContactForm = () => {
               alignItems='center'
             >
               <Grid item xs={12} sm={6} md={4}>
-                <Grid container justifyContent='center' alignItems='center'>
+                <Grid container>
                   <Grid item xs={12} sm={6} md={4}>
                     <label htmlFor={fieldName} className={classes.label}>
                       {fieldName.replace(/([A-Z])/g, ' $1')}
@@ -133,6 +124,9 @@ const ContactForm = () => {
           <input type='submit' tabIndex={4} />
           <input type='reset' onClick={reset} tabIndex={5} />
         </form>
+      </Grid>
+      <Grid item xs={12}>
+        <Socials />
       </Grid>
     </Grid>
   )
