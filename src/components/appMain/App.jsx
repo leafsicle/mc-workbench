@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 // import Garden from '../garden/Garden'
 import ContactForm from '../contactForm/ContactForm'
 import Darkness from '../darkness/Darkness'
@@ -18,7 +18,7 @@ export default function App () {
         {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
-        <Router basename='/mc-workbench'>
+        <BrowserRouter basename='/mc-workbench'>
           <Routes>
             <Route path='/' element={<Header />}>
               <Route index element={<About />} />
@@ -28,7 +28,7 @@ export default function App () {
               <Route path='*' element={<Darkness />} />
             </Route>
           </Routes>
-        </Router>
+        </BrowserRouter>
       </ThemeProvider>
     </div>
   )

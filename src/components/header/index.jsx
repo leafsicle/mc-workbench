@@ -15,12 +15,6 @@ const links = [
     path: '/',
     icon: <HomeSharpIcon />
   },
-  // {
-  //   id: 1,
-  //   name: 'Garden',
-  //   path: '/garden',
-  //   icon: <GrassIcon />
-  // },
   {
     id: 2,
     name: 'Form',
@@ -36,7 +30,6 @@ const links = [
 ]
 
 const Header = () => {
-  // create a state for the nav collapse
   const [navCollapse, setNavCollapse] = useState(false)
   return (
     <div className='header'>
