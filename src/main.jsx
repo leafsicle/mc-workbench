@@ -10,7 +10,7 @@ import { ApolloClient, InMemoryCache } from '@apollo/client'
 const cache = new InMemoryCache()
 const client = new ApolloClient({
   cache,
-  uri: 'http://localhost:3000/graphql' // replace with your GraphQL server URI
+  uri: 'http://localhost:3000/graphql'
 })
 
 // Local state management setup
@@ -21,7 +21,7 @@ cache.writeQuery({
     }
   `,
   data: {
-    localState: {} // replace with your initial local state
+    localState: {}
   }
 })
 ReactDOM.createRoot(document.getElementById('root')).render(
