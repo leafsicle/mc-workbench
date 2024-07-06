@@ -4,11 +4,6 @@ const About = () => {
   return (
     <div className='about-me'>
       <h1>About Matt Cooke</h1>
-      <img
-        src='your-photo-url.jpg'
-        alt='Matt Cooke'
-        className='profile-photo'
-      />
       <h2>Software Engineer</h2>
       <section>
         <h3>Insatiable Curiosity</h3>

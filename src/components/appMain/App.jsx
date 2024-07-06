@@ -18,17 +18,15 @@ export default function App () {
         {/* Routes nest inside one another. Nested route paths build upon
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
-        <BrowserRouter basename='/mc-workbench'>
-          <Routes>
-            <Route path='/' element={<Header />}>
-              <Route index element={<About />} />
-              {/* <Route path='/garden' element={<Garden />} /> */}
-              <Route path='/contact' element={<ContactForm />} />
-              <Route path='/calculators' element={<Calculators />} />
-              <Route path='*' element={<Darkness />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Header />}>
+            <Route index element={<About />} />
+            {/* <Route path='/garden' element={<Garden />} /> */}
+            <Route path='/contact' element={<ContactForm />} />
+            <Route path='/calculators' element={<Calculators />} />
+            <Route path='*' element={<Darkness />} />
+          </Route>
+        </Routes>
       </ThemeProvider>
     </div>
   )

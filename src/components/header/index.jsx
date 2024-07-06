@@ -3,8 +3,6 @@ import React, { useState } from 'react'
 import LunchDiningIcon from '@mui/icons-material/LunchDining'
 import IconButton from '@mui/material/IconButton'
 import SystemSecurityUpdateWarningIcon from '@mui/icons-material/SystemSecurityUpdateWarning'
-import FlashlightOnIcon from '@mui/icons-material/FlashlightOn'
-import GrassIcon from '@mui/icons-material/Grass'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import RamenDiningIcon from '@mui/icons-material/RamenDining'
 
