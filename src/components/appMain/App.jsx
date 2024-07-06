@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 // import Garden from '../garden/Garden'
 import ContactForm from '../contactForm/ContactForm'
 import Darkness from '../darkness/Darkness'
