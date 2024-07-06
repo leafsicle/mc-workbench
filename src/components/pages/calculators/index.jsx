@@ -1,6 +1,41 @@
 import React, { useState } from 'react'
+import {
+  Container,
+  Typography,
+  TextField,
+  Button,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Paper,
+  Grid,
+  CssBaseline,
+  ThemeProvider,
+  createTheme
+} from '@mui/material'
+import { styled } from '@mui/material/styles'
 import useToast from '../../../hooks/useToast'
-import TextField from '@mui/material/TextField'
+
+// Create a dark theme
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#90caf9' // A lighter blue for better contrast in dark mode
+    },
+    background: {
+      default: '#303030',
+      paper: '#424242'
+    }
+  }
+})
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  marginTop: theme.spacing(3),
+  backgroundColor: theme.palette.background.paper
+}))
 
 const Calculators = () => {
   const [rawWeight, setRawWeight] = useState('')
@@ -39,50 +74,98 @@ const Calculators = () => {
   }
 
   return (
-    <div>
-      <h1>Chicken Calculator</h1>
-      <div>
-        <label>
-          Raw Weight (g):
-          <TextField
-            id='outlined-basic'
-            label='Outlined'
-            variant='outlined'
-            value={rawWeight}
-            onChange={e => setRawWeight(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Cooked Weight (g):
-          <input
-            type='number'
-            value={cookedWeight}
-            onChange={e => setCookedWeight(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Target Raw Weight (oz):
-          <input
-            type='number'
-            value={targetRawOz}
-            onChange={e => setTargetRawOz(e.target.value)}
-          />
-        </label>
-      </div>
-      <button onClick={calculateChickenWeight}>Calculate</button>
-      <div>
-        <p>{result}</p>
-        <ul>
-          {history.map((item, index) => (
-            <li key={index}>{item}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <ThemeProvider theme={darkTheme}>
+      <CssBaseline />{' '}
+      {/* This normalizes styles and applies the theme's background */}
+      <Container maxWidth='md'>
+        <Typography
+          variant='h4'
+          gutterBottom
+          align='center'
+          sx={{ mt: 4, color: 'primary.main' }}
+        >
+          Chicken Calculator
+        </Typography>
+        <StyledPaper elevation={3}>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Raw Weight (g)'
+                type='number'
+                value={rawWeight}
+                onChange={e => setRawWeight(e.target.value)}
+                variant='outlined'
+                InputProps={{
+                  style: { color: darkTheme.palette.text.primary }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Cooked Weight (g)'
+                type='number'
+                value={cookedWeight}
+                onChange={e => setCookedWeight(e.target.value)}
+                variant='outlined'
+                InputProps={{
+                  style: { color: darkTheme.palette.text.primary }
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={4}>
+              <TextField
+                fullWidth
+                label='Target Raw Weight (oz)'
+                type='number'
+                value={targetRawOz}
+                onChange={e => setTargetRawOz(e.target.value)}
+                variant='outlined'
+                InputProps={{
+                  style: { color: darkTheme.palette.text.primary }
+                }}
+              />
+            </Grid>
+          </Grid>
+          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
+            <Button
+              variant='contained'
+              color='primary'
+              onClick={calculateChickenWeight}
+              size='large'
+            >
+              Calculate
+            </Button>
+          </Box>
+        </StyledPaper>
+        {result && (
+          <StyledPaper elevation={3}>
+            <Typography variant='h6' gutterBottom color='primary'>
+              Result
+            </Typography>
+            <Typography color='text.primary'>{result}</Typography>
+          </StyledPaper>
+        )}
+        {history.length > 0 && (
+          <StyledPaper elevation={3}>
+            <Typography variant='h6' gutterBottom color='primary'>
+              History
+            </Typography>
+            <List>
+              {history.map((item, index) => (
+                <ListItem key={index}>
+                  <ListItemText
+                    primary={`${item}g of cooked chicken`}
+                    primaryTypographyProps={{ color: 'text.primary' }}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          </StyledPaper>
+        )}
+      </Container>
+    </ThemeProvider>
   )
 }
 
