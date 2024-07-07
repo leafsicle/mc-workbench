@@ -20,7 +20,9 @@ const NotFound = () => {
         item
         xs={12}
         style={{
-          margin: '0 auto'
+          margin: '0 auto',
+          maxWidth: '500px',
+          width: '100%'
         }}
       >
         <PlantCard plant={plant} useGlow={false} />
