@@ -9,10 +9,12 @@ import { ThemeProvider } from '@mui/material'
 import theme from '../appMain/themes'
 import About from '../about/About'
 import Calculators from '../pages/calculators/index'
+import NotFound from '../404/index'
 
 export default function App () {
+  const boolFlip = Math.random() > 0.5
   return (
-    <div>
+    <BrowserRouter basename='/mc-workbench'>
       <ThemeProvider theme={theme}>
         <ToastContainer />
         {/* Routes nest inside one another. Nested route paths build upon
@@ -24,10 +26,10 @@ export default function App () {
             {/* <Route path='/garden' element={<Garden />} /> */}
             <Route path='/contact' element={<ContactForm />} />
             <Route path='/calculators' element={<Calculators />} />
-            <Route path='*' element={<Darkness />} />
+            <Route path='*' element={boolFlip ? <Darkness /> : <NotFound />} />
           </Route>
         </Routes>
       </ThemeProvider>
-    </div>
+    </BrowserRouter>
   )
 }
