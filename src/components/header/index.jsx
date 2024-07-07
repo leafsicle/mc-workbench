@@ -2,7 +2,6 @@ import { Outlet, Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import LunchDiningIcon from '@mui/icons-material/LunchDining'
 import IconButton from '@mui/material/IconButton'
-import SystemSecurityUpdateWarningIcon from '@mui/icons-material/SystemSecurityUpdateWarning'
 import HomeSharpIcon from '@mui/icons-material/HomeSharp'
 import RamenDiningIcon from '@mui/icons-material/RamenDining'
 
@@ -14,13 +13,7 @@ const links = [
     icon: <HomeSharpIcon />
   },
   {
-    id: 2,
-    name: 'Form',
-    path: '/contact',
-    icon: <SystemSecurityUpdateWarningIcon />
-  },
-  {
-    id: 3,
+    id: 1,
     name: 'Calculators',
     path: '/calculators',
     icon: <RamenDiningIcon />
