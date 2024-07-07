@@ -45,7 +45,7 @@ const Calculators = () => {
   const [history, setHistory] = useState([])
   const showToast = useToast()
 
-  const calculateChickenWeight = () => {
+  const calculateWeight = () => {
     const rawWeightNum = parseFloat(rawWeight)
     const cookedWeightNum = parseFloat(cookedWeight)
     const targetRawOzNum = parseFloat(targetRawOz)
@@ -64,9 +64,7 @@ const Calculators = () => {
 
     const resultText = `For ${targetRawOzNum.toFixed(
       0
-    )}oz of raw chicken, you should take ${targetCookedWeight.toFixed(
-      1
-    )}g of cooked chicken.`
+    )}oz raw , you should take ${targetCookedWeight.toFixed(1)}g of cooked.`
 
     setResult(resultText)
     setHistory(prevHistory => [...prevHistory, targetCookedWeight.toFixed(1)])
@@ -84,7 +82,7 @@ const Calculators = () => {
           align='center'
           sx={{ mt: 4, color: 'primary.main' }}
         >
-          Chicken Calculator
+          Calculator
         </Typography>
         <StyledPaper elevation={3}>
           <Grid container spacing={3}>
@@ -132,7 +130,7 @@ const Calculators = () => {
             <Button
               variant='contained'
               color='primary'
-              onClick={calculateChickenWeight}
+              onClick={calculateWeight}
               size='large'
             >
               Calculate
@@ -156,7 +154,7 @@ const Calculators = () => {
               {history.map((item, index) => (
                 <ListItem key={index}>
                   <ListItemText
-                    primary={`${item}g of cooked chicken`}
+                    primary={`${item}g of cooked`}
                     primaryTypographyProps={{ color: 'text.primary' }}
                   />
                 </ListItem>
