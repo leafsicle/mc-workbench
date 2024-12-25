@@ -1,40 +1,47 @@
-import { Outlet, Link } from 'react-router-dom'
-import React, { useState } from 'react'
-import LunchDiningIcon from '@mui/icons-material/LunchDining'
-import IconButton from '@mui/material/IconButton'
-import HomeSharpIcon from '@mui/icons-material/HomeSharp'
-import RamenDiningIcon from '@mui/icons-material/RamenDining'
+import { Outlet, Link } from "react-router-dom"
+import React, { useState } from "react"
+import LunchDiningIcon from "@mui/icons-material/LunchDining"
+import IconButton from "@mui/material/IconButton"
+import HomeSharpIcon from "@mui/icons-material/HomeSharp"
+import RamenDiningIcon from "@mui/icons-material/RamenDining"
+import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 
 const links = [
   {
     id: 0,
-    name: 'Home',
-    path: '/',
-    icon: <HomeSharpIcon />
+    name: "Home",
+    path: "/",
+    icon: <HomeSharpIcon />,
   },
   {
     id: 1,
-    name: 'Calculators',
-    path: '/calculators',
-    icon: <RamenDiningIcon />
-  }
+    name: "Calculators",
+    path: "/calculators",
+    icon: <RamenDiningIcon />,
+  },
+  {
+    id: 2,
+    name: "Fitness",
+    path: "/fitness",
+    icon: <FitnessCenterIcon />,
+  },
 ]
 
 const Header = () => {
   const [navCollapse, setNavCollapse] = useState(false)
   return (
-    <div className='header'>
+    <div className="header">
       <nav>
         <ul
           style={{
-            display: 'flex',
-            justifyContent: 'space-evenly',
-            alignItems: 'center',
-            listStyle: 'none',
-            padding: '.5rem 0',
-            '&:visited': {
-              style: 'none'
-            }
+            display: "flex",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            listStyle: "none",
+            padding: ".5rem 0",
+            "&:visited": {
+              style: "none",
+            },
           }}
         >
           {links.map(link => {
@@ -42,8 +49,8 @@ const Header = () => {
               <li key={link.id} hidden={navCollapse}>
                 <Link to={link.path}>
                   <IconButton
-                    variant='contained'
-                    color='primary'
+                    variant="contained"
+                    color="primary"
                     onClick={() => setNavCollapse(!navCollapse)}
                     children={link.icon}
                   />
@@ -54,15 +61,15 @@ const Header = () => {
           })}
           <li hidden={!navCollapse}>
             <IconButton
-              variant='contained'
-              color='primary'
+              variant="contained"
+              color="primary"
               onClick={() => setNavCollapse(!navCollapse)}
               children={<LunchDiningIcon />}
             />
           </li>
         </ul>
       </nav>
-      <hr style={{ margin: '0' }} />
+      <hr style={{ margin: "0" }} />
       {/* An <Outlet> renders whatever child route is currently active,
             so you can think about this <Outlet> as a placeholder for
             the child routes we defined above. */}
