@@ -1,61 +1,13 @@
 import React, { useState, useEffect } from "react"
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Box,
-  List,
-  ListItem,
-  ListItemText,
-  Paper,
-  Grid,
-  CssBaseline,
-  ThemeProvider,
-  createTheme,
-} from "@mui/material"
-import useToast from "../../../hooks/useToast"
+import { DateTime } from "luxon"
+import { Typography, Paper, createTheme } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import Template from "../template"
 import { parse } from "papaparse"
 import { v4 as uuidv4 } from "uuid"
-import { DateTime } from "luxon"
-//import data
-// Create a dark theme
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#90caf9", // A lighter blue for better contrast in dark mode
-    },
-    background: {
-      default: "#303030",
-      paper: "#424242",
-    },
-  },
-})
-
-const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
-  marginTop: theme.spacing(3),
-  backgroundColor: theme.palette.background.paper,
-}))
-
-const serializeWorkoutToJSON = workout => {
-  const groups = {}
-  workout.forEach(item => {
-    // Parse the timestamp and convert it to Eastern Standard Time
-    const zonedTime = DateTime.fromISO(item.start_time, { zone: "utc" }).setZone("America/New_York")
-    // Format the time to a consistent string
-    const formattedTime = zonedTime.toFormat("yyyy-MM-dd HH:mm:ssZZ")
-
-    if (!groups[formattedTime]) {
-      groups[formattedTime] = []
-    }
-    groups[formattedTime].push(item)
-  })
-  return groups
-}
+import { groupWorkoutsByDate } from "./utils"
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
 const Fitness = () => {
   const [workouts, setWorkouts] = useState([])
@@ -78,18 +30,31 @@ const Fitness = () => {
         localStorage.setItem("workouts_with_uuid", JSON.stringify(workoutsWithUUID))
       })
   }, [])
-
-  console.log(serializeWorkoutToJSON(workouts))
+  const sortedGroups = groupWorkoutsByDate(workouts)
 
   return (
     <Template pageTitle="Fitness">
-      <Typography variant="h6" gutterBottom color="primary">
-        {workouts.map((workout, index) => (
-          <Typography key={index} variant="h6" gutterBottom color="primary">
-            {workout.name}
-          </Typography>
-        ))}
-      </Typography>
+      {sortedGroups.slice(0, 100).map((workout, index) => (
+        <Accordion key={index} sx={{ mt: 2 }}>
+          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography variant="h6" gutterBottom color="primary">
+              {workout.title}:{" "}
+              {DateTime.fromISO(workout.start_time)
+                .setZone("America/New_York")
+                .toLocaleString(DateTime.DATE_MED)}
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            {workout.exercises.map((exercise, index) => (
+              <div key={index}>
+                <Typography variant="body1" gutterBottom color="primary">
+                  {exercise.title}: {exercise.sets.length} sets
+                </Typography>
+              </div>
+            ))}
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </Template>
   )
 }

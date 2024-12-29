@@ -30,13 +30,7 @@ const Template = ({ pageTitle = "Template", children }) => {
         <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
           {pageTitle}
         </Typography>
-        {children && (
-          <StyledPaper elevation={3}>
-            <Typography variant="h6" gutterBottom color="primary">
-              {children}
-            </Typography>
-          </StyledPaper>
-        )}
+        {children && <StyledPaper elevation={3}>{children}</StyledPaper>}
       </Container>
     </ThemeProvider>
   )
