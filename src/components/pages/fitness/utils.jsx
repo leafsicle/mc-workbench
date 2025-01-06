@@ -1,9 +1,6 @@
 import { DateTime } from "luxon"
 
-// Memoization cache
-const memoizeCache = new Map()
-
-export const serializeWorkoutToJSON = workouts => {
+const serializeToHevyFormat = workouts => {
   const groups = {}
 
   workouts.forEach(workout => {
@@ -12,54 +9,60 @@ export const serializeWorkoutToJSON = workouts => {
     const [day, month, year] = datePart.split(" ")
 
     // Create ISO8601 string
-    const isoString = DateTime.fromFormat(`${year}-${month}-${day} ${timePart}`, "yyyy-MMM-d HH:mm", {
+    const startTime = DateTime.fromFormat(`${year}-${month}-${day} ${timePart}`, "yyyy-MMM-d HH:mm", {
       zone: "utc",
     }).toISO()
 
+    const endTime = DateTime.fromFormat(
+      `${year}-${month}-${day} ${workout.end_time.split(", ")[1]}`,
+      "yyyy-MMM-d HH:mm",
+      { zone: "utc" },
+    ).toISO()
+
     // Use combination of date and title as key
-    const groupKey = `${isoString}-${workout.title}`
+    const groupKey = `${startTime}-${workout.title}`
 
     if (!groups[groupKey]) {
       groups[groupKey] = {
         title: workout.title,
-        start_time: isoString,
-        end_time: DateTime.fromFormat(
-          `${year}-${month}-${day} ${workout.end_time.split(", ")[1]}`,
-          "yyyy-MMM-d HH:mm",
-          { zone: "utc" },
-        ).toISO(),
         description: workout.description,
+        start_time: startTime,
+        end_time: endTime,
         exercises: {},
+        created_at: startTime,
+        updated_at: startTime,
       }
     }
 
     // Group exercises within the workout
     if (!groups[groupKey].exercises[workout.exercise_title]) {
       groups[groupKey].exercises[workout.exercise_title] = {
+        index: Object.keys(groups[groupKey].exercises).length,
         title: workout.exercise_title,
-        superset_id: workout.superset_id,
-        notes: workout.exercise_notes,
+        exercise_template_id: workout.exercise_template_id,
+        superset_id: workout.superset_id || null,
+        notes: workout.exercise_notes || "",
         sets: [],
       }
     }
 
     // Add set to the exercise
     groups[groupKey].exercises[workout.exercise_title].sets.push({
-      set_index: workout.set_index,
-      set_type: workout.set_type,
-      weight_lbs: workout.weight_lbs,
+      index: workout.set_index,
+      type: workout.set_type || "normal",
+      weight_kg: workout.weight_lbs ? workout.weight_lbs * 0.45359237 : null,
       reps: workout.reps,
-      distance_miles: workout.distance_miles,
+      distance_meters: workout.distance_miles ? workout.distance_miles * 1609.34 : null,
       duration_seconds: workout.duration_seconds,
       rpe: workout.rpe,
     })
   })
 
-  // Convert exercises objects to arrays and sort sets
+  // Convert exercises objects to arrays and sort all indexes
   Object.values(groups).forEach(workout => {
-    workout.exercises = Object.values(workout.exercises).map(exercise => {
-      exercise.sets.sort((a, b) => a.set_index - b.set_index)
-      return exercise
+    workout.exercises = Object.values(workout.exercises).sort((a, b) => a.index - b.index)
+    workout.exercises.forEach(exercise => {
+      exercise.sets.sort((a, b) => a.index - b.index)
     })
   })
 
@@ -67,7 +70,7 @@ export const serializeWorkoutToJSON = workouts => {
 }
 
 export const groupWorkoutsByDate = workouts => {
-  return serializeWorkoutToJSON(workouts).sort(
-    (a, b) => DateTime.fromISO(a.start_time) - DateTime.fromISO(b.start_time),
+  return serializeToHevyFormat(workouts).sort(
+    (a, b) => DateTime.fromISO(b.start_time) - DateTime.fromISO(a.start_time),
   )
 }

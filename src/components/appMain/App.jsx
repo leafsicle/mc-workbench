@@ -10,6 +10,24 @@ import theme from "../appMain/themes"
 import Calculators from "../pages/calculators/index"
 import Fitness from "../pages/fitness/index"
 import NotFound from "../404/index"
+import { Box, Typography } from "@mui/material"
+const CurrentHomePage = () => {
+  return (
+    <div>
+      <Header />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Typography variant="h1">Check out the calculators</Typography>
+      </Box>
+    </div>
+  )
+}
 
 export default function App() {
   const boolFlip = Math.random() > 0.5
@@ -21,7 +39,7 @@ export default function App() {
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
         <Routes>
-          <Route path="/" element={<Header />}>
+          <Route path="/" element={<CurrentHomePage />}>
             <Route path="/fitness" element={<Fitness />} />
             {/* <Route path='/garden' element={<Garden />} /> */}
             {/* <Route path='/contact' element={<ContactForm />} /> */}
