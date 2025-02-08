@@ -3,46 +3,42 @@
 // from each of the NASA API endpoints.
 // because more data is gooder data.
 
+import React, { memo } from "react"
 import { Box, Typography } from "@mui/material"
 import { CircularProgress } from "@mui/material"
-import CardComponent from "../../cards/card"
 import useNasaAPOD from "../../../hooks/useNasaAPOD"
+import CardComponent from "../../cards/card"
+
+const SpaceContent = memo(({ spaceData }) => (
+  <Box sx={{ 
+  }}>
+  {/*  title, image, explanation, hdVersion */}
+    <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
+  </Box>
+))
 
 const SpaceStuff = () => {
-  const { spaceData, loading } = useNasaAPOD()
-
+  const { spaceData, loading, error } = useNasaAPOD()
 
   if (loading) {
-    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <CircularProgress />
-    </Box>
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <CircularProgress />
+      </Box>
+    )
   }
 
   if (!spaceData) {
-    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <Typography variant="h1">No space data</Typography>
-    </Box>
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        <Typography variant="h1">No space data</Typography>
+      </Box>
+    )
   }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "fit-content" }}>
-      <Typography variant="h1">Space Stuff</Typography>
-      <Typography variant="h2">APOD</Typography>
-      <Typography variant="h3">NASA Picture of the Day</Typography>
-
-      <Typography variant="body1">
-        {spaceData.explanation}
-      </Typography>
-
-      <Typography variant="body1">
-        {spaceData.title}
-      </Typography>
-
-      <Typography variant="body1">
-        {spaceData.url}
-      </Typography>
-    </Box>
+    <SpaceContent spaceData={spaceData} />
   )
 }
 
-export default SpaceStuff
+export default memo(SpaceStuff)
