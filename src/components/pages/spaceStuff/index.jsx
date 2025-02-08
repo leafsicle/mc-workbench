@@ -6,8 +6,8 @@
 import React, { memo } from "react"
 import { Box, Typography } from "@mui/material"
 import { CircularProgress } from "@mui/material"
-import useNasaAPOD from "../../../hooks/useNasaAPOD"
-import SpaceCard from "../../../components/cards/spaceCard"
+import useNasaAPOD from "@/hooks/useNasaAPOD"
+import SpaceCard from "@/components/cards/SpaceCard"
 
 const SpaceContent = memo(({ spaceData }) => (
   <Box sx={{ 
