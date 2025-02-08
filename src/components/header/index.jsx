@@ -6,7 +6,7 @@ import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
-import { Box } from "@mui/material"
+import { Box, useMediaQuery, useTheme, Drawer, List, ListItem } from "@mui/material"
 
 const links = [
   {
@@ -37,45 +37,91 @@ const links = [
 ]
 
 const Header = () => {
-  const [navCollapse, setNavCollapse] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
+  const drawer = (
+    <List>
+      {links.map((link) => (
+        <ListItem key={link.id}>
+          <Link
+            to={link.path}
+            onClick={handleDrawerToggle}
+            style={{ width: "100%", padding: "8px" }}>
+            <IconButton color="primary">{link.icon}</IconButton>
+            {link.name}
+          </Link>
+        </ListItem>
+      ))}
+    </List>
+  )
+
   return (
     <Box className="header">
       <nav>
-        <Box
-          component="ul"
-          sx={{
-            display: "flex",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            listStyle: "none",
-            padding: ".5rem 0",
-            "& a": {
-              textDecoration: "none",
-              color: "inherit",
+        {isMobile ? (
+          <>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
+              <IconButton
+                color="primary"
+                aria-label="open drawer"
+                edge="end"
+                sx={{ mr: 2 }}
+                onClick={handleDrawerToggle}>
+                <LunchDiningIcon />
+              </IconButton>
+            </Box>
+            <Drawer
+              sx={{
+                "& .MuiDrawer-paper": {
+                  backgroundColor: theme.palette.background.dark
+                }
+              }}
+              variant="temporary"
+              anchor="right"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true // Better mobile performance
+              }}>
+              {drawer}
+            </Drawer>
+          </>
+        ) : (
+          <Box
+            component="ul"
+            sx={{
               display: "flex",
+              justifyContent: "space-evenly",
               alignItems: "center",
-              gap: 1,
-              "&:visited": {
-                color: "inherit"
+              listStyle: "none",
+              padding: ".5rem 0",
+              "& a": {
+                textDecoration: "none",
+                color: "inherit",
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
+                "&:visited": {
+                  color: "inherit"
+                }
               }
-            }
-          }}>
-          {links.map((link) => (
-            <li key={link.id} hidden={navCollapse}>
-              <Link to={link.path}>
-                <IconButton color="primary" onClick={() => setNavCollapse(!navCollapse)}>
-                  {link.icon}
-                </IconButton>
-                {link.name}
-              </Link>
-            </li>
-          ))}
-          <li hidden={!navCollapse}>
-            <IconButton color="primary" onClick={() => setNavCollapse(!navCollapse)}>
-              <LunchDiningIcon />
-            </IconButton>
-          </li>
-        </Box>
+            }}>
+            {links.map((link) => (
+              <li key={link.id}>
+                <Link to={link.path}>
+                  <IconButton color="primary">{link.icon}</IconButton>
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </Box>
+        )}
       </nav>
       <hr style={{ margin: "0" }} />
     </Box>
