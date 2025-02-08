@@ -19,7 +19,8 @@ const modalStyle = {
   border: '2px solid #000',
   boxShadow: 24,
   p: 4,
-  overflow: 'auto'
+  overflow: 'auto',
+  color: 'black'
 };
 
 const ModalComponent = ({ open, onClose, title, image, explanation, hdVersion }) => {

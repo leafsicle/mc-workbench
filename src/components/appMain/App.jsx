@@ -14,9 +14,9 @@ import NotFound from "../404/index"
 import { Box } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "../../hooks/useNasaAPOD"
-import CardComponent from "../cards/card"
 import SpaceStuff from "../pages/spaceStuff/index"
-import ModalComponent from "../modal/modal"
+import { Typography } from "@mui/material"
+
 const CurrentHomePage = () => {
   const outlet = useOutlet()
   const { spaceData, loading } = useNasaAPOD()
@@ -41,20 +41,15 @@ const CurrentHomePage = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            minHeight: "100vh",
             padding: "2rem",
           }}
         >
-          {spaceData && (
-            <>
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2 }}>
-                <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
-                <ModalComponent image={spaceData.url} explanation={spaceData.explanation} />
-              </Box>
-            </>
-          )}
         </Box>
       )}
+         {/* put what ever you need for a footer down here  but outside of this !outlet div */}
+         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
+            <Typography variant="h6">Howdy</Typography>
+          </Box>
     </div>
   )
 }
