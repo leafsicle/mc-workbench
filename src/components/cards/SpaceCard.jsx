@@ -23,16 +23,13 @@ const SpaceCard = ({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: "2rem"
+        maxWidth: "50%",
+        paddingBottom: "2rem"
       }}>
       <Box
         sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}>
-        <Card sx={{ width: "500px" }} onClick={handleOpen}>
+        <Card title={title} sx={{ width: "100%", height: "100%" }} onClick={handleOpen}>
           <CardMedia component="img" image={image} alt={title} style={{ objectFit: "contain" }} />
-          <CardContent>
-            <Typography variant="h5">{title}</Typography>sdf
-            <Typography variant="body1">{explanation}</Typography>
-          </CardContent>
         </Card>
         <ModalComponent
           open={open}
@@ -44,7 +41,6 @@ const SpaceCard = ({
         />
       </Box>
       <Typography variant="h3">{title}</Typography>
-      {/* date */}
       <Typography variant="body1">{date}</Typography>
       <Link
         href={hdVersion}
@@ -52,7 +48,10 @@ const SpaceCard = ({
         rel="noopener noreferrer"
         sx={{ marginTop: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
         title="View HD">
-        <HdIcon /> View HD
+        <HdIcon />
+        <Typography title="View in HD on NASA's website" variant="body1">
+          View HD
+        </Typography>
       </Link>
     </Box>
   )

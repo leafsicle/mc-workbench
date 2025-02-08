@@ -22,7 +22,9 @@ export default defineConfig({
       }
     }
   ],
-  server: { port: 3001 },
+  server: {
+    port: 3001
+  },
   assetsInclude: ["**/*.csv"],
   base: "https://mattcooke.tech/",
   resolve: {
