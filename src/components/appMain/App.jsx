@@ -15,7 +15,7 @@ import { Box } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "../../hooks/useNasaAPOD"
 import SpaceStuff from "../pages/spaceStuff/index"
-
+import Typography from "@mui/material/Typography"
 const HomePage = () => {
   const outlet = useOutlet()
   const { spaceData, loading } = useNasaAPOD()
@@ -43,9 +43,9 @@ const HomePage = () => {
             padding: "2rem",
           }}
         >
+          <Typography variant="h6">Go check out the space stuff?</Typography>
         </Box>
       )}
-      Go check out the space stuff?
          {/* put what ever you need for a footer down here  but outside of this !outlet div */}
          {/* <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
             <Typography variant="h6">Howdy</Typography>
