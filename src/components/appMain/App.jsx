@@ -47,9 +47,9 @@ const CurrentHomePage = () => {
         </Box>
       )}
          {/* put what ever you need for a footer down here  but outside of this !outlet div */}
-         <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
+         {/* <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
             <Typography variant="h6">Howdy</Typography>
-          </Box>
+          </Box> */}
     </div>
   )
 }
