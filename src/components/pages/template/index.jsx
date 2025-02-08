@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { Container, Typography, Paper, CssBaseline, ThemeProvider, createTheme } from "@mui/material"
+import React from "react"
+import { Container, Typography, Paper, ThemeProvider, createTheme } from "@mui/material"
 import { styled } from "@mui/material/styles"
 
 // Create a dark theme
@@ -25,7 +25,6 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const Template = ({ pageTitle = "Template", children }) => {
   return (
     <ThemeProvider theme={darkTheme}>
-      <CssBaseline /> {/* This normalizes styles and applies the theme's background */}
       <Container maxWidth="md">
         <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
           {pageTitle}
