@@ -1,7 +1,7 @@
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify"
 
 const useToast = () => {
-  const showToast = (message, type = 'info') => {
+  const showToast = (message, type = "info") => {
     toast(message, {
       type: type,
       position: toast.POSITION.TOP_CENTER,

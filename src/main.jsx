@@ -1,15 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './components/appMain/App'
-import './index.css'
-import { ApolloProvider, gql } from '@apollo/client'
+import React from "react"
+import ReactDOM from "react-dom/client"
+import App from "./components/appMain/App"
+import "./index.css"
+import { ApolloProvider, gql } from "@apollo/client"
 
-import { ApolloClient, InMemoryCache } from '@apollo/client'
+import { ApolloClient, InMemoryCache } from "@apollo/client"
 
 const cache = new InMemoryCache()
 const client = new ApolloClient({
   cache,
-  uri: 'http://localhost:3000/graphql'
+  uri: "http://localhost:3000/graphql"
 })
 
 // Local state management setup
@@ -23,7 +23,7 @@ cache.writeQuery({
     localState: {}
   }
 })
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <App />

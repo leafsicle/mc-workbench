@@ -16,10 +16,7 @@ const Fitness = () => {
   if (error) return <Template pageTitle="Fitness">Error loading workouts</Template>
 
   const totalPages = Math.ceil(monthlyGroups.length / ITEMS_PER_PAGE)
-  const currentMonths = monthlyGroups.slice(
-    (page - 1) * ITEMS_PER_PAGE,
-    page * ITEMS_PER_PAGE
-  )
+  const currentMonths = monthlyGroups.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE)
 
   const handlePageChange = (event, value) => {
     setPage(value)
@@ -36,17 +33,13 @@ const Fitness = () => {
           </AccordionSummary>
           <AccordionDetails>
             {monthGroup.workouts.map((workout, workoutIndex) => (
-              <Accordion 
-                key={`${workout.workout_id || workoutIndex}`} 
-                sx={{ mt: 1 }}
-              >
+              <Accordion key={`${workout.workout_id || workoutIndex}`} sx={{ mt: 1 }}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                   <Typography variant="subtitle1" color="primary">
-                    {workout.title} - {
-                      DateTime.fromISO(workout.start_time)
-                        .setZone("America/New_York")
-                        .toLocaleString(DateTime.DATE_MED)
-                    }
+                    {workout.title} -{" "}
+                    {DateTime.fromISO(workout.start_time)
+                      .setZone("America/New_York")
+                      .toLocaleString(DateTime.DATE_MED)}
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -67,7 +60,7 @@ const Fitness = () => {
         count={totalPages}
         page={page}
         onChange={handlePageChange}
-        sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}
+        sx={{ mt: 4, display: "flex", justifyContent: "center" }}
       />
     </Template>
   )

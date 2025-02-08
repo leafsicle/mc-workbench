@@ -1,23 +1,15 @@
-import React, { useState } from 'react';
-import { 
-  Card, 
-  CardMedia, 
-  CardContent, 
-  Typography
-} from '@mui/material';
-import ModalComponent from '../modal/modal';
+import React, { useState } from "react"
+import { Card, CardMedia, CardContent, Typography } from "@mui/material"
+import ModalComponent from "../modal/modal"
 
 export const CardComponent = ({ title, image, explanation, hdVersion }) => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   return (
     <>
-      <Card 
-        sx={{ width: "100%", height: "100%", mb: 4, cursor: 'pointer' }}
-        onClick={handleOpen}
-      >
+      <Card sx={{ width: "100%", height: "100%", mb: 4, cursor: "pointer" }} onClick={handleOpen}>
         <CardMedia
           component="img"
           height="100%"
@@ -43,7 +35,7 @@ export const CardComponent = ({ title, image, explanation, hdVersion }) => {
         hdVersion={hdVersion}
       />
     </>
-  );
-};
+  )
+}
 
-export default CardComponent;
+export default CardComponent

@@ -13,7 +13,7 @@ const useWorkouts = () => {
 
   const options = {
     transform: (data) => {
-      const workoutsWithUUID = data.map(workout => ({
+      const workoutsWithUUID = data.map((workout) => ({
         ...workout,
         workout_id: uuidv4()
       }))
@@ -21,10 +21,10 @@ const useWorkouts = () => {
     }
   }
 
-  const { data: workouts, loading, error } = useSessionStore('workouts', fetcher, options)
+  const { data: workouts, loading, error } = useSessionStore("workouts", fetcher, options)
   const monthlyGroups = workouts ? groupWorkoutsByMonth(workouts) : []
 
   return { workouts, monthlyGroups, loading, error }
 }
 
-export default useWorkouts 
+export default useWorkouts

@@ -7,19 +7,19 @@ const darkTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#90caf9", // A lighter blue for better contrast in dark mode
+      main: "#90caf9" // A lighter blue for better contrast in dark mode
     },
     background: {
       default: "#303030",
-      paper: "#424242",
-    },
-  },
+      paper: "#424242"
+    }
+  }
 })
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   marginTop: theme.spacing(3),
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.background.paper
 }))
 
 const Template = ({ pageTitle = "Template", children }) => {

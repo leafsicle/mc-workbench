@@ -22,7 +22,14 @@ const HomePage = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%"
+        }}>
         <CircularProgress />
       </Box>
     )
@@ -31,7 +38,7 @@ const HomePage = () => {
   return (
     <div className="main-container">
       <Header />
-       {/*Note: outlet renders the child routes */}
+      {/*Note: outlet renders the child routes */}
       <Outlet />
       {!outlet && (
         <Box
@@ -40,14 +47,13 @@ const HomePage = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "2rem",
-          }}
-        >
+            padding: "2rem"
+          }}>
           <Typography variant="h6">Go check out the space stuff?</Typography>
         </Box>
       )}
-         {/* put what ever you need for a footer down here  but outside of this !outlet div */}
-         {/* <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
+      {/* put what ever you need for a footer down here  but outside of this !outlet div */}
+      {/* <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
             <Typography variant="h6">Howdy</Typography>
           </Box> */}
     </div>

@@ -2,9 +2,9 @@ import { useState, useEffect } from "react"
 
 const useSessionStore = (key, fetcher, options = {}) => {
   const {
-    expiryCheck = () => false,  // Default: no expiry check
-    transform = data => data,    // Default: no transformation
-    validateData = () => true    // Default: all data is valid
+    expiryCheck = () => false, // Default: no expiry check
+    transform = (data) => data, // Default: no transformation
+    validateData = () => true // Default: all data is valid
   } = options
 
   const [data, setData] = useState(null)
@@ -16,10 +16,10 @@ const useSessionStore = (key, fetcher, options = {}) => {
       try {
         // Check session storage first
         const cached = sessionStorage.getItem(key)
-        
+
         if (cached) {
           const parsedCache = JSON.parse(cached)
-          
+
           // Check if cache is valid and not expired
           if (validateData(parsedCache) && !expiryCheck(parsedCache)) {
             setData(parsedCache)
@@ -31,10 +31,10 @@ const useSessionStore = (key, fetcher, options = {}) => {
         // Fetch fresh data if cache missing or invalid
         const freshData = await fetcher()
         const transformedData = transform(freshData)
-        
+
         // Save to session storage
         sessionStorage.setItem(key, JSON.stringify(transformedData))
-        
+
         setData(transformedData)
         setLoading(false)
       } catch (err) {
@@ -50,4 +50,4 @@ const useSessionStore = (key, fetcher, options = {}) => {
   return { data, loading, error }
 }
 
-export default useSessionStore 
+export default useSessionStore

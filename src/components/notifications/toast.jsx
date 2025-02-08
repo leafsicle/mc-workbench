@@ -1,11 +1,11 @@
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify"
 
 const CallToast = (
   text,
   type = toast.TYPE.SUCCESS,
   position = toast.POSITION.TOP_CENTER,
   autoClose = 1500,
-  key = 'submit'
+  key = "submit"
 ) => {
   toast(text, {
     type,

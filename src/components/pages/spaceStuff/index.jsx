@@ -10,14 +10,21 @@ import useNasaAPOD from "@/hooks/useNasaAPOD"
 import SpaceCard from "@/components/cards/SpaceCard"
 
 const SpaceContent = memo(({ spaceData }) => (
-  <Box sx={{ 
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
+  <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center"
     }}>
-  {/*  title, image, explanation, hdVersion */}
-    <SpaceCard title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} date={spaceData.date}/>
+    {/*  title, image, explanation, hdVersion */}
+    <SpaceCard
+      title={spaceData.title}
+      image={spaceData.url}
+      explanation={spaceData.explanation}
+      hdVersion={spaceData.hdurl}
+      date={spaceData.date}
+    />
   </Box>
 ))
 
@@ -26,7 +33,8 @@ const SpaceStuff = () => {
 
   if (loading) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <CircularProgress />
       </Box>
     )
@@ -34,15 +42,14 @@ const SpaceStuff = () => {
 
   if (!spaceData) {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Box
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <Typography variant="h1">No space data</Typography>
       </Box>
     )
   }
 
-  return (
-    <SpaceContent spaceData={spaceData} />
-  )
+  return <SpaceContent spaceData={spaceData} />
 }
 
 export default memo(SpaceStuff)

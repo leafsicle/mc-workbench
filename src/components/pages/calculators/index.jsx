@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from "react"
 import {
   Container,
   Typography,
@@ -12,20 +12,20 @@ import {
   Grid,
   ThemeProvider,
   createTheme
-} from '@mui/material'
-import { styled } from '@mui/material/styles'
-import useToast from '../../../hooks/useToast'
+} from "@mui/material"
+import { styled } from "@mui/material/styles"
+import useToast from "../../../hooks/useToast"
 
 // Create a dark theme
 const darkTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#90caf9' // A lighter blue for better contrast in dark mode
+      main: "#90caf9" // A lighter blue for better contrast in dark mode
     },
     background: {
-      default: '#303030',
-      paper: '#424242'
+      default: "#303030",
+      paper: "#424242"
     }
   }
 })
@@ -37,10 +37,10 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }))
 
 const Calculators = () => {
-  const [rawWeight, setRawWeight] = useState('')
-  const [cookedWeight, setCookedWeight] = useState('')
-  const [targetRawOz, setTargetRawOz] = useState('')
-  const [result, setResult] = useState('')
+  const [rawWeight, setRawWeight] = useState("")
+  const [cookedWeight, setCookedWeight] = useState("")
+  const [targetRawOz, setTargetRawOz] = useState("")
+  const [result, setResult] = useState("")
   const [history, setHistory] = useState([])
   const showToast = useToast()
 
@@ -50,10 +50,10 @@ const Calculators = () => {
     const targetRawOzNum = parseFloat(targetRawOz)
 
     if (!rawWeightNum || !cookedWeightNum || !targetRawOzNum) {
-      showToast('Please enter a valid number', 'error')
+      showToast("Please enter a valid number", "error")
       return
     } else if (rawWeightNum < cookedWeightNum) {
-      showToast('Cooked weight cannot be more than raw weight', 'error')
+      showToast("Cooked weight cannot be more than raw weight", "error")
       return
     }
 
@@ -66,20 +66,15 @@ const Calculators = () => {
     )}oz raw , you should take ${targetCookedWeight.toFixed(1)}g of cooked.`
 
     setResult(resultText)
-    setHistory(prevHistory => [...prevHistory, targetCookedWeight.toFixed(1)])
-    showToast(resultText, 'info')
+    setHistory((prevHistory) => [...prevHistory, targetCookedWeight.toFixed(1)])
+    showToast(resultText, "info")
   }
 
   return (
     <ThemeProvider theme={darkTheme}>
       {/* This normalizes styles and applies the theme's background */}
-      <Container maxWidth='md'>
-        <Typography
-          variant='h4'
-          gutterBottom
-          align='center'
-          sx={{ mt: 4, color: 'primary.main' }}
-        >
+      <Container maxWidth="md">
+        <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
           Calculator
         </Typography>
         <StyledPaper elevation={3}>
@@ -87,11 +82,11 @@ const Calculators = () => {
             <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                label='Raw Weight (g)'
-                type='number'
+                label="Raw Weight (g)"
+                type="number"
                 value={rawWeight}
-                onChange={e => setRawWeight(e.target.value)}
-                variant='outlined'
+                onChange={(e) => setRawWeight(e.target.value)}
+                variant="outlined"
                 InputProps={{
                   style: { color: darkTheme.palette.text.primary }
                 }}
@@ -100,11 +95,11 @@ const Calculators = () => {
             <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                label='Cooked Weight (g)'
-                type='number'
+                label="Cooked Weight (g)"
+                type="number"
                 value={cookedWeight}
-                onChange={e => setCookedWeight(e.target.value)}
-                variant='outlined'
+                onChange={(e) => setCookedWeight(e.target.value)}
+                variant="outlined"
                 InputProps={{
                   style: { color: darkTheme.palette.text.primary }
                 }}
@@ -113,39 +108,34 @@ const Calculators = () => {
             <Grid item xs={12} sm={4}>
               <TextField
                 fullWidth
-                label='Target Raw Weight (oz)'
-                type='number'
+                label="Target Raw Weight (oz)"
+                type="number"
                 value={targetRawOz}
-                onChange={e => setTargetRawOz(e.target.value)}
-                variant='outlined'
+                onChange={(e) => setTargetRawOz(e.target.value)}
+                variant="outlined"
                 InputProps={{
                   style: { color: darkTheme.palette.text.primary }
                 }}
               />
             </Grid>
           </Grid>
-          <Box sx={{ mt: 3, display: 'flex', justifyContent: 'center' }}>
-            <Button
-              variant='contained'
-              color='primary'
-              onClick={calculateWeight}
-              size='large'
-            >
+          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+            <Button variant="contained" color="primary" onClick={calculateWeight} size="large">
               Calculate
             </Button>
           </Box>
         </StyledPaper>
         {result && (
           <StyledPaper elevation={3}>
-            <Typography variant='h6' gutterBottom color='primary'>
+            <Typography variant="h6" gutterBottom color="primary">
               Result
             </Typography>
-            <Typography color='text.primary'>{result}</Typography>
+            <Typography color="text.primary">{result}</Typography>
           </StyledPaper>
         )}
         {history.length > 0 && (
           <StyledPaper elevation={3}>
-            <Typography variant='h6' gutterBottom color='primary'>
+            <Typography variant="h6" gutterBottom color="primary">
               History
             </Typography>
             <List>
@@ -153,7 +143,7 @@ const Calculators = () => {
                 <ListItem key={index}>
                   <ListItemText
                     primary={`${item}g of cooked`}
-                    primaryTypographyProps={{ color: 'text.primary' }}
+                    primaryTypographyProps={{ color: "text.primary" }}
                   />
                 </ListItem>
               ))}
