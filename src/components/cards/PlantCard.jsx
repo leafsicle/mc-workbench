@@ -34,7 +34,8 @@ const PlantCard = ({ plant, useGlow = true }) => {
           transition: "all 0.2s pulse",
           transform: "scale(1.034)"
         }
-      }}>
+      }}
+    >
       <CardMedia
         sx={{
           height: hideDescription ? "80%" : "10%"
@@ -54,7 +55,8 @@ const PlantCard = ({ plant, useGlow = true }) => {
             transition: "all 0.3s ease-in-out",
             overflow: "hidden",
             padding: "1.5rem 0"
-          }}>
+          }}
+        >
           {!hideDescription && plant.description}
         </Typography>
       </CardContent>

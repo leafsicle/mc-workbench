@@ -23,7 +23,8 @@ const NotFound = () => {
           margin: "0 auto",
           maxWidth: "500px",
           width: "100%"
-        }}>
+        }}
+      >
         <PlantCard plant={plant} useGlow={false} />
       </Grid>
     </Grid>

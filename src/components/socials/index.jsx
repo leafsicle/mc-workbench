@@ -43,7 +43,8 @@ const Socials = ({
                   href={social.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ textDecoration: "none" }}>
+                  style={{ textDecoration: "none" }}
+                >
                   <Avatar sx={{ bgcolor: avatarColor }} variant={avatarVariant}>
                     <social.icon />
                   </Avatar>

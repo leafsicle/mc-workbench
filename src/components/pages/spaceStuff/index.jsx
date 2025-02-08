@@ -16,7 +16,8 @@ const SpaceContent = memo(({ spaceData }) => (
       flexDirection: "column",
       alignItems: "center",
       justifyContent: "center"
-    }}>
+    }}
+  >
     {/*  title, image, explanation, hdVersion */}
     <SpaceCard
       title={spaceData.title}
@@ -34,7 +35,8 @@ const SpaceStuff = () => {
   if (loading) {
     return (
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
+      >
         <CircularProgress />
       </Box>
     )
@@ -43,7 +45,8 @@ const SpaceStuff = () => {
   if (!spaceData) {
     return (
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
+      >
         <Typography variant="h1">No space data</Typography>
       </Box>
     )
