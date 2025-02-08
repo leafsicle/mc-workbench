@@ -7,13 +7,17 @@ import React, { memo } from "react"
 import { Box, Typography } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "../../../hooks/useNasaAPOD"
-import CardComponent from "../../cards/card"
+import SpaceCard from "../../../components/cards/spaceCard"
 
 const SpaceContent = memo(({ spaceData }) => (
   <Box sx={{ 
-  }}>
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    }}>
   {/*  title, image, explanation, hdVersion */}
-    <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
+    <SpaceCard title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} date={spaceData.date}/>
   </Box>
 ))
 
