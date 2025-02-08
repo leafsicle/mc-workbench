@@ -1,46 +1,22 @@
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
+import { Typography, Pagination } from "@mui/material"
 import { DateTime } from "luxon"
-import { Typography, Paper, createTheme, Pagination } from "@mui/material"
-import { styled } from "@mui/material/styles"
 import Template from "../template"
-import { parse } from "papaparse"
-import { v4 as uuidv4 } from "uuid"
-import { groupWorkoutsByDate } from "./utils"
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import useWorkouts from "../../../hooks/useWorkouts"
 
-const ITEMS_PER_PAGE = 10
+const ITEMS_PER_PAGE = 5
 
 const Fitness = () => {
-  const [workouts, setWorkouts] = useState([])
   const [page, setPage] = useState(1)
+  const { monthlyGroups, loading, error } = useWorkouts()
 
-  useEffect(() => {
-    const fetchAndProcessWorkouts = async () => {
-      try {
-        const response = await fetch("/src/data/workouts.csv")
-        const csvText = await response.text()
-        const parsedData = parse(csvText, { header: true }).data
+  if (loading) return <Template pageTitle="Fitness">Loading...</Template>
+  if (error) return <Template pageTitle="Fitness">Error loading workouts</Template>
 
-        // First, add UUIDs to the raw workout data
-        const workoutsWithUUID = parsedData.map(workout => ({
-          ...workout,
-          workout_id: uuidv4() // Using workout_id to avoid conflicts
-        }))
-
-        setWorkouts(workoutsWithUUID)
-        localStorage.setItem("workouts_with_uuid", JSON.stringify(workoutsWithUUID))
-      } catch (error) {
-        console.error("Error loading workouts:", error)
-      }
-    }
-
-    fetchAndProcessWorkouts()
-  }, [])
-
-  const sortedGroups = groupWorkoutsByDate(workouts)
-  const totalPages = Math.ceil(sortedGroups.length / ITEMS_PER_PAGE)
-  const currentWorkouts = sortedGroups.slice(
+  const totalPages = Math.ceil(monthlyGroups.length / ITEMS_PER_PAGE)
+  const currentMonths = monthlyGroups.slice(
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   )
@@ -51,23 +27,38 @@ const Fitness = () => {
 
   return (
     <Template pageTitle="Fitness">
-      {currentWorkouts.map((workout, index) => (
-        <Accordion key={`workout-${workout.workout_id || index}`} sx={{ mt: 2 }}>
+      {currentMonths.map((monthGroup, monthIndex) => (
+        <Accordion key={monthGroup.month} sx={{ mt: 2 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="h6" gutterBottom color="primary">
-              {workout.title}:{" "}
-              {DateTime.fromISO(workout.start_time)
-                .setZone("America/New_York")
-                .toLocaleString(DateTime.DATE_MED)}
+              {monthGroup.month} ({monthGroup.workouts.length} workouts)
             </Typography>
           </AccordionSummary>
           <AccordionDetails>
-            {workout.exercises.map((exercise, exerciseIndex) => (
-              <div key={`${workout.workout_id}-exercise-${exerciseIndex}`}>
-                <Typography variant="body1" gutterBottom color="primary">
-                  {exercise.title}: {exercise.sets.length} sets
-                </Typography>
-              </div>
+            {monthGroup.workouts.map((workout, workoutIndex) => (
+              <Accordion 
+                key={`${workout.workout_id || workoutIndex}`} 
+                sx={{ mt: 1 }}
+              >
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                  <Typography variant="subtitle1" color="primary">
+                    {workout.title} - {
+                      DateTime.fromISO(workout.start_time)
+                        .setZone("America/New_York")
+                        .toLocaleString(DateTime.DATE_MED)
+                    }
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  {workout.exercises.map((exercise, exerciseIndex) => (
+                    <div key={`${workout.workout_id}-exercise-${exerciseIndex}`}>
+                      <Typography variant="body1" gutterBottom color="primary">
+                        {exercise.title}: {exercise.sets.length} sets
+                      </Typography>
+                    </div>
+                  ))}
+                </AccordionDetails>
+              </Accordion>
             ))}
           </AccordionDetails>
         </Accordion>

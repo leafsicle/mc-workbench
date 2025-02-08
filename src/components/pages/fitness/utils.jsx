@@ -74,3 +74,35 @@ export const groupWorkoutsByDate = workouts => {
     (a, b) => DateTime.fromISO(b.start_time) - DateTime.fromISO(a.start_time),
   )
 }
+
+export const groupWorkoutsByMonth = workouts => {
+  const monthlyGroups = {}
+  
+  const serializedWorkouts = serializeToHevyFormat(workouts)
+  
+  serializedWorkouts.forEach(workout => {
+    const monthKey = DateTime.fromISO(workout.start_time)
+      .setZone("America/New_York")
+      .toFormat("MMMM yyyy")
+    
+    if (!monthlyGroups[monthKey]) {
+      monthlyGroups[monthKey] = []
+    }
+    
+    monthlyGroups[monthKey].push(workout)
+  })
+  
+  // Sort workouts within each month by date (newest first)
+  Object.keys(monthlyGroups).forEach(month => {
+    monthlyGroups[month].sort((a, b) => 
+      DateTime.fromISO(b.start_time) - DateTime.fromISO(a.start_time)
+    )
+  })
+  
+  // Convert to array of { month, workouts } objects and sort by month (newest first)
+  return Object.entries(monthlyGroups)
+    .map(([month, workouts]) => ({ month, workouts }))
+    .sort((a, b) => 
+      DateTime.fromFormat(b.month, "MMMM yyyy") - DateTime.fromFormat(a.month, "MMMM yyyy")
+    )
+}
