@@ -15,9 +15,8 @@ import { Box } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "../../hooks/useNasaAPOD"
 import SpaceStuff from "../pages/spaceStuff/index"
-import { Typography } from "@mui/material"
 
-const CurrentHomePage = () => {
+const HomePage = () => {
   const outlet = useOutlet()
   const { spaceData, loading } = useNasaAPOD()
 
@@ -46,6 +45,7 @@ const CurrentHomePage = () => {
         >
         </Box>
       )}
+      Go check out the space stuff?
          {/* put what ever you need for a footer down here  but outside of this !outlet div */}
          {/* <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginTop: "2rem", width: "100%"}}>
             <Typography variant="h6">Howdy</Typography>
@@ -64,7 +64,7 @@ export default function App() {
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
         <Routes>
-          <Route path="/" exact element={<CurrentHomePage />}>
+          <Route path="/" exact element={<HomePage />}>
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/calculators" element={<Calculators />} />
             <Route path="/space" element={<SpaceStuff />} />
