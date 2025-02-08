@@ -23,7 +23,8 @@ export default defineConfig({
     }
   ],
   server: {
-    port: 3001
+    port: 3001,
+    historyApiFallback: true
   },
   assetsInclude: ["**/*.csv"],
   base: "https://mattcooke.tech/",
@@ -39,5 +40,8 @@ export default defineConfig({
         warn(warning)
       }
     }
+  },
+  define: {
+    "process.env": {}
   }
 })
