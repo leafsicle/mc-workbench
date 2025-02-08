@@ -16,7 +16,7 @@ import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "../../hooks/useNasaAPOD"
 import CardComponent from "../cards/card"
 import SpaceStuff from "../pages/spaceStuff/index"
-
+import ModalComponent from "../modal/modal"
 const CurrentHomePage = () => {
   const outlet = useOutlet()
   const { spaceData, loading } = useNasaAPOD()
@@ -46,7 +46,12 @@ const CurrentHomePage = () => {
           }}
         >
           {spaceData && (
-            <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
+            <>
+              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2 }}>
+                <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
+                <ModalComponent image={spaceData.url} explanation={spaceData.explanation} />
+              </Box>
+            </>
           )}
         </Box>
       )}
