@@ -24,11 +24,9 @@ const SpaceCard = ({
         alignItems: "center",
         justifyContent: "center",
         padding: "2rem"
-      }}
-    >
+      }}>
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}
-      >
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}>
         <Card sx={{ width: "500px" }} onClick={handleOpen}>
           <CardMedia component="img" image={image} alt={title} style={{ objectFit: "contain" }} />
           <CardContent>
@@ -53,8 +51,7 @@ const SpaceCard = ({
         target="_blank"
         rel="noopener noreferrer"
         sx={{ marginTop: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
-        title="View HD"
-      >
+        title="View HD">
         <HdIcon /> View HD
       </Link>
     </Box>

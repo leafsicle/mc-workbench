@@ -24,7 +24,7 @@ const Fitness = () => {
 
   return (
     <Template pageTitle="Fitness">
-      {currentMonths.map((monthGroup, monthIndex) => (
+      {currentMonths.map((monthGroup) => (
         <Accordion key={monthGroup.month} sx={{ mt: 2 }}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography variant="h6" gutterBottom color="primary">

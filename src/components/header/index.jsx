@@ -59,8 +59,7 @@ const Header = () => {
                 color: "inherit"
               }
             }
-          }}
-        >
+          }}>
           {links.map((link) => (
             <li key={link.id} hidden={navCollapse}>
               <Link to={link.path}>
