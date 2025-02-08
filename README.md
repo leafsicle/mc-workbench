@@ -16,7 +16,7 @@
 4. Run the development server:
 
 ```bash
-    yarn dev
+yarn run dev
 ```
 
 5. Open your browser and navigate to `http://localhost:3001` to view the application.
@@ -36,3 +36,14 @@
 ```
 
 3. Open your browser and navigate to `https://<your-project-name>.vercel.app` to view the application.
+
+#### Features
+
+- NASA Astronomy Picture of the Day integration
+- Toast notifications for error handling
+- Material-UI components
+- Dark theme support
+
+#### External APIs
+
+- [NASA APOD API](https://api.nasa.gov/) - Get your API key [here](https://api.nasa.gov/)
