@@ -6,7 +6,6 @@ import {
   CardMedia,
   Typography
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 
 const modalStyle = {
   position: 'absolute',
@@ -23,7 +22,7 @@ const modalStyle = {
   color: 'black'
 };
 
-const ModalComponent = ({ open, onClose, title, image, explanation, hdVersion }) => {
+const ModalComponent = ({ open, onClose, title, explanation }) => {
   return (
     <Modal
       open={open}
@@ -31,7 +30,7 @@ const ModalComponent = ({ open, onClose, title, image, explanation, hdVersion })
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={modalStyle}>
+      <Box sx={modalStyle} onClick={onClose}>
         <IconButton
           onClick={onClose}
           sx={{
@@ -41,19 +40,8 @@ const ModalComponent = ({ open, onClose, title, image, explanation, hdVersion })
             color: 'grey.500',
           }}
         >
-          <CloseIcon />
         </IconButton>
-        <CardMedia
-          component="img"
-          sx={{ 
-            width: '100%',
-            maxHeight: '70vh',
-            objectFit: 'contain',
-            mb: 2 
-          }}
-          image={hdVersion || image}
-          alt={title}
-        />
+  
         <Typography id="modal-modal-title" variant="h4" gutterBottom>
           {title}
         </Typography>
