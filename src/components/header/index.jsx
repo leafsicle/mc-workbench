@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton"
 import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
-
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
 const links = [
   {
     id: 0,
@@ -25,6 +25,13 @@ const links = [
     path: "/fitness",
     icon: <FitnessCenterIcon />,
   },
+  {
+    id: 3,
+    name: "Space",
+    path: "/space",
+    icon: <RocketLaunchIcon />,
+    actionable: true,
+  }
 ]
 
 const Header = () => {
@@ -70,10 +77,6 @@ const Header = () => {
         </ul>
       </nav>
       <hr style={{ margin: "0" }} />
-      {/* An <Outlet> renders whatever child route is currently active,
-            so you can think about this <Outlet> as a placeholder for
-            the child routes we defined above. */}
-      <Outlet />
     </div>
   )
 }
