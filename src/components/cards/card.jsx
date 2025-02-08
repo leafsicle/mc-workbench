@@ -15,7 +15,7 @@ export const CardComponent = ({ title, image, explanation, hdVersion }) => {
   return (
     <>
       <Card 
-        sx={{ width: "100%", height: "100%", mb: 4, aspectRatio: hdVersion ? "16/9" : "1/1", cursor: 'pointer' }}
+        sx={{ width: "100%", height: "100%", mb: 4, cursor: 'pointer' }}
         onClick={handleOpen}
       >
         <CardMedia

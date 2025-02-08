@@ -1,6 +1,6 @@
 import React from 'react'
 import { plants } from '../../data/plants'
-import PlantCard from '../cards/plantCard/PlantCard'
+import PlantCard from '../cards/PlantCard'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 
