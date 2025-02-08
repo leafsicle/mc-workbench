@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 // import Garden from '../garden/Garden'
-import ContactForm from "../contactForm/ContactForm"
+// import ContactForm from "../contactForm/ContactForm"
 import { Outlet, useOutlet } from "react-router-dom"
-import Darkness from "../darkness/Darkness"
+// import Darkness from "../darkness/Darkness"
 import Header from "../header"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
@@ -11,41 +11,29 @@ import theme from "../appMain/themes"
 import Calculators from "../pages/calculators/index"
 import Fitness from "../pages/fitness/index"
 import NotFound from "../404/index"
-import { Box, Typography, Card, CardMedia, CardContent } from "@mui/material"
-import { useState, useEffect } from "react"
-import { toast } from "react-toastify"
+import { Box } from "@mui/material"
+import { CircularProgress } from "@mui/material"
+import useNasaAPOD from "../../hooks/useNasaAPOD"
 import CardComponent from "../cards/card"
+import SpaceStuff from "../pages/spaceStuff/index"
 
 const CurrentHomePage = () => {
   const outlet = useOutlet()
-  const [spaceData, setSpaceData] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const { spaceData, loading } = useNasaAPOD()
 
-  useEffect(() => {
-    const fetchSpaceData = async () => {
-      try {
-        const response = await fetch(
-          `https://api.nasa.gov/planetary/apod?api_key=${import.meta.env.VITE_NASA_API_KEY || 'DEMO_KEY'}`
-        )
-        if (!response.ok) {
-          throw new Error(`NASA API responded with status: ${response.status}`)
-        }
-        const data = await response.json()
-        setSpaceData(data)
-        setLoading(false)
-      } catch (error) {
-        console.error("Error fetching space data:", error)
-        toast.error(`Failed to load NASA space data ${error.message || ''}`)
-        setLoading(false)
-      }
-    }
-
-    fetchSpaceData()
-  }, [])
+  if (loading) {
+    return (
+      <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%" }}>
+        <CircularProgress />
+      </Box>
+    )
+  }
 
   return (
     <div className="main-container">
       <Header />
+       {/*Note: outlet renders the child routes */}
+      <Outlet />
       {!outlet && (
         <Box
           sx={{
@@ -57,18 +45,9 @@ const CurrentHomePage = () => {
             padding: "2rem",
           }}
         >
-          {loading ? (
-            <Typography variant="h4">Loading space data...</Typography>
-          ) : spaceData ? (
-            <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} />
-          ) : (
-            <Typography variant="h4" color="error">
-              Failed to load space data
-            </Typography>
+          {spaceData && (
+            <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
           )}
-          <Typography variant="h2" sx={{ mt: 4 }}>
-            Check out the calculators
-          </Typography>
         </Box>
       )}
     </div>
@@ -87,10 +66,12 @@ export default function App() {
         <Routes>
           <Route path="/" exact element={<CurrentHomePage />}>
             <Route path="/fitness" element={<Fitness />} />
+            <Route path="/calculators" element={<Calculators />} />
+            <Route path="/space" element={<SpaceStuff />} />
+            {/* <Route path="/darkness" element={<Darkness />} /> */}
             {/* <Route path='/garden' element={<Garden />} /> */}
             {/* <Route path='/contact' element={<ContactForm />} /> */}
-            <Route path="/calculators" element={<Calculators />} />
-            <Route path="/darkness" element={boolFlip ? <Darkness /> : <NotFound />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </ThemeProvider>
