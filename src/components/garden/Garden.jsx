@@ -67,8 +67,7 @@ const Garden = () => {
               color="primary"
               variant="contained"
               onClick={() => setIsOpen(!isOpen)}
-              style={{ float: "right" }}
-            >
+              style={{ float: "right" }}>
               <CloseIcon />
             </Button>
           </DialogTitle>
@@ -87,8 +86,7 @@ const Garden = () => {
                   label="Watering Frequency"
                   fullWidth
                   defaultValue={10}
-                  input={<OutlinedInput label={"label-text"} placeholder="Watering Frequency" />}
-                >
+                  input={<OutlinedInput label={"label-text"} placeholder="Watering Frequency" />}>
                   <MenuItem value={10}>Daily</MenuItem>
                   <MenuItem value={20}>Weekly</MenuItem>
                   <MenuItem value={30}>Monthly</MenuItem>

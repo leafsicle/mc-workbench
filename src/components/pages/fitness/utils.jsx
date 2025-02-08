@@ -82,9 +82,7 @@ export const groupWorkoutsByDate = (workouts) => {
 export const groupWorkoutsByMonth = (workouts) => {
   const monthlyGroups = {}
 
-  const serializedWorkouts = serializeToHevyFormat(workouts)
-
-  serializedWorkouts.forEach((workout) => {
+  workouts.forEach((workout) => {
     const monthKey = DateTime.fromISO(workout.start_time)
       .setZone("America/New_York")
       .toFormat("MMMM yyyy")

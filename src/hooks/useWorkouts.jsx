@@ -5,7 +5,7 @@ import { groupWorkoutsByMonth } from "../components/pages/fitness/utils"
 
 const useWorkouts = () => {
   const fetcher = async () => {
-    const response = await fetch("/src/data/workouts.csv")
+    const response = await fetch("/data/workouts.csv")
     const csvText = await response.text()
     const parsedData = parse(csvText, { header: true }).data
     return parsedData

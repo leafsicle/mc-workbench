@@ -22,8 +22,7 @@ const ModalComponent = ({ open, onClose, title, explanation }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
+      aria-describedby="modal-modal-description">
       <Box sx={modalStyle} onClick={onClose}>
         <IconButton
           onClick={onClose}
@@ -32,8 +31,7 @@ const ModalComponent = ({ open, onClose, title, explanation }) => {
             right: 8,
             top: 8,
             color: "grey.500"
-          }}
-        ></IconButton>
+          }}></IconButton>
 
         <Typography id="modal-modal-title" variant="h4" gutterBottom>
           {title}
