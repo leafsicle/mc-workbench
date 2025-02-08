@@ -1,5 +1,5 @@
 import React from "react"
-import { Modal, Box, IconButton, CardMedia, Typography } from "@mui/material"
+import { Modal, Box, IconButton, Typography } from "@mui/material"
 
 const modalStyle = {
   position: "absolute",

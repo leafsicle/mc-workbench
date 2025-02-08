@@ -12,7 +12,7 @@ import Select from "@mui/material/Select"
 import MenuItem from "@mui/material/MenuItem"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import { useQuery } from "@apollo/client"
-import { GET_PLANTS, ADD_PLANT } from "./queries"
+import { GET_PLANTS } from "./queries"
 
 const Garden = () => {
   const [query, setQuery] = useState("")

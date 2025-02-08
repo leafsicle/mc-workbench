@@ -45,7 +45,7 @@ const useSessionStore = (key, fetcher, options = {}) => {
     }
 
     fetchData()
-  }, [key])
+  }, [key, expiryCheck, transform, validateData, fetcher])
 
   return { data, loading, error }
 }

@@ -77,7 +77,7 @@ const ContactForm = () => {
   return (
     <Grid container justifyContent="center" direction="column">
       <Grid item xs={12} sm={9}>
-        <form onSubmit={handleSubmit(onSubmit)} error={errors} className={classes.formRoot}>
+        <form onSubmit={handleSubmit(onSubmit)} className={classes.formRoot}>
           {["FirstName", "LastName", "Email"].map((fieldName, index) => (
             <Grid container key={index} justifyContent="center" alignItems="center">
               <Grid item xs={12} sm={6} md={4}>
