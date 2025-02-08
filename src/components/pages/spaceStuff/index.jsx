@@ -18,11 +18,29 @@ const SpaceStuff = () => {
     </Box>
   }
 
+  if (!spaceData) {
+    return <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Typography variant="h1">No space data</Typography>
+    </Box>
+  }
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", width: "fit-content" }}>
       <Typography variant="h1">Space Stuff</Typography>
-        <CardComponent title={spaceData.title} image={spaceData.url} explanation={spaceData.explanation} hdVersion={spaceData.hdurl} />
-      <p>{JSON.stringify(spaceData, null, 2)}</p>
+      <Typography variant="h2">APOD</Typography>
+      <Typography variant="h3">NASA Picture of the Day</Typography>
+
+      <Typography variant="body1">
+        {spaceData.explanation}
+      </Typography>
+
+      <Typography variant="body1">
+        {spaceData.title}
+      </Typography>
+
+      <Typography variant="body1">
+        {spaceData.url}
+      </Typography>
     </Box>
   )
 }
