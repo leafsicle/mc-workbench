@@ -1,6 +1,5 @@
 {
-  "name": "matt-cooke-workbench",
-  "homepage": "https://leafsicle.github.io/mc-workbench",
+  "name": "workbench",
   "private": true,
   "version": "0.0.1",
   "type": "commonjs",

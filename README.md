@@ -1,3 +1,7 @@
+# Workbench
+
+Find me at [Mattcooke.tech](https://mattcooke.tech)
+
 #### Running Locally
 
 1. Clone the repository
@@ -39,10 +43,14 @@ yarn run dev
 
 #### Features
 
-- NASA Astronomy Picture of the Day integration
-- Toast notifications for error handling
-- Material-UI components
-- Dark theme support
+- [NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/astropix.html) integration
+- [Hevy](https://api.hevyapp.com/docs/) integration
+
+### Tools
+
+- [Toast notifications](https://mui.com/components/snackbar/) for error handling
+- [Material-UI](https://mui.com/) components
+- [Dark theme](https://mui.com/customization/palette/) support
 
 #### External APIs
 

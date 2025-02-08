@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   server: { port: 3001 },
   assetsInclude: ["**/*.csv"],
-  base: "./",
+  base: "https://mattcooke.tech/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src")
