@@ -12,7 +12,7 @@ import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
 import Typography from "@mui/material/Typography"
 
-const HomePage = () => {
+const Main = () => {
   const outlet = useOutlet()
 
   return (
@@ -27,9 +27,22 @@ const HomePage = () => {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            padding: "2rem"
+            padding: "2rem",
+            width: "100%",
+            backgroundImage: "url(/images/background.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat"
           }}>
-          <Typography variant="h6">Go check out the space stuff?</Typography>
+          <Typography variant="h4">Howdy, Nerd!</Typography>
+          <Typography variant="body1">
+            Welcome to the nerd cave. Select a category to get started.
+          </Typography>
+          <Typography variant="body1">
+            I&apos;m a software engineer and a fitness enthusiast. I&apos;m also a huge nerd.
+            I&apos;m currently working on a few projects to help me learn more about software
+            development and fitness.
+          </Typography>
         </Box>
       )}
     </div>
@@ -45,10 +58,11 @@ export default function App() {
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
         <Routes>
-          <Route path="/" exact element={<HomePage />}>
+          <Route path="/" exact element={<Main />}>
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/calculators" element={<Calculators />} />
             <Route path="/space" element={<SpaceStuff />} />
+            <Route path="/weather" element={<p>Weather</p>} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

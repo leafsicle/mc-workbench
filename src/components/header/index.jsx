@@ -7,6 +7,7 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import { Box, useMediaQuery, useTheme, Drawer, List, ListItem } from "@mui/material"
+import ThunderstormIcon from "@mui/icons-material/Thunderstorm"
 
 const links = [
   {
@@ -33,6 +34,12 @@ const links = [
     path: "/space",
     icon: <RocketLaunchIcon />,
     actionable: true
+  },
+  {
+    id: 4,
+    name: "Weather",
+    path: "/weather",
+    icon: <ThunderstormIcon />
   }
 ]
 
