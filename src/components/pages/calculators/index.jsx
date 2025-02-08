@@ -10,7 +10,6 @@ import {
   ListItemText,
   Paper,
   Grid,
-  CssBaseline,
   ThemeProvider,
   createTheme
 } from '@mui/material'
@@ -73,7 +72,6 @@ const Calculators = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <CssBaseline />{' '}
       {/* This normalizes styles and applies the theme's background */}
       <Container maxWidth='md'>
         <Typography
