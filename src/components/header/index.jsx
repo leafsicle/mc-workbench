@@ -1,4 +1,4 @@
-import { Outlet, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import React, { useState } from "react"
 import LunchDiningIcon from "@mui/icons-material/LunchDining"
 import IconButton from "@mui/material/IconButton"
