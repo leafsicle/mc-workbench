@@ -25,11 +25,9 @@ const SpaceCard = ({
         justifyContent: "center",
         maxWidth: "50%",
         paddingBottom: "2rem"
-      }}
-    >
+      }}>
       <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}
-      >
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}>
         <Card title={title} sx={{ width: "100%", height: "100%" }} onClick={handleOpen}>
           <CardMedia component="img" image={image} alt={title} style={{ objectFit: "contain" }} />
         </Card>
@@ -49,8 +47,7 @@ const SpaceCard = ({
         target="_blank"
         rel="noopener noreferrer"
         sx={{ marginTop: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
-        title="View HD"
-      >
+        title="View HD">
         <HdIcon />
         <Typography title="View in HD on NASA's website" variant="body1">
           View HD

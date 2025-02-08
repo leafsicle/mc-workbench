@@ -95,8 +95,7 @@ const PlainPage = () => {
         display: "flex",
         flexDirection: "column",
         justifyContent: "center"
-      }}
-    >
+      }}>
       <Box style={{ backgroundColor: "black" }}>
         <Box
           style={{
@@ -104,8 +103,7 @@ const PlainPage = () => {
             margin: "auto",
             height: "100px",
             paddingTop: "50px"
-          }}
-        >
+          }}>
           <Slider
             aria-label="Volume"
             value={blurRadius}
@@ -123,8 +121,7 @@ const PlainPage = () => {
           id="canvas"
           height={window.innerHeight - 100}
           width={window.innerWidth}
-          style={{ border: "1px solid black" }}
-        ></canvas>
+          style={{ border: "1px solid black" }}></canvas>
       </Box>
     </Box>
   )

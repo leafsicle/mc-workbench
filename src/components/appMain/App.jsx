@@ -28,8 +28,7 @@ const HomePage = () => {
             justifyContent: "center",
             alignItems: "center",
             padding: "2rem"
-          }}
-        >
+          }}>
           <Typography variant="h6">Go check out the space stuff?</Typography>
         </Box>
       )}
