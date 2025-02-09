@@ -39,9 +39,7 @@ const Main = () => {
             Welcome to the nerd cave. Select a category to get started.
           </Typography>
           <Typography variant="body1">
-            I&apos;m a software engineer and a fitness enthusiast. I&apos;m also a huge nerd.
-            I&apos;m currently working on a few projects to help me learn more about software
-            development and fitness.
+            I&apos;m a software engineer and breaker of things.
           </Typography>
         </Box>
       )}
