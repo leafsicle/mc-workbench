@@ -36,9 +36,6 @@ const Main = () => {
           }}>
           <Typography variant="h4">Howdy, Nerd!</Typography>
           <Typography variant="body1">
-            Welcome to the nerd cave. Select a category to get started.
-          </Typography>
-          <Typography variant="body1">
             I&apos;m a software engineer and breaker of things.
           </Typography>
         </Box>
