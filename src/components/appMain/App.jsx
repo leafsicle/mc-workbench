@@ -11,7 +11,7 @@ import NotFound from "../404/index"
 import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
 import Typography from "@mui/material/Typography"
-
+import Weather from "../pages/weather/index"
 const Main = () => {
   const outlet = useOutlet()
 
@@ -57,7 +57,7 @@ export default function App() {
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/calculators" element={<Calculators />} />
             <Route path="/space" element={<SpaceStuff />} />
-            <Route path="/weather" element={<p>Weather</p>} />
+            <Route path="/weather" element={<Weather />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
