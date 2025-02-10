@@ -1,6 +1,6 @@
 // quick and dirty weather list
 import { useState, useEffect } from "react"
-import { Box, Stack, Slider, Button } from "@mui/material"
+import { Box, Stack, Slider, Button, Typography } from "@mui/material"
 import MapComponent from "../../../components/maps"
 
 const Weather = () => {
@@ -87,6 +87,7 @@ const Weather = () => {
               width: "50%",
               marginBottom: 2
             }}>
+            <Typography variant="h6">🚧 Under Construction 🚧</Typography>
             <MapComponent
               lat={coordinates.lat}
               lng={coordinates.lng}
