@@ -26,7 +26,6 @@ export default defineConfig({
     port: 3001,
     historyApiFallback: true
   },
-  assetsInclude: ["**/*.csv"],
   base: "https://mattcooke.tech/",
   resolve: {
     alias: {
