@@ -40,6 +40,12 @@ const links = [
     name: "Weather",
     path: "/weather",
     icon: <ThunderstormIcon />
+  },
+  {
+    id: 5,
+    name: "Send It",
+    path: "/trebuchet",
+    icon: <RocketLaunchIcon />
   }
 ]
 

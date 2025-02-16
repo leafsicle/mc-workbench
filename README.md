@@ -55,3 +55,7 @@ yarn run dev
 #### External APIs
 
 - [NASA APOD API](https://api.nasa.gov/) - Get your API key [here](https://api.nasa.gov/)
+- [Luxon](https://moment.github.io/luxon/#/) - A library for parsing, validating, manipulating, and displaying dates and times in JavaScript
+- [Paper.js](https://paperjs.org/) - A library for creating and manipulating 2D shapes in JavaScript
+- [OpenWeatherMap](https://openweathermap.org/api) - A weather API for getting weather data
+- [Hevy](https://api.hevyapp.com/docs/) - A library for creating and manipulating 2D shapes in JavaScript

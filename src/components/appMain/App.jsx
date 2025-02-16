@@ -12,9 +12,27 @@ import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
 import Typography from "@mui/material/Typography"
 import Weather from "../pages/weather/index"
+import { DateTime } from "luxon"
+import { useState, useEffect } from "react"
+
+// Import the new Trebuchet tool
+import TrebuchetTool from "../pages/trebuchet"
+
 const Main = () => {
   const outlet = useOutlet()
 
+  const [time, setTime] = useState(
+    DateTime.fromObject({ day: 22, hour: 12 }, { zone: "America/New_York" }).toLocaleString(
+      DateTime.TIME_SIMPLE
+    )
+  )
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTime(DateTime.now().toLocaleString(DateTime.TIME_SIMPLE))
+    }, 1000)
+    return () => clearInterval(interval)
+  }, [])
   return (
     <div className="main-container">
       <Header />
@@ -38,6 +56,7 @@ const Main = () => {
           <Typography variant="body1">
             I&apos;m a software engineer and breaker of things.
           </Typography>
+          <Typography variant="body1">It is currently {time}</Typography>
         </Box>
       )}
     </div>
@@ -58,6 +77,8 @@ export default function App() {
             <Route path="/calculators" element={<Calculators />} />
             <Route path="/space" element={<SpaceStuff />} />
             <Route path="/weather" element={<Weather />} />
+            {/* New route for the trebuchet physics tool */}
+            <Route path="/trebuchet" element={<TrebuchetTool />} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
