@@ -24,6 +24,11 @@ const theme = createTheme({
     background: {
       default: "#fafafa",
       dark: "#121212"
+    },
+    text: {
+      primary: "#000000",
+      secondary: "#000000",
+      darkBackground: "#fafafa"
     }
   },
   components: {

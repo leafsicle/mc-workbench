@@ -1,6 +1,23 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import paper from "paper"
-import { Box, Typography, Stack, TextField, Slider } from "@mui/material"
+import { Box, Typography, Stack, TextField, Slider, styled, useTheme } from "@mui/material"
+
+const InputField = styled(TextField)(({ theme }) => ({
+  "& .MuiInputBase-input": {
+    // text color
+    color: theme.palette.text.darkBackground
+  },
+  "& .MuiInputLabel-root": {
+    // label color
+    color: theme.palette.primary.main
+  },
+  "& .MuiOutlinedInput-root": {
+    // border color
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: theme.palette.primary.main
+    }
+  }
+}))
 
 const TrebuchetTool = () => {
   const [Mcw, setMcw] = useState(1000)
@@ -17,6 +34,7 @@ const TrebuchetTool = () => {
 
   const paperCanvasRef = useRef(null)
   const containerRef = useRef(null)
+  const theme = useTheme()
 
   // Set up Paper.js on component mount
   useEffect(() => {
@@ -200,8 +218,13 @@ const TrebuchetTool = () => {
         <Stack spacing={2} sx={{ width: 280, flexShrink: 0, overflowY: "auto", paddingTop: 2 }}>
           <Box>
             <Stack spacing={2}>
-              <TextField
-                label="Counterweight Mass (kg)"
+              <InputField
+                label={
+                  <>
+                    Counterweight Mass (
+                    <span style={{ color: theme.palette.secondary.main }}>kg</span>)
+                  </>
+                }
                 type="number"
                 value={Mcw}
                 onChange={(e) => setMcw(Number(e.target.value))}
@@ -209,8 +232,13 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Projectile Mass (kg)"
+              <InputField
+                label={
+                  <>
+                    Projectile Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>
+                    )
+                  </>
+                }
                 type="number"
                 value={mp}
                 onChange={(e) => setMp(Number(e.target.value))}
@@ -218,8 +246,12 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Pivot Height (m)"
+              <InputField
+                label={
+                  <>
+                    Pivot Height (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+                  </>
+                }
                 type="number"
                 value={h}
                 onChange={(e) => setH(Number(e.target.value))}
@@ -227,8 +259,12 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Sling Length (m)"
+              <InputField
+                label={
+                  <>
+                    Sling Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+                  </>
+                }
                 type="number"
                 value={ds}
                 onChange={(e) => setDs(Number(e.target.value))}
@@ -236,8 +272,13 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Short Arm Length (m)"
+              <InputField
+                label={
+                  <>
+                    Short Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>
+                    )
+                  </>
+                }
                 type="number"
                 value={dsa}
                 onChange={(e) => setDsa(Number(e.target.value))}
@@ -245,8 +286,12 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Long Arm Length (m)"
+              <InputField
+                label={
+                  <>
+                    Long Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+                  </>
+                }
                 type="number"
                 value={dla}
                 onChange={(e) => setDla(Number(e.target.value))}
@@ -254,8 +299,12 @@ const TrebuchetTool = () => {
                 fullWidth
               />
 
-              <TextField
-                label="Release Angle (°)"
+              <InputField
+                label={
+                  <>
+                    Release Angle (<span style={{ color: theme.palette.secondary.main }}>°</span>)
+                  </>
+                }
                 type="number"
                 value={desiredAngle}
                 onChange={(e) => setDesiredAngle(Number(e.target.value))}
