@@ -1,23 +1,22 @@
 import React, { useState, useRef, useEffect, useCallback } from "react"
 import paper from "paper"
-import { Box, Typography, Stack, TextField, Slider, styled, useTheme } from "@mui/material"
+import { Box, Typography, Stack, useTheme } from "@mui/material"
+import InputField from "@/components/input/InputField"
 
-const InputField = styled(TextField)(({ theme }) => ({
-  "& .MuiInputBase-input": {
-    // text color
-    color: theme.palette.text.darkBackground
-  },
-  "& .MuiInputLabel-root": {
-    // label color
-    color: theme.palette.primary.main
-  },
-  "& .MuiOutlinedInput-root": {
-    // border color
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: theme.palette.primary.main
-    }
-  }
-}))
+const DataDisplay = ({ releaseTime, projectileDistance, projectileVelocity }) => {
+  return (
+    <Box sx={{ mt: 2, p: 2, bgcolor: "grey.100", borderRadius: 1, color: "black" }}>
+      <Typography variant="h6" sx={{ mb: 1 }}>
+        Results
+      </Typography>
+      <Stack spacing={1}>
+        <Typography variant="body2">Release Time: {releaseTime}s</Typography>
+        <Typography variant="body2">Distance: {projectileDistance}m</Typography>
+        <Typography variant="body2">Initial Velocity: {projectileVelocity}m/s</Typography>
+      </Stack>
+    </Box>
+  )
+}
 
 const TrebuchetTool = () => {
   const [Mcw, setMcw] = useState(100)
@@ -30,7 +29,6 @@ const TrebuchetTool = () => {
   const [releaseTime, setReleaseTime] = useState(null)
   const [projectileDistance, setProjectileDistance] = useState(null)
   const [projectileVelocity, setProjectileVelocity] = useState(null)
-  const [scaleAdjustment, setScaleAdjustment] = useState(1)
 
   const paperCanvasRef = useRef(null)
   const containerRef = useRef(null)
@@ -97,7 +95,7 @@ const TrebuchetTool = () => {
     // Calculate scale factors
     const scaleX = availableWidth / range
     const scaleY = availableHeight / H_max
-    const scale = Math.min(scaleX, scaleY) * 0.8 * scaleAdjustment
+    const scale = Math.min(scaleX, scaleY) * 0.8
 
     // Draw grid
     const gridSpacing = 50
@@ -170,7 +168,7 @@ const TrebuchetTool = () => {
     })
 
     paper.view.draw()
-  }, [projectileDistance, projectileVelocity, desiredAngle, scaleAdjustment])
+  }, [projectileDistance, projectileVelocity, desiredAngle])
 
   // Handle window resize
   const handleResize = useCallback(() => {
@@ -280,11 +278,17 @@ const TrebuchetTool = () => {
     }
   ]
 
-  return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", p: 2 }}>
+  const Title = () => {
+    return (
       <Typography variant="h4" sx={{ mb: 2 }}>
         Trebuchet Physics Tool
       </Typography>
+    )
+  }
+
+  return (
+    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", p: 2 }}>
+      <Title />
 
       <Box sx={{ display: "flex", gap: 2, flex: 1, minHeight: 0, overflow: "hidden" }}>
         {/* Left panel - Controls */}
@@ -302,32 +306,15 @@ const TrebuchetTool = () => {
                   fullWidth
                 />
               ))}
-
-              <Box sx={{ px: 1 }}>
-                <Typography gutterBottom>Scale: {scaleAdjustment.toFixed(1)}x</Typography>
-                <Slider
-                  value={scaleAdjustment}
-                  onChange={(_, newValue) => setScaleAdjustment(Number(newValue))}
-                  min={0.1}
-                  max={2}
-                  step={0.1}
-                  valueLabelDisplay="auto"
-                />
-              </Box>
             </Stack>
           </Box>
 
           {releaseTime !== null && (
-            <Box sx={{ mt: 2, p: 2, bgcolor: "grey.100", borderRadius: 1, color: "black" }}>
-              <Typography variant="h6" sx={{ mb: 1 }}>
-                Results
-              </Typography>
-              <Stack spacing={1}>
-                <Typography variant="body2">Release Time: {releaseTime}s</Typography>
-                <Typography variant="body2">Distance: {projectileDistance}m</Typography>
-                <Typography variant="body2">Initial Velocity: {projectileVelocity}m/s</Typography>
-              </Stack>
-            </Box>
+            <DataDisplay
+              releaseTime={releaseTime}
+              projectileDistance={projectileDistance}
+              projectileVelocity={projectileVelocity}
+            />
           )}
         </Stack>
 
@@ -340,11 +327,12 @@ const TrebuchetTool = () => {
             minWidth: 0,
             minHeight: 0,
             border: 1,
-            borderColor: "grey.300"
+            borderColor: "grey.300",
+            height: "600px"
           }}>
           <Box
             ref={containerRef}
-            sx={{ flex: 1, position: "relative", width: "100%", height: "100%" }}>
+            sx={{ width: "100%", height: "400px", position: "relative", marginBottom: 2 }}>
             <Box
               component="canvas"
               ref={paperCanvasRef}
