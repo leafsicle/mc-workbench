@@ -20,7 +20,7 @@ const InputField = styled(TextField)(({ theme }) => ({
 }))
 
 const TrebuchetTool = () => {
-  const [Mcw, setMcw] = useState(1000)
+  const [Mcw, setMcw] = useState(100)
   const [mp, setMp] = useState(10)
   const [h, setH] = useState(10)
   const [ds, setDs] = useState(5)
@@ -207,6 +207,79 @@ const TrebuchetTool = () => {
     drawTrajectoryPaperJS()
   }, [drawTrajectoryPaperJS])
 
+  const fieldDefinitions = [
+    {
+      key: "counterweight",
+      label: (
+        <>
+          Counterweight Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>)
+        </>
+      ),
+      value: Mcw,
+      onChange: (e) => setMcw(Number(e.target.value))
+    },
+    {
+      key: "projectile",
+      label: (
+        <>
+          Projectile Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>)
+        </>
+      ),
+      value: mp,
+      onChange: (e) => setMp(Number(e.target.value))
+    },
+    {
+      key: "pivot",
+      label: (
+        <>
+          Pivot Height (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+        </>
+      ),
+      value: h,
+      onChange: (e) => setH(Number(e.target.value))
+    },
+    {
+      key: "sling",
+      label: (
+        <>
+          Sling Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+        </>
+      ),
+      value: ds,
+      onChange: (e) => setDs(Number(e.target.value))
+    },
+    {
+      key: "shortArm",
+      label: (
+        <>
+          Short Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+        </>
+      ),
+      value: dsa,
+      onChange: (e) => setDsa(Number(e.target.value))
+    },
+    {
+      key: "longArm",
+      label: (
+        <>
+          Long Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
+        </>
+      ),
+      value: dla,
+      onChange: (e) => setDla(Number(e.target.value))
+    },
+    {
+      key: "releaseAngle",
+      label: (
+        <>
+          Release Angle (<span style={{ color: theme.palette.secondary.main }}>°</span>)
+        </>
+      ),
+      value: desiredAngle,
+      onChange: (e) => setDesiredAngle(Number(e.target.value))
+    }
+  ]
+
   return (
     <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", p: 2 }}>
       <Typography variant="h4" sx={{ mb: 2 }}>
@@ -218,99 +291,17 @@ const TrebuchetTool = () => {
         <Stack spacing={2} sx={{ width: 280, flexShrink: 0, overflowY: "auto", paddingTop: 2 }}>
           <Box>
             <Stack spacing={2}>
-              <InputField
-                label={
-                  <>
-                    Counterweight Mass (
-                    <span style={{ color: theme.palette.secondary.main }}>kg</span>)
-                  </>
-                }
-                type="number"
-                value={Mcw}
-                onChange={(e) => setMcw(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Projectile Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>
-                    )
-                  </>
-                }
-                type="number"
-                value={mp}
-                onChange={(e) => setMp(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Pivot Height (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-                  </>
-                }
-                type="number"
-                value={h}
-                onChange={(e) => setH(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Sling Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-                  </>
-                }
-                type="number"
-                value={ds}
-                onChange={(e) => setDs(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Short Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>
-                    )
-                  </>
-                }
-                type="number"
-                value={dsa}
-                onChange={(e) => setDsa(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Long Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-                  </>
-                }
-                type="number"
-                value={dla}
-                onChange={(e) => setDla(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
-
-              <InputField
-                label={
-                  <>
-                    Release Angle (<span style={{ color: theme.palette.secondary.main }}>°</span>)
-                  </>
-                }
-                type="number"
-                value={desiredAngle}
-                onChange={(e) => setDesiredAngle(Number(e.target.value))}
-                size="small"
-                fullWidth
-              />
+              {fieldDefinitions.map((field) => (
+                <InputField
+                  key={field.key}
+                  label={field.label}
+                  type="number"
+                  value={field.value}
+                  onChange={field.onChange}
+                  size="small"
+                  fullWidth
+                />
+              ))}
 
               <Box sx={{ px: 1 }}>
                 <Typography gutterBottom>Scale: {scaleAdjustment.toFixed(1)}x</Typography>
