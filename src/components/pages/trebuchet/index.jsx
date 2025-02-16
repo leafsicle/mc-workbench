@@ -25,6 +25,7 @@ const TrebuchetTool = () => {
       // Initial resize to fit container
       handleResize()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const simulate = useCallback(() => {
