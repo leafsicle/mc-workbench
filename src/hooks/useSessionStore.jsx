@@ -1,51 +1,71 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useRef } from "react"
 
 const useSessionStore = (key, fetcher, options = {}) => {
   const {
-    expiryCheck = () => false, // Default: no expiry check
-    transform = (data) => data, // Default: no transformation
-    validateData = () => true // Default: all data is valid
+    expiryCheck = () => false,
+    transform = (data) => data,
+    validateData = () => true,
+    retryLimit = 3
   } = options
 
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  // Store options in a ref to prevent unnecessary re-renders
+  const optionsRef = useRef({ expiryCheck, transform, validateData })
+
+  // Update ref if options change
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        // Check session storage first
-        const cached = sessionStorage.getItem(key)
+    optionsRef.current = { expiryCheck, transform, validateData }
+  }, [expiryCheck, transform, validateData])
 
-        if (cached) {
-          const parsedCache = JSON.parse(cached)
+  const fetchData = useCallback(async () => {
+    try {
+      const cached = sessionStorage.getItem(key)
 
-          // Check if cache is valid and not expired
-          if (validateData(parsedCache) && !expiryCheck(parsedCache)) {
-            setData(parsedCache)
-            setLoading(false)
-            return
-          }
+      if (cached) {
+        const parsedCache = JSON.parse(cached)
+
+        // Use ref values to check cache validity
+        if (
+          optionsRef.current.validateData(parsedCache) &&
+          !optionsRef.current.expiryCheck(parsedCache)
+        ) {
+          setData(parsedCache)
+          setLoading(false)
+          return
         }
+      }
 
-        // Fetch fresh data if cache missing or invalid
-        const freshData = await fetcher()
-        const transformedData = transform(freshData)
+      const freshData = await fetcher()
+      const transformedData = optionsRef.current.transform(freshData)
 
-        // Save to session storage
-        sessionStorage.setItem(key, JSON.stringify(transformedData))
+      sessionStorage.setItem(key, JSON.stringify(transformedData))
+      setData(transformedData)
+      setLoading(false)
+    } catch (err) {
+      console.error(`Error in useSessionStore(${key}):`, err)
+      setError(err)
+      setLoading(false)
+    }
+  }, [key, fetcher]) // Reduced dependencies
 
-        setData(transformedData)
-        setLoading(false)
-      } catch (err) {
-        console.error(`Error in useSessionStore(${key}):`, err)
-        setError(err)
-        setLoading(false)
+  useEffect(() => {
+    let mounted = true
+
+    const execute = async () => {
+      if (mounted) {
+        await fetchData()
       }
     }
 
-    fetchData()
-  }, [key, expiryCheck, transform, validateData, fetcher])
+    execute()
+
+    return () => {
+      mounted = false
+    }
+  }, [fetchData])
 
   return { data, loading, error }
 }

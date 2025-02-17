@@ -1,59 +1,48 @@
 import React from "react"
-import { Card, Typography, CardMedia, Box, Link } from "@mui/material"
-import ModalComponent from "../modal/modal"
-import { useState } from "react"
-import HdIcon from "@mui/icons-material/Hd"
-import { DateTime } from "luxon"
+import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material"
 
-const SpaceCard = ({
-  title,
-  image,
-  explanation,
-  hdVersion,
-  date = DateTime.now().toFormat("yyyy-MM-dd")
-}) => {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
+const SpaceCard = ({ title, image, explanation, hdVersion, date, media_type }) => {
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        maxWidth: "50%",
-        paddingBottom: "2rem"
-      }}>
-      <Box
-        sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "2rem" }}>
-        <Card title={title} sx={{ width: "100%", height: "100%" }} onClick={handleOpen}>
-          <CardMedia component="img" image={image} alt={title} style={{ objectFit: "contain" }} />
-        </Card>
-        <ModalComponent
-          open={open}
-          onClose={handleClose}
-          title={title}
-          explanation={explanation}
+    <Card sx={{ maxWidth: 800, m: 2 }}>
+      {media_type === "video" ? (
+        <Box sx={{ position: "relative", paddingTop: "56.25%" /* 16:9 aspect ratio */ }}>
+          <iframe
+            src={image}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              border: 0
+            }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            title={title}
+          />
+        </Box>
+      ) : (
+        <CardMedia
+          component="img"
+          height="500"
           image={image}
-          hdVersion={hdVersion}
+          alt={title}
+          sx={{ objectFit: "contain" }}
         />
-      </Box>
-      <Typography variant="h3">{title}</Typography>
-      <Typography variant="body1">{date}</Typography>
-      <Link
-        href={hdVersion}
-        target="_blank"
-        rel="noopener noreferrer"
-        sx={{ marginTop: "1rem", display: "flex", alignItems: "center", gap: "0.5rem" }}
-        title="View HD">
-        <HdIcon />
-        <Typography title="View in HD on NASA's website" variant="body1">
-          View HD
+      )}
+
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+          {title}
         </Typography>
-      </Link>
-    </Box>
+        <Typography variant="body2" color="text.secondary" gutterBottom>
+          {date}
+        </Typography>
+        <Typography variant="body1" color="text.primary">
+          {explanation}
+        </Typography>
+      </CardContent>
+    </Card>
   )
 }
 

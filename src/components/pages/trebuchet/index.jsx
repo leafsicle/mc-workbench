@@ -214,7 +214,8 @@ const TrebuchetTool = () => {
         </>
       ),
       value: Mcw,
-      onChange: (e) => setMcw(Number(e.target.value))
+      onChange: (e) => setMcw(Number(e.target.value)),
+      type: "number"
     },
     {
       key: "projectile",
