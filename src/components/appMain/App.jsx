@@ -14,9 +14,16 @@ import Typography from "@mui/material/Typography"
 import Weather from "../pages/weather/index"
 import { DateTime } from "luxon"
 import { useState, useEffect } from "react"
+import { styled } from "@mui/material/styles"
 
 // Import the new Trebuchet tool
 import TrebuchetTool from "../pages/trebuchet"
+
+const Wrapper = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.dark,
+  minHeight: "100vh",
+  maxWidth: "100vw"
+}))
 
 const Main = () => {
   const outlet = useOutlet()
@@ -34,7 +41,7 @@ const Main = () => {
     return () => clearInterval(interval)
   }, [])
   return (
-    <div className="main-container">
+    <Wrapper>
       <Header />
       {/*Note: outlet renders the child routes */}
       <Outlet />
@@ -46,7 +53,6 @@ const Main = () => {
             justifyContent: "center",
             alignItems: "center",
             padding: "2rem",
-            width: "100%",
             backgroundImage: "url(/images/background.jpg)",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -59,7 +65,7 @@ const Main = () => {
           <Typography variant="body1">It is currently {time}</Typography>
         </Box>
       )}
-    </div>
+    </Wrapper>
   )
 }
 
@@ -77,7 +83,6 @@ export default function App() {
             <Route path="/calculators" element={<Calculators />} />
             <Route path="/space" element={<SpaceStuff />} />
             <Route path="/weather" element={<Weather />} />
-            {/* New route for the trebuchet physics tool */}
             <Route path="/trebuchet" element={<TrebuchetTool />} />
             <Route path="*" element={<NotFound />} />
           </Route>

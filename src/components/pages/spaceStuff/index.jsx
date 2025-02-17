@@ -1,13 +1,19 @@
 import React, { memo, useMemo } from "react"
-import { Box, Typography, Card, CardContent, Button } from "@mui/material"
+import { Box, Typography, Card, CardContent, Button, useTheme } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "@/hooks/useNasaAPOD"
 import SpaceCard from "@/components/cards/SpaceCard"
+import useIsMobile from "@/hooks/useIsMobile"
 
 // VideoCard component for video media types
 const VideoCard = memo(({ title, url, explanation, date }) => (
-  <Card sx={{ maxWidth: 800, m: 2 }}>
-    <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
+  <Card sx={{ maxWidth: 800, m: 2, height: "auto" }}>
+    <Box
+      sx={{
+        position: "relative",
+        height: 0,
+        paddingTop: "56.25%" // Maintains the 16:9 aspect ratio.
+      }}>
       <iframe
         src={url}
         style={{
@@ -69,6 +75,7 @@ ErrorDisplay.displayName = "ErrorDisplay"
 
 // SpaceContent renders either the SpaceCard (with modal behavior) or the VideoCard
 const SpaceContent = memo(({ spaceData }) => {
+  const isMobile = useIsMobile()
   const containerStyle = useMemo(
     () => ({
       display: "flex",
@@ -76,11 +83,12 @@ const SpaceContent = memo(({ spaceData }) => {
       alignItems: "center",
       justifyContent: "center",
       padding: 2,
-      width: "100%"
+      width: isMobile ? "100%" : "80%",
+      height: "100%"
     }),
-    []
+    [isMobile]
   )
-
+  const theme = useTheme()
   return (
     <Box sx={containerStyle}>
       {spaceData.media_type === "video" ? (
@@ -91,13 +99,24 @@ const SpaceContent = memo(({ spaceData }) => {
           date={spaceData.date}
         />
       ) : (
-        <SpaceCard
-          title={spaceData.title}
-          image={spaceData.url}
-          explanation={spaceData.explanation}
-          hdVersion={spaceData.hdVersion}
-          date={spaceData.date}
-        />
+        <>
+          <SpaceCard
+            title={spaceData.title}
+            image={spaceData.url}
+            explanation={spaceData.explanation}
+            hdVersion={spaceData.hdVersion}
+            date={spaceData.date}
+          />
+          <Typography variant="body2" color={theme.palette.text.darkBackground} gutterBottom>
+            {spaceData.date}
+          </Typography>
+          <Typography variant="body1" color={theme.palette.text.darkBackground}>
+            {spaceData.title}
+          </Typography>
+          <Typography variant="body1" color={theme.palette.text.darkBackground}>
+            {spaceData.explanation}
+          </Typography>
+        </>
       )}
     </Box>
   )
@@ -127,11 +146,11 @@ const SpaceStuff = () => {
 
   return (
     <Box>
-      <SpaceContent spaceData={spaceData} />
-      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mb: 4 }}>
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
         <Button onClick={previousDay}>Previous Day</Button>
         <Button onClick={nextDay}>Next Day</Button>
       </Box>
+      <SpaceContent spaceData={spaceData} />
     </Box>
   )
 }

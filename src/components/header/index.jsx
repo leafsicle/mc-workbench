@@ -6,8 +6,9 @@ import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
-import { Box, useMediaQuery, useTheme, Drawer, List, ListItem } from "@mui/material"
+import { Box, useTheme, Drawer, List, ListItem } from "@mui/material"
 import ThunderstormIcon from "@mui/icons-material/Thunderstorm"
+import useIsMobile from "../../hooks/useIsMobile"
 
 const links = [
   {
@@ -52,7 +53,7 @@ const links = [
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false)
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const isMobile = useIsMobile()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -75,7 +76,7 @@ const Header = () => {
   )
 
   return (
-    <Box className="header">
+    <Box className="header" sx={{ backgroundColor: theme.palette.background.dark }}>
       <nav>
         {isMobile ? (
           <>
@@ -119,7 +120,6 @@ const Header = () => {
                 color: "inherit",
                 display: "flex",
                 alignItems: "center",
-                gap: 1,
                 "&:visited": {
                   color: "inherit"
                 }
