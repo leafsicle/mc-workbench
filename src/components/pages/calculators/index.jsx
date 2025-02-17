@@ -75,7 +75,14 @@ const Calculators = () => {
       {/* This normalizes styles and applies the theme's background */}
       <Container maxWidth="md">
         <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
-          Calculator
+          Chicken Coefficient Calculator
+        </Typography>
+        <Typography
+          variant="body1"
+          gutterBottom
+          align="center"
+          sx={{ mt: 4, color: "primary.main" }}>
+          Calculate the amount of cooked chicken you should take for a given amount of raw chicken.
         </Typography>
         <StyledPaper elevation={3}>
           <Grid container spacing={3}>
