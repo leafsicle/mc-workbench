@@ -36,12 +36,12 @@ const links = [
     icon: <RocketLaunchIcon />,
     actionable: true
   },
-  {
-    id: 4,
-    name: "Weather",
-    path: "/weather",
-    icon: <ThunderstormIcon />
-  },
+  // {
+  //   id: 4,
+  //   name: "Weather",
+  //   path: "/weather",
+  //   icon: <ThunderstormIcon />
+  // },
   {
     id: 5,
     name: "Send It",
