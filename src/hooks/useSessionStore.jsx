@@ -4,8 +4,7 @@ const useSessionStore = (key, fetcher, options = {}) => {
   const {
     expiryCheck = () => false,
     transform = (data) => data,
-    validateData = () => true,
-    retryLimit = 3
+    validateData = () => true
   } = options
 
   const [data, setData] = useState(null)

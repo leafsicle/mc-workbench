@@ -1,122 +1,52 @@
 import React, { memo, useMemo } from "react"
-import { Box, Typography, Card, CardContent, CardMedia } from "@mui/material"
+import { Box, Typography, Card, CardContent, Button } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "@/hooks/useNasaAPOD"
+import SpaceCard from "@/components/cards/SpaceCard"
 
-// Separate video component to optimize rendering
-const VideoDisplay = memo(({ url, title }) => (
-  <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
-    <iframe
-      src={url}
-      style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        border: 0
-      }}
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowFullScreen
-      title={title}
-    />
-  </Box>
-))
-
-VideoDisplay.displayName = "VideoDisplay"
-
-// Separate image component to optimize rendering
-const ImageDisplay = memo(({ url, title }) => (
-  <CardMedia component="img" height="500" image={url} alt={title} sx={{ objectFit: "contain" }} />
-))
-
-ImageDisplay.displayName = "ImageDisplay"
-
-// Memoized media display component
-const MediaDisplay = memo(({ media_type, url, title }) =>
-  media_type === "video" ? (
-    <VideoDisplay url={url} title={title} />
-  ) : (
-    <ImageDisplay url={url} title={title} />
-  )
-)
-
-MediaDisplay.displayName = "MediaDisplay"
-
-const SpaceCard = memo(({ title, url, explanation, date, media_type }) => {
-  // Memoize the card style
-  const cardStyle = useMemo(
-    () => ({
-      maxWidth: 800,
-      m: 2,
-      width: "100%"
-    }),
-    []
-  )
-
-  return (
-    <Card sx={cardStyle}>
-      <MediaDisplay media_type={media_type} url={url} title={title} />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {title}
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          {date}
-        </Typography>
-        <Typography variant="body1" color="text.primary">
-          {explanation}
-        </Typography>
-      </CardContent>
-    </Card>
-  )
-})
-
-SpaceCard.displayName = "SpaceCard"
-
-const SpaceContent = memo(({ spaceData }) => {
-  // Memoize the container style
-  const containerStyle = useMemo(
-    () => ({
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 2,
-      width: "100%"
-    }),
-    []
-  )
-
-  return (
-    <Box sx={containerStyle}>
-      <SpaceCard
-        title={spaceData.title}
-        url={spaceData.url}
-        explanation={spaceData.explanation}
-        date={spaceData.date}
-        media_type={spaceData.media_type}
+// VideoCard component for video media types
+const VideoCard = memo(({ title, url, explanation, date }) => (
+  <Card sx={{ maxWidth: 800, m: 2 }}>
+    <Box sx={{ position: "relative", paddingTop: "56.25%" }}>
+      <iframe
+        src={url}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          border: 0
+        }}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        title={title}
       />
     </Box>
-  )
-})
+    <CardContent>
+      <Typography gutterBottom variant="h5" component="div">
+        {title}
+      </Typography>
+      <Typography variant="body2" color="text.secondary" gutterBottom>
+        {date}
+      </Typography>
+      <Typography variant="body1" color="text.primary">
+        {explanation}
+      </Typography>
+    </CardContent>
+  </Card>
+))
+VideoCard.displayName = "VideoCard"
 
-SpaceContent.displayName = "SpaceContent"
-
+// Loading display component
 const LoadingDisplay = memo(() => (
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100vh"
-    }}>
+  <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
     <CircularProgress />
   </Box>
 ))
-
 LoadingDisplay.displayName = "LoadingDisplay"
 
+// Error display component
 const ErrorDisplay = memo(({ error }) => (
   <Box
     sx={{
@@ -135,11 +65,48 @@ const ErrorDisplay = memo(({ error }) => (
     </Typography>
   </Box>
 ))
-
 ErrorDisplay.displayName = "ErrorDisplay"
 
+// SpaceContent renders either the SpaceCard (with modal behavior) or the VideoCard
+const SpaceContent = memo(({ spaceData }) => {
+  const containerStyle = useMemo(
+    () => ({
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 2,
+      width: "100%"
+    }),
+    []
+  )
+
+  return (
+    <Box sx={containerStyle}>
+      {spaceData.media_type === "video" ? (
+        <VideoCard
+          title={spaceData.title}
+          url={spaceData.url}
+          explanation={spaceData.explanation}
+          date={spaceData.date}
+        />
+      ) : (
+        <SpaceCard
+          title={spaceData.title}
+          image={spaceData.url}
+          explanation={spaceData.explanation}
+          hdVersion={spaceData.hdVersion}
+          date={spaceData.date}
+        />
+      )}
+    </Box>
+  )
+})
+SpaceContent.displayName = "SpaceContent"
+
+// Main component
 const SpaceStuff = () => {
-  const { spaceData, loading, error } = useNasaAPOD()
+  const { spaceData, loading, error, previousDay, nextDay } = useNasaAPOD()
 
   if (loading) {
     return <LoadingDisplay />
@@ -152,18 +119,21 @@ const SpaceStuff = () => {
   if (!spaceData) {
     return (
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh"
-        }}>
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
         <Typography variant="h6">No space data available</Typography>
       </Box>
     )
   }
 
-  return <SpaceContent spaceData={spaceData} />
+  return (
+    <Box>
+      <SpaceContent spaceData={spaceData} />
+      <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mb: 4 }}>
+        <Button onClick={previousDay}>Previous Day</Button>
+        <Button onClick={nextDay}>Next Day</Button>
+      </Box>
+    </Box>
+  )
 }
 
 export default memo(SpaceStuff)
