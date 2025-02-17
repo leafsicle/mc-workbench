@@ -58,7 +58,8 @@ const useWorkouts = () => {
   const options = useMemo(
     () => ({
       transform: (data) => {
-        const workoutsWithUUID = data.map((workout) => ({
+        const limitedWorkouts = data.slice(0, 10)
+        const workoutsWithUUID = limitedWorkouts.map((workout) => ({
           ...workout,
           workout_id: uuidv4()
         }))
