@@ -1,143 +1,68 @@
 import { Link } from "react-router-dom"
-import React, { useState } from "react"
-import LunchDiningIcon from "@mui/icons-material/LunchDining"
-import IconButton from "@mui/material/IconButton"
+import React from "react"
 import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
-import { Box, useTheme, Drawer, List, ListItem } from "@mui/material"
-import ThunderstormIcon from "@mui/icons-material/Thunderstorm"
-import useIsMobile from "../../hooks/useIsMobile"
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle
+} from "@/components/ui/navigation-menu"
 
 const links = [
   {
     id: 0,
     name: "Home",
     path: "/",
-    icon: <HomeSharpIcon />
+    icon: <HomeSharpIcon fontSize="small" />
   },
   {
     id: 1,
     name: "Calculators",
     path: "/calculators",
-    icon: <RamenDiningIcon />
+    icon: <RamenDiningIcon fontSize="small" />
   },
   {
     id: 2,
-    name: "Fitness",
+    name: "Hevy Log",
     path: "/fitness",
-    icon: <FitnessCenterIcon />
+    icon: <FitnessCenterIcon fontSize="small" />
   },
   {
     id: 3,
     name: "Space",
     path: "/space",
-    icon: <RocketLaunchIcon />,
-    actionable: true
+    icon: <RocketLaunchIcon fontSize="small" />
   },
-  // {
-  //   id: 4,
-  //   name: "Weather",
-  //   path: "/weather",
-  //   icon: <ThunderstormIcon />
-  // },
   {
-    id: 5,
+    id: 4,
     name: "Send It",
     path: "/trebuchet",
-    icon: <RocketLaunchIcon />
+    icon: <RocketLaunchIcon fontSize="small" />
   }
 ]
 
 const Header = () => {
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const theme = useTheme()
-  const isMobile = useIsMobile()
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen)
-  }
-
-  const drawer = (
-    <List>
-      {links.map((link) => (
-        <ListItem key={link.id}>
-          <Link
-            to={link.path}
-            onClick={handleDrawerToggle}
-            style={{ width: "100%", padding: "8px" }}>
-            <IconButton color="primary">{link.icon}</IconButton>
-            {link.name}
-          </Link>
-        </ListItem>
-      ))}
-    </List>
-  )
-
   return (
-    <Box className="header" sx={{ backgroundColor: theme.palette.background.dark }}>
-      <nav>
-        {isMobile ? (
-          <>
-            <Box sx={{ display: "flex", justifyContent: "flex-end", width: "100%" }}>
-              <IconButton
-                color="primary"
-                aria-label="open drawer"
-                edge="end"
-                sx={{ mr: 2 }}
-                onClick={handleDrawerToggle}>
-                <LunchDiningIcon />
-              </IconButton>
-            </Box>
-            <Drawer
-              sx={{
-                "& .MuiDrawer-paper": {
-                  backgroundColor: theme.palette.background.dark
-                }
-              }}
-              variant="temporary"
-              anchor="right"
-              open={mobileOpen}
-              onClose={handleDrawerToggle}
-              ModalProps={{
-                keepMounted: true // Better mobile performance
-              }}>
-              {drawer}
-            </Drawer>
-          </>
-        ) : (
-          <Box
-            component="ul"
-            sx={{
-              display: "flex",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              listStyle: "none",
-              padding: ".5rem 0",
-              "& a": {
-                textDecoration: "none",
-                color: "inherit",
-                display: "flex",
-                alignItems: "center",
-                "&:visited": {
-                  color: "inherit"
-                }
-              }
-            }}>
-            {links.map((link) => (
-              <li key={link.id}>
-                <Link to={link.path}>
-                  <IconButton color="primary">{link.icon}</IconButton>
-                  {link.name}
+    <header className="bg-background-dark py-2">
+      <NavigationMenu className="mx-auto">
+        <NavigationMenuList>
+          {links.map((link) => (
+            <NavigationMenuItem key={link.id}>
+              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                <Link to={link.path} className="flex items-center space-x-2">
+                  {link.icon}
+                  <span>{link.name}</span>
                 </Link>
-              </li>
-            ))}
-          </Box>
-        )}
-      </nav>
-      <hr style={{ margin: "0" }} />
-    </Box>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          ))}
+        </NavigationMenuList>
+      </NavigationMenu>
+    </header>
   )
 }
 

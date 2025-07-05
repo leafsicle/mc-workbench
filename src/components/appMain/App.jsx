@@ -15,9 +15,7 @@ import Weather from "../pages/weather/index"
 import { DateTime } from "luxon"
 import { useState, useEffect } from "react"
 import { styled } from "@mui/material/styles"
-import { Button } from "@/components/ui/button"
 
-// Import the new Trebuchet tool
 import TrebuchetTool from "../pages/trebuchet"
 
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -49,15 +47,15 @@ const Main = () => {
       {!outlet && (
         <Box className="flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-image-background">
           <Typography variant="h4" className="text-white">
-            Howdy, Nerd!
+            Hey, Y&apos;all!
           </Typography>
-          <Typography variant="body1" className="text-white">
-            I&apos;m a software engineer and breaker of things.
+          <br />
+          <Typography variant="h6" className="text-white">
+            I&apos;m Matt, a software engineer and breaker of things.
           </Typography>
           <Typography variant="body1" className="text-white">
             It is currently {time}
           </Typography>
-          <Button className="bg-blue-500 text-white">Click me</Button>
         </Box>
       )}
     </Wrapper>

@@ -1,9 +1,10 @@
 import React, { memo, useMemo } from "react"
-import { Box, Typography, Card, CardContent, Button, useTheme } from "@mui/material"
+import { Box, Typography, Card, CardContent, useTheme } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "@/hooks/useNasaAPOD"
 import SpaceCard from "@/components/cards/SpaceCard"
 import useIsMobile from "@/hooks/useIsMobile"
+import DefaultButton from "@/components/buttons/Button"
 
 // VideoCard component for video media types
 const VideoCard = memo(({ title, url, explanation, date }) => (
@@ -75,22 +76,9 @@ ErrorDisplay.displayName = "ErrorDisplay"
 
 // SpaceContent renders either the SpaceCard (with modal behavior) or the VideoCard
 const SpaceContent = memo(({ spaceData }) => {
-  const isMobile = useIsMobile()
-  const containerStyle = useMemo(
-    () => ({
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      padding: 2,
-      width: isMobile ? "100%" : "80%",
-      height: "100%"
-    }),
-    [isMobile]
-  )
   const theme = useTheme()
   return (
-    <Box sx={containerStyle}>
+    <>
       {spaceData.media_type === "video" ? (
         <VideoCard
           title={spaceData.title}
@@ -99,7 +87,14 @@ const SpaceContent = memo(({ spaceData }) => {
           date={spaceData.date}
         />
       ) : (
-        <>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "80%",
+            margin: "0 auto"
+          }}>
           <SpaceCard
             title={spaceData.title}
             image={spaceData.url}
@@ -116,9 +111,9 @@ const SpaceContent = memo(({ spaceData }) => {
           <Typography variant="body1" color={theme.palette.text.darkBackground}>
             {spaceData.explanation}
           </Typography>
-        </>
+        </Box>
       )}
-    </Box>
+    </>
   )
 })
 SpaceContent.displayName = "SpaceContent"
@@ -147,8 +142,10 @@ const SpaceStuff = () => {
   return (
     <Box>
       <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
-        <Button onClick={previousDay}>Previous Day</Button>
-        <Button onClick={nextDay}>Next Day</Button>
+        <DefaultButton onClick={previousDay}>Previous Day</DefaultButton>
+        <DefaultButton onClick={nextDay} disabled={loading}>
+          Next Day
+        </DefaultButton>
       </Box>
       <SpaceContent spaceData={spaceData} />
     </Box>

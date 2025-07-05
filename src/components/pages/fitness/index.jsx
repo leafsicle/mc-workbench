@@ -2,8 +2,12 @@ import React, { useState } from "react"
 import { Typography, Pagination } from "@mui/material"
 import { DateTime } from "luxon"
 import Template from "../template"
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger
+} from "@/components/ui/accordion"
 import useWorkouts from "../../../hooks/useWorkouts"
 
 const ITEMS_PER_PAGE = 5
@@ -24,38 +28,43 @@ const Fitness = () => {
 
   return (
     <Template pageTitle="Fitness">
-      {currentMonths.map((monthGroup) => (
-        <Accordion key={monthGroup.month} sx={{ mt: 2 }}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6" gutterBottom color="primary">
-              {monthGroup.month} ({monthGroup.workouts.length} workouts)
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            {monthGroup.workouts.map((workout, workoutIndex) => (
-              <Accordion key={`${workout.workout_id || workoutIndex}`} sx={{ mt: 1 }}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography variant="subtitle1" color="primary">
-                    {workout.title} -{" "}
-                    {DateTime.fromISO(workout.start_time)
-                      .setZone("America/New_York")
-                      .toLocaleString(DateTime.DATE_MED)}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  {workout.exercises.map((exercise, exerciseIndex) => (
-                    <div key={`${workout.workout_id}-exercise-${exerciseIndex}`}>
-                      <Typography variant="body1" gutterBottom color="primary">
-                        {exercise.title}: {exercise.sets.length} sets
+      <Accordion type="single" collapsible className="w-full max-w-xl">
+        {currentMonths.map((monthGroup) => (
+          <AccordionItem key={monthGroup.month} value={monthGroup.month}>
+            <AccordionTrigger>
+              <Typography variant="h6" gutterBottom color="black">
+                {monthGroup.month} ({monthGroup.workouts.length} workouts)
+              </Typography>
+            </AccordionTrigger>
+            <AccordionContent>
+              <Accordion type="single" collapsible className="w-full">
+                {monthGroup.workouts.map((workout, workoutIndex) => (
+                  <AccordionItem
+                    key={`${workout.workout_id || workoutIndex}`}
+                    value={`${workout.workout_id || workoutIndex}`}>
+                    <AccordionTrigger>
+                      <Typography variant="subtitle1" color="black">
+                        {`${workout.title} - ${DateTime.fromISO(workout.start_time)
+                          .setZone("America/New_York")
+                          .toLocaleString(DateTime.DATE_MED)}`}
                       </Typography>
-                    </div>
-                  ))}
-                </AccordionDetails>
+                    </AccordionTrigger>
+                    <AccordionContent>
+                      {workout.exercises.map((exercise, exerciseIndex) => (
+                        <div key={`${workout.workout_id}-exercise-${exerciseIndex}`}>
+                          <Typography variant="body1" gutterBottom color="black">
+                            {exercise.title}: {exercise.sets.length} sets
+                          </Typography>
+                        </div>
+                      ))}
+                    </AccordionContent>
+                  </AccordionItem>
+                ))}
               </Accordion>
-            ))}
-          </AccordionDetails>
-        </Accordion>
-      ))}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
       <Pagination
         count={totalPages}
         page={page}
