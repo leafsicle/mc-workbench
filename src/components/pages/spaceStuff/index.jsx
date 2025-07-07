@@ -1,9 +1,8 @@
-import React, { memo, useMemo } from "react"
+import React, { memo } from "react"
 import { Box, Typography, Card, CardContent, useTheme } from "@mui/material"
 import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "@/hooks/useNasaAPOD"
 import SpaceCard from "@/components/cards/SpaceCard"
-import useIsMobile from "@/hooks/useIsMobile"
 import DefaultButton from "@/components/buttons/Button"
 
 // VideoCard component for video media types
