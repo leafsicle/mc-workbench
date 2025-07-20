@@ -41,22 +41,24 @@ const Garden = () => {
   // if (errors) return `Error! ${errors.message}`
   return (
     <Box style={{ padding: "2rem" }}>
-      <Box className="flex flex-row items-center justify-between gap-2 mb-2 max-w-sm">
+      <Box className="flex flex-row justify-center gap-2 mb-2">
         <input
           type="text"
           placeholder="Search for a plant"
           value={query}
           className="max-w-sm text-white"
+          autoFocus
           onChange={(e) => setQuery(e.target.value)}
         />
-        <Button
+        {/* <Button
           text="add plants"
           color="primary"
           variant="contained"
+          hidden={true}
           className="max-w-sm text-white"
           onClick={handleAddPlant}>
           Add Plant
-        </Button>
+        </Button> */}
       </Box>
       <h1 className="text-2xl font-bold text-white text-center mb-4">Current Plants</h1>
       <Grid container flexWrap="wrap" spacing={2}>

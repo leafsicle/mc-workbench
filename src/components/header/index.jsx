@@ -15,53 +15,46 @@ import {
 
 const links = [
   {
-    id: 0,
     name: "Home",
     path: "/",
     icon: <HomeSharpIcon fontSize="small" />,
     skip: false
   },
   {
-    id: 1,
+    name: "Garden",
+    path: "/garden",
+    icon: <GrassIcon fontSize="small" />,
+    skip: false
+  },
+  {
     name: "Calculators",
     path: "/calculators",
     icon: <RamenDiningIcon fontSize="small" />,
     skip: false
   },
   {
-    id: 2,
     name: "Hevy Log",
     path: "/fitness",
     icon: <FitnessCenterIcon fontSize="small" />,
     skip: false
   },
   {
-    id: 3,
     name: "Space",
     path: "/space",
     icon: <RocketLaunchIcon fontSize="small" />,
     skip: false
   },
   {
-    id: 4,
     name: "Send It",
     path: "/trebuchet",
     icon: <RocketLaunchIcon fontSize="small" />,
     skip: true
   },
   {
-    id: 5,
     name: "404",
     path: "/404",
     icon: <HomeSharpIcon fontSize="small" />,
-    skip: false
-  },
-  {
-    id: 6,
-    name: "Garden",
-    path: "/garden",
-    icon: <GrassIcon fontSize="small" />,
-    skip: false
+    skip: true
   }
 ]
 
@@ -72,8 +65,8 @@ const Header = () => {
         <NavigationMenuList>
           {links
             .filter((link) => link.skip !== true)
-            .map((link) => (
-              <NavigationMenuItem key={link.id}>
+            .map((link, idx) => (
+              <NavigationMenuItem key={idx}>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
                   <Link to={link.path} className="flex items-center space-x-2">
                     {link.icon}
