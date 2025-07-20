@@ -72,9 +72,10 @@ export default function App() {
             parent route elements.  <Outlet> is child. */}
         <Routes>
           <Route path="/" exact element={<Main />}>
+            <Route path="/404" element={<NotFound />} />
             <Route path="/fitness" element={<Fitness />} />
             <Route path="/calculators" element={<Calculators />} />
-            <Route path="/space" element={<SpaceStuff />} />
+            <Route path="/space" element={<SpaceStuff isThisToday />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/trebuchet" element={<TrebuchetTool />} />
             <Route path="*" element={<NotFound />} />

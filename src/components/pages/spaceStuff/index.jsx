@@ -4,6 +4,7 @@ import { CircularProgress } from "@mui/material"
 import useNasaAPOD from "@/hooks/useNasaAPOD"
 import SpaceCard from "@/components/cards/SpaceCard"
 import DefaultButton from "@/components/buttons/Button"
+import { isThisToday } from "@/lib/utils"
 
 // VideoCard component for video media types
 const VideoCard = memo(({ title, url, explanation, date }) => (
@@ -137,12 +138,15 @@ const SpaceStuff = () => {
       </Box>
     )
   }
+  const lastSlide = isThisToday(spaceData.date)
 
   return (
-    <Box>
+    <Box name="slider-navigation">
       <Box sx={{ display: "flex", justifyContent: "center", gap: 2, mt: 1 }}>
-        <DefaultButton onClick={previousDay}>Previous Day</DefaultButton>
-        <DefaultButton onClick={nextDay} disabled={loading}>
+        <DefaultButton name="go-back" onClick={previousDay}>
+          Previous Day
+        </DefaultButton>
+        <DefaultButton name="go-forward" onClick={nextDay} disabled={lastSlide}>
           Next Day
         </DefaultButton>
       </Box>

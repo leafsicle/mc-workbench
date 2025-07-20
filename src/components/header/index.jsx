@@ -42,6 +42,12 @@ const links = [
     name: "Send It",
     path: "/trebuchet",
     icon: <RocketLaunchIcon fontSize="small" />
+  },
+  {
+    id: 5,
+    name: "404",
+    path: "/404",
+    icon: <HomeSharpIcon fontSize="small" />
   }
 ]
 
