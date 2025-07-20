@@ -17,37 +17,43 @@ const links = [
     id: 0,
     name: "Home",
     path: "/",
-    icon: <HomeSharpIcon fontSize="small" />
+    icon: <HomeSharpIcon fontSize="small" />,
+    skip: false
   },
   {
     id: 1,
     name: "Calculators",
     path: "/calculators",
-    icon: <RamenDiningIcon fontSize="small" />
+    icon: <RamenDiningIcon fontSize="small" />,
+    skip: false
   },
   {
     id: 2,
     name: "Hevy Log",
     path: "/fitness",
-    icon: <FitnessCenterIcon fontSize="small" />
+    icon: <FitnessCenterIcon fontSize="small" />,
+    skip: false
   },
   {
     id: 3,
     name: "Space",
     path: "/space",
-    icon: <RocketLaunchIcon fontSize="small" />
+    icon: <RocketLaunchIcon fontSize="small" />,
+    skip: false
   },
   {
     id: 4,
     name: "Send It",
     path: "/trebuchet",
-    icon: <RocketLaunchIcon fontSize="small" />
+    icon: <RocketLaunchIcon fontSize="small" />,
+    skip: true
   },
   {
     id: 5,
     name: "404",
     path: "/404",
-    icon: <HomeSharpIcon fontSize="small" />
+    icon: <HomeSharpIcon fontSize="small" />,
+    skip: true
   }
 ]
 
@@ -56,16 +62,18 @@ const Header = () => {
     <header className="bg-background-dark py-2">
       <NavigationMenu className="mx-auto">
         <NavigationMenuList>
-          {links.map((link) => (
-            <NavigationMenuItem key={link.id}>
-              <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                <Link to={link.path} className="flex items-center space-x-2">
-                  {link.icon}
-                  <span>{link.name}</span>
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          ))}
+          {links
+            .filter((link) => link.skip !== true)
+            .map((link) => (
+              <NavigationMenuItem key={link.id}>
+                <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                  <Link to={link.path} className="flex items-center space-x-2">
+                    {link.icon}
+                    <span>{link.name}</span>
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            ))}
         </NavigationMenuList>
       </NavigationMenu>
     </header>
