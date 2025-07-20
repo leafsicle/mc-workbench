@@ -1,8 +1,8 @@
 import React from "react"
 import { plants } from "../../data/plants"
-import PlantCard from "../cards/PlantCard"
 import Grid from "@mui/material/Grid"
 import Typography from "@mui/material/Typography"
+import ImageCard from "@/components/ui/image-card"
 
 const NotFound = () => {
   const chosenOne = () => {
@@ -14,7 +14,9 @@ const NotFound = () => {
   return (
     <Grid container spacing={2} flexDirection="column" alignItems="center">
       <Grid item xs={12}>
-        <Typography variant="h3">404</Typography>
+        <Typography variant="h3" color="text.darkBackground">
+          404
+        </Typography>
       </Grid>
       <Grid
         item
@@ -24,7 +26,7 @@ const NotFound = () => {
           maxWidth: "500px",
           width: "100%"
         }}>
-        <PlantCard plant={plant} useGlow={false} />
+        <ImageCard imageUrl={plant.image} caption={plant.name}></ImageCard>
       </Grid>
     </Grid>
   )

@@ -4,6 +4,7 @@ import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
+import GrassIcon from "@mui/icons-material/Grass"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -53,7 +54,14 @@ const links = [
     name: "404",
     path: "/404",
     icon: <HomeSharpIcon fontSize="small" />,
-    skip: true
+    skip: false
+  },
+  {
+    id: 6,
+    name: "Garden",
+    path: "/garden",
+    icon: <GrassIcon fontSize="small" />,
+    skip: false
   }
 ]
 

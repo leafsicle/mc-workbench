@@ -45,10 +45,10 @@ const FormRoot = styled("form")(({ theme }) => ({
     margin: "5px"
   },
   "& input:nth-child(odd)": {
-    backgroundColor: "purple"
+    backgroundColor: theme.palette.background.dark
   },
   "& input:nth-child(even)": {
-    backgroundColor: "green"
+    backgroundColor: theme.palette.background.default
   }
 }))
 
