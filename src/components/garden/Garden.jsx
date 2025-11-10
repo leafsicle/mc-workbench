@@ -20,9 +20,9 @@ const Garden = () => {
   const [query, setQuery] = useState("")
   const [isOpen, setIsOpen] = useState(false)
 
-  const handleAddPlant = () => {
-    setIsOpen(!isOpen)
-  }
+  // const handleAddPlant = () => {
+  //   setIsOpen(!isOpen)
+  // }
 
   // const { data, errors, loading } = useQuery(GET_PLANTS)
   // let plantInfo = data?.plants || []

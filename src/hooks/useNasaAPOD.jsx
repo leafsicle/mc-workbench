@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react"
 import { DateTime } from "luxon"
 import useSessionStore from "./useSessionStore"
 
-const MAX_RETRIES = 3
+const MAX_RETRIES = 2
 const RETRY_DELAY = 1000 // 1 second
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))

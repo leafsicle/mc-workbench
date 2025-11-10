@@ -24,7 +24,7 @@ const links = [
     name: "Garden",
     path: "/garden",
     icon: <GrassIcon fontSize="small" />,
-    skip: false
+    skip: true
   },
   {
     name: "Calculators",
@@ -36,13 +36,13 @@ const links = [
     name: "Hevy Log",
     path: "/fitness",
     icon: <FitnessCenterIcon fontSize="small" />,
-    skip: false
+    skip: true
   },
   {
     name: "Space",
     path: "/space",
     icon: <RocketLaunchIcon fontSize="small" />,
-    skip: false
+    skip: true
   },
   {
     name: "Send It",

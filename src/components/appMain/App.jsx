@@ -17,7 +17,7 @@ import { useState, useEffect } from "react"
 import { styled } from "@mui/material/styles"
 
 import TrebuchetTool from "../pages/trebuchet"
-import Garden from "../garden/Garden"
+// import Garden from "../garden/Garden"
 
 const Wrapper = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.dark,
@@ -79,7 +79,7 @@ export default function App() {
             <Route path="/space" element={<SpaceStuff isThisToday />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/trebuchet" element={<TrebuchetTool />} />
-            <Route path="/garden" element={<Garden />} />
+            {/* <Route path="/garden" element={<Garden />} /> */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

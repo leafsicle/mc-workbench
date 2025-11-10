@@ -23,8 +23,7 @@ const NotFound = () => {
         xs={12}
         style={{
           margin: "0 auto",
-          maxWidth: "500px",
-          width: "100%"
+          maxWidth: "500px"
         }}>
         <ImageCard imageUrl={plant.image} caption={plant.name}></ImageCard>
       </Grid>
