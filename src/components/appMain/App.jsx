@@ -15,7 +15,7 @@ import Weather from "../pages/weather/index"
 import { DateTime } from "luxon"
 import { useState, useEffect } from "react"
 import { styled } from "@mui/material/styles"
-
+import ContactForm from "../contactForm/ContactForm"
 import TrebuchetTool from "../pages/trebuchet"
 // import Garden from "../garden/Garden"
 
@@ -79,6 +79,7 @@ export default function App() {
             <Route path="/space" element={<SpaceStuff isThisToday />} />
             <Route path="/weather" element={<Weather />} />
             <Route path="/trebuchet" element={<TrebuchetTool />} />
+            <Route path="/contact" element={<ContactForm />} />
             {/* <Route path="/garden" element={<Garden />} /> */}
             <Route path="*" element={<NotFound />} />
           </Route>

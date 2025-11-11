@@ -12,6 +12,8 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
+import WbSunnyIcon from "@mui/icons-material/WbSunny"
+import EmailIcon from "@mui/icons-material/Email"
 
 const links = [
   {
@@ -55,6 +57,12 @@ const links = [
     path: "/404",
     icon: <HomeSharpIcon fontSize="small" />,
     skip: true
+  },
+  {
+    name: "contact",
+    path: "/contact",
+    icon: <EmailIcon fontSize="small" />,
+    skip: false
   }
 ]
 

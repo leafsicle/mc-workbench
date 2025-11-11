@@ -1,4 +1,5 @@
-import React from "react"
+import React, { useState } from "react"
+import Button from "@mui/material/Button"
 import { useForm } from "react-hook-form"
 import useToast from "../../hooks/useToast"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -24,6 +25,22 @@ const schema = yup
       .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "${value} is not a valid email")
   })
   .required()
+
+const secondarySchema = yup
+  .object({
+    firstName: yup
+      .string()
+      .required("Your name ddddddcan't be empty")
+      .matches(/^[A-Za-z]+$/, "Something seems off with your first name")
+      .max(25, "Hold on there, cowboy. That hat is a little too big. Do you have a nickname?"),
+    lastName: yup.string().optional(),
+    email: yup
+      .string()
+      .optional()
+      .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "${value} is not a valid email"),
+    message: yup.string().optional()
+  })
+  .optional()
 
 const FormRoot = styled("form")(({ theme }) => ({
   background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -55,19 +72,33 @@ const FormRoot = styled("form")(({ theme }) => ({
 const StyledLabel = styled("label")({
   backgroundColor: "inherit"
 })
-const ContactForm = () => {
-  // styled components used instead of classes
-  const showToast = useToast()
 
+const ContactForm = () => {
+  const showToast = useToast()
+  const [isPrimaryForm, setIsPrimaryForm] = useState(true)
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors }
-  } = useForm({ resolver: yupResolver(schema) })
+  } = useForm({ resolver: yupResolver(isPrimaryForm ? schema : secondarySchema) })
+
+  const fields = [
+    { name: "firstName", label: "First Name" },
+    { name: "lastName", label: "Last Name" },
+    { name: "email", label: "Email" }
+  ]
+
+  const plumberFields = [
+    { name: "firstName", label: "First Name" },
+    { name: "profession", label: "Profession" },
+    { name: "tools", label: "Tools" }
+  ]
+
+  const formFields = isPrimaryForm ? fields : plumberFields
 
   const onSubmit = (data) => {
-    showToast(`I see you, ${data.firstName} ${data.lastName}`, {
+    showToast(`I see you${data.firstName ? `, ${data.firstName} ${data.lastName}` : ""}`, {
       type: "success",
       key: "submit"
     })
@@ -75,34 +106,40 @@ const ContactForm = () => {
   return (
     <Grid container justifyContent="center" direction="column">
       <Grid item xs={12} sm={9}>
+        <Button onClick={() => setIsPrimaryForm(!isPrimaryForm)}>
+          {isPrimaryForm ? "Switch to Plumber Form" : "Switch to Primary Form"}
+        </Button>
         <FormRoot onSubmit={handleSubmit(onSubmit)}>
-          {["FirstName", "LastName", "Email"].map((fieldName, index) => (
-            <Grid container key={index} justifyCnontent="center" alignItems="center">
+          {formFields.map((field, index) => (
+            <Grid container key={field.name} justifyCnontent="center" alignItems="center">
               <Grid item xs={12} sm={6} md={4}>
                 <Grid container>
                   <Grid item xs={12} sm={6} md={4}>
-                    <StyledLabel htmlFor={fieldName}>
-                      {fieldName.replace(/([A-Z])/g, " $1")}
-                    </StyledLabel>
+                    <StyledLabel htmlFor={field.name}>{field.label}</StyledLabel>
                   </Grid>
                   <Grid item xs={12} sm={6} md={4}>
                     <input
-                      {...register(fieldName)}
+                      {...register(field.name)}
+                      id={field.name}
                       tabIndex={index + 1}
-                      aria-invalid={errors[fieldName] ? "true" : "false"}
+                      aria-invalid={errors[field.name] ? "true" : "false"}
                     />
                   </Grid>
                 </Grid>
-                {errors[fieldName] && (
-                  <p key={fieldName} role="alert" style={{ color: "black" }}>
-                    {errors[fieldName]?.message}
+                {errors[field.name] && (
+                  <p key={field.name} role="alert" style={{ color: "black" }}>
+                    {errors[field.name]?.message}
                   </p>
                 )}
               </Grid>
             </Grid>
           ))}
-          <input type="submit" tabIndex={4} />
-          <input type="reset" onClick={reset} tabIndex={5} />
+          <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+            Submit
+          </Button>
+          <Button type="reset" variant="contained" sx={{ mt: 2 }} onClick={reset}>
+            Reset
+          </Button>
         </FormRoot>
       </Grid>
       <Grid item xs={12}>
