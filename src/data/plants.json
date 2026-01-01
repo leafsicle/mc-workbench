@@ -56,7 +56,7 @@
     {
       "id": 5,
       "name": "Lavender",
-      "description": "Lavender is a genus of about 30 species of plants in the family Lamiaceae and is native to countries bordering the Mediterranean. It is a shrub that grows to be about 1–2 meters tall. Lavender is well-known for its fragrant flowers.",
+      "description": "Lavender is a genus of about 30 species of plants in the family Lamiaceae and is native to countries bordering the Mediterranean. It is a shrub that grows to be about 1-2 meters tall. Lavender is well-known for its fragrant flowers.",
       "image": "plants/lavender.jpg",
       "imageCredit": "",
       "funFact": "Lavender oil can be used for aromatherapy.",
