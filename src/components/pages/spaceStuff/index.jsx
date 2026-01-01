@@ -74,11 +74,20 @@ const ErrorDisplay = memo(({ error }) => (
 ))
 ErrorDisplay.displayName = "ErrorDisplay"
 
+const Title = ({ theme }) => {
+  return (
+    <Typography variant="h4" align="center" color={theme.palette.primary.main} sx={{ my: 4 }}>
+      NASA Astronomy Picture of the Day
+    </Typography>
+  )
+}
+
 // SpaceContent renders either the SpaceCard (with modal behavior) or the VideoCard
 const SpaceContent = memo(({ spaceData }) => {
   const theme = useTheme()
   return (
     <>
+      <Title theme={theme} />
       {spaceData.media_type === "video" ? (
         <VideoCard
           title={spaceData.title}
@@ -107,9 +116,6 @@ const SpaceContent = memo(({ spaceData }) => {
           </Typography>
           <Typography variant="body1" color={theme.palette.text.darkBackground}>
             {spaceData.title}
-          </Typography>
-          <Typography variant="body1" color={theme.palette.text.darkBackground}>
-            {spaceData.explanation}
           </Typography>
         </Box>
       )}

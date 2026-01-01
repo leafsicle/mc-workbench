@@ -29,6 +29,7 @@ const TrebuchetTool = () => {
   const [releaseTime, setReleaseTime] = useState(null)
   const [projectileDistance, setProjectileDistance] = useState(null)
   const [projectileVelocity, setProjectileVelocity] = useState(null)
+  const [validationWarnings, setValidationWarnings] = useState([])
 
   const paperCanvasRef = useRef(null)
   const containerRef = useRef(null)
@@ -62,7 +63,8 @@ const TrebuchetTool = () => {
     const v = ds * a * t
     setProjectileVelocity(v.toFixed(3))
     const range = (v * v * Math.sin(2 * desiredAngleRad)) / g
-    setProjectileDistance(range.toFixed(3))
+    // Ensure distance is never negative
+    setProjectileDistance(Math.max(0, range).toFixed(3))
   }, [Mcw, ds, dsa, dla, desiredAngle])
 
   const drawTrajectoryPaperJS = useCallback(() => {
@@ -160,11 +162,56 @@ const TrebuchetTool = () => {
       fillColor: "green"
     })
 
-    // Draw landing point
+    // Draw launch angle label near the origin point
+    new paper.PointText({
+      point: new paper.Point(originX + 30, originY - 30),
+      content: `${desiredAngle}°`,
+      fillColor: "white",
+      fontSize: 14,
+      fontWeight: "bold",
+      justification: "left"
+    })
+
+    // Draw apex point
+    const t_apex = (v * Math.sin(theta)) / g
+    const x_apex = v * Math.cos(theta) * t_apex
+    const y_apex = H_max
+    const x_apex_canvas = originX + x_apex * scale
+    const y_apex_canvas = originY - y_apex * scale
+    const apexPoint = new paper.Point(x_apex_canvas, y_apex_canvas)
+
     new paper.Path.Circle({
-      center: path.lastSegment.point,
+      center: apexPoint,
+      radius: 4,
+      fillColor: "orange"
+    })
+
+    // Draw height label above the apex point
+    new paper.PointText({
+      point: new paper.Point(apexPoint.x, apexPoint.y - 20),
+      content: `${H_max.toFixed(1)}m`,
+      fillColor: "white",
+      fontSize: 14,
+      fontWeight: "bold",
+      justification: "center"
+    })
+
+    // Draw landing point
+    const landingPoint = path.lastSegment.point
+    new paper.Path.Circle({
+      center: landingPoint,
       radius: 4,
       fillColor: "red"
+    })
+
+    // Draw distance label above the landing point
+    new paper.PointText({
+      point: new paper.Point(landingPoint.x, landingPoint.y - 20),
+      content: `${parseFloat(projectileDistance).toFixed(1)}m`,
+      fillColor: "white",
+      fontSize: 14,
+      fontWeight: "bold",
+      justification: "center"
     })
 
     paper.view.draw()
@@ -195,6 +242,29 @@ const TrebuchetTool = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [handleResize])
 
+  // Validate physics constraints
+  useEffect(() => {
+    const warnings = []
+
+    if (mp >= Mcw) {
+      warnings.push(
+        "Warning: Projectile mass should be much less than counterweight mass for realistic physics"
+      )
+    }
+
+    if (dla <= dsa) {
+      warnings.push(
+        "Warning: Long arm should be longer than short arm for proper trebuchet mechanics"
+      )
+    }
+
+    if (Mcw < mp * 10) {
+      warnings.push("Tip: Counterweight should typically be 10-100x heavier than the projectile")
+    }
+
+    setValidationWarnings(warnings)
+  }, [Mcw, mp, dsa, dla])
+
   // Run simulation when parameters change
   useEffect(() => {
     simulate()
@@ -214,8 +284,12 @@ const TrebuchetTool = () => {
         </>
       ),
       value: Mcw,
-      onChange: (e) => setMcw(Number(e.target.value)),
-      type: "number"
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setMcw(Math.max(1, Math.min(1000, value)))
+      },
+      type: "number",
+      inputProps: { min: 1, max: 1000, step: 1 }
     },
     {
       key: "projectile",
@@ -225,7 +299,11 @@ const TrebuchetTool = () => {
         </>
       ),
       value: mp,
-      onChange: (e) => setMp(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setMp(Math.max(0.1, Math.min(100, value)))
+      },
+      inputProps: { min: 0.1, max: 100, step: 0.1 }
     },
     {
       key: "pivot",
@@ -235,7 +313,11 @@ const TrebuchetTool = () => {
         </>
       ),
       value: h,
-      onChange: (e) => setH(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setH(Math.max(0.1, Math.min(20, value)))
+      },
+      inputProps: { min: 0.1, max: 20, step: 0.1 }
     },
     {
       key: "sling",
@@ -245,7 +327,11 @@ const TrebuchetTool = () => {
         </>
       ),
       value: ds,
-      onChange: (e) => setDs(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setDs(Math.max(0.1, Math.min(10, value)))
+      },
+      inputProps: { min: 0.1, max: 10, step: 0.1 }
     },
     {
       key: "shortArm",
@@ -255,7 +341,11 @@ const TrebuchetTool = () => {
         </>
       ),
       value: dsa,
-      onChange: (e) => setDsa(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setDsa(Math.max(0.1, Math.min(5, value)))
+      },
+      inputProps: { min: 0.1, max: 5, step: 0.1 }
     },
     {
       key: "longArm",
@@ -265,7 +355,11 @@ const TrebuchetTool = () => {
         </>
       ),
       value: dla,
-      onChange: (e) => setDla(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        setDla(Math.max(0.1, Math.min(10, value)))
+      },
+      inputProps: { min: 0.1, max: 10, step: 0.1 }
     },
     {
       key: "releaseAngle",
@@ -275,13 +369,18 @@ const TrebuchetTool = () => {
         </>
       ),
       value: desiredAngle,
-      onChange: (e) => setDesiredAngle(Number(e.target.value))
+      onChange: (e) => {
+        const value = Number(e.target.value)
+        // Cap angle between 0 and 90 degrees
+        setDesiredAngle(Math.max(0, Math.min(90, value)))
+      },
+      inputProps: { min: 0, max: 90, step: 1 }
     }
   ]
 
   const Title = () => {
     return (
-      <Typography variant="h4" sx={{ mb: 2 }}>
+      <Typography variant="h4" color={theme.palette.text.primary} sx={{ mb: 2 }}>
         Trebuchet Physics Tool
       </Typography>
     )
@@ -305,10 +404,38 @@ const TrebuchetTool = () => {
                   onChange={field.onChange}
                   size="small"
                   fullWidth
+                  inputProps={field.inputProps}
                 />
               ))}
             </Stack>
           </Box>
+
+          {validationWarnings.length > 0 && (
+            <Box
+              sx={{
+                p: 2,
+                bgcolor: "warning.light",
+                borderRadius: 1,
+                border: 1,
+                borderColor: "warning.main"
+              }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ fontWeight: "bold", mb: 1, color: "warning.dark" }}>
+                Physics Alerts
+              </Typography>
+              <Stack spacing={0.5}>
+                {validationWarnings.map((warning, index) => (
+                  <Typography
+                    key={index}
+                    variant="body2"
+                    sx={{ color: "warning.dark", fontSize: "0.75rem" }}>
+                    • {warning}
+                  </Typography>
+                ))}
+              </Stack>
+            </Box>
+          )}
 
           {releaseTime !== null && (
             <DataDisplay

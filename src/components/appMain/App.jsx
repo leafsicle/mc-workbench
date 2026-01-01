@@ -6,6 +6,7 @@ import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { ThemeProvider } from "@mui/material"
 import theme from "../appMain/themes"
+import DarkThemeWrapper from "../appMain/DarkThemeWrapper"
 import Calculators from "../pages/calculators/index"
 import Fitness from "../pages/fitness/index"
 import NotFound from "../404/index"
@@ -49,7 +50,7 @@ const Main = () => {
       <Outlet />
       {!outlet && (
         <Box className="flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-image-background">
-          <Typography variant="h4" className="text-white">
+          <Typography variant="h4" color={theme.palette.text.darkBackground}>
             Hey, Y&apos;all!
           </Typography>
           <br />
@@ -85,11 +86,43 @@ export default function App() {
         <Routes>
           <Route path="/" exact element={<Main />}>
             <Route path="/404" element={getRouteElement("/404", <NotFound />)} />
-            <Route path="/fitness" element={getRouteElement("/fitness", <Fitness />)} />
-            <Route path="/calculators" element={getRouteElement("/calculators", <Calculators />)} />
-            <Route path="/space" element={getRouteElement("/space", <SpaceStuff isThisToday />)} />
+            <Route
+              path="/fitness"
+              element={getRouteElement(
+                "/fitness",
+                <DarkThemeWrapper>
+                  <Fitness />
+                </DarkThemeWrapper>
+              )}
+            />
+            <Route
+              path="/calculators"
+              element={getRouteElement(
+                "/calculators",
+                <DarkThemeWrapper>
+                  <Calculators />
+                </DarkThemeWrapper>
+              )}
+            />
+            <Route
+              path="/space"
+              element={getRouteElement(
+                "/space",
+                <DarkThemeWrapper>
+                  <SpaceStuff isThisToday />
+                </DarkThemeWrapper>
+              )}
+            />
             <Route path="/weather" element={getRouteElement("/weather", <Weather />)} />
-            <Route path="/trebuchet" element={getRouteElement("/trebuchet", <TrebuchetTool />)} />
+            <Route
+              path="/trebuchet"
+              element={getRouteElement(
+                "/trebuchet",
+                <DarkThemeWrapper>
+                  <TrebuchetTool />
+                </DarkThemeWrapper>
+              )}
+            />
             <Route path="/contact" element={getRouteElement("/contact", <ContactForm />)} />
             <Route path="/garden" element={getRouteElement("/garden", <Garden />)} />
             <Route path="*" element={<NotFound />} />

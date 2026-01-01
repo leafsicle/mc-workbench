@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Card, CardContent, CardMedia, Typography, Box } from "@mui/material"
+import { Card, CardContent, CardMedia, Typography, Box, useTheme } from "@mui/material"
 import ModalComponent from "../modal/modal"
 
 const SpaceCard = ({ title, image, explanation, hdVersion, date, media_type }) => {
@@ -7,6 +7,7 @@ const SpaceCard = ({ title, image, explanation, hdVersion, date, media_type }) =
   const [useHD, setUseHD] = useState(false)
   // State for modal open status
   const [open, setOpen] = useState(false)
+  const theme = useTheme()
 
   // Handler for opening the modal
   const handleOpen = () => setOpen(true)
@@ -60,7 +61,15 @@ const SpaceCard = ({ title, image, explanation, hdVersion, date, media_type }) =
 
   return (
     <>
-      <Card sx={{ maxWidth: 800, m: 2, cursor: "pointer" }} onClick={handleOpen}>
+      <Card
+        sx={{
+          maxWidth: 800,
+          m: 2,
+          cursor: "pointer",
+          borderRadius: "10px",
+          backgroundColor: theme.palette.background.dark
+        }}
+        onClick={handleOpen}>
         <CardMedia
           component="img"
           height="500"

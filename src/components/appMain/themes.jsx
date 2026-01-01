@@ -51,4 +51,18 @@ const theme = createTheme({
   }
 })
 
+// Dark theme for specific components
+export const darkTheme = createTheme({
+  palette: {
+    mode: "dark",
+    primary: {
+      main: "#90caf9" // A lighter blue for better contrast in dark mode
+    },
+    background: {
+      default: "#303030",
+      paper: "#424242"
+    }
+  }
+})
+
 export default theme

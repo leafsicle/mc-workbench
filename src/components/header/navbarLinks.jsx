@@ -5,7 +5,7 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import GrassIcon from "@mui/icons-material/Grass"
 import EmailIcon from "@mui/icons-material/Email"
-
+import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined"
 export const links = [
   {
     name: "Home",
@@ -45,9 +45,9 @@ export const links = [
   {
     name: "Send It",
     path: "/trebuchet",
-    icon: <RocketLaunchIcon fontSize="small" />,
+    icon: <ArchitectureOutlinedIcon fontSize="small" />,
     skip: false,
-    underRepair: true
+    underRepair: false
   },
   {
     name: "404",

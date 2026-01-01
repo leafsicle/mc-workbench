@@ -10,25 +10,10 @@ import {
   ListItemText,
   Paper,
   Grid,
-  ThemeProvider,
-  createTheme
+  useTheme
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
 import useToast from "../../../hooks/useToast"
-
-// Create a dark theme
-const darkTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: "#90caf9" // A lighter blue for better contrast in dark mode
-    },
-    background: {
-      default: "#303030",
-      paper: "#424242"
-    }
-  }
-})
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -43,6 +28,7 @@ const Calculators = () => {
   const [result, setResult] = useState("")
   const [history, setHistory] = useState([])
   const showToast = useToast()
+  const theme = useTheme()
 
   const calculateWeight = () => {
     const rawWeightNum = parseFloat(rawWeight)
@@ -71,94 +57,87 @@ const Calculators = () => {
   }
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      {/* This normalizes styles and applies the theme's background */}
-      <Container maxWidth="md">
-        <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
-          Chicken Coefficient Calculator
-        </Typography>
-        <Typography
-          variant="body1"
-          gutterBottom
-          align="center"
-          sx={{ mt: 4, color: "primary.main" }}>
-          Calculate the amount of cooked chicken you should take for a given amount of raw chicken.
-        </Typography>
-        <StyledPaper elevation={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                fullWidth
-                label="Raw Weight (g)"
-                type="number"
-                value={rawWeight}
-                onChange={(e) => setRawWeight(e.target.value)}
-                variant="outlined"
-                InputProps={{
-                  style: { color: darkTheme.palette.text.primary }
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                fullWidth
-                label="Cooked Weight (g)"
-                type="number"
-                value={cookedWeight}
-                onChange={(e) => setCookedWeight(e.target.value)}
-                variant="outlined"
-                InputProps={{
-                  style: { color: darkTheme.palette.text.primary }
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={4}>
-              <TextField
-                fullWidth
-                label="Target Raw Weight (oz)"
-                type="number"
-                value={targetRawOz}
-                onChange={(e) => setTargetRawOz(e.target.value)}
-                variant="outlined"
-                InputProps={{
-                  style: { color: darkTheme.palette.text.primary }
-                }}
-              />
-            </Grid>
+    <Container maxWidth="md">
+      <Typography variant="h4" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
+        Chicken Coefficient Calculator
+      </Typography>
+      <Typography variant="body1" gutterBottom align="center" sx={{ mt: 4, color: "primary.main" }}>
+        Calculate the amount of cooked chicken you should take for a given amount of raw chicken.
+      </Typography>
+      <StyledPaper elevation={3}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Raw Weight (g)"
+              type="number"
+              value={rawWeight}
+              onChange={(e) => setRawWeight(e.target.value)}
+              variant="outlined"
+              InputProps={{
+                style: { color: theme.palette.text.primary }
+              }}
+            />
           </Grid>
-          <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
-            <Button variant="contained" color="primary" onClick={calculateWeight} size="large">
-              Calculate
-            </Button>
-          </Box>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Cooked Weight (g)"
+              type="number"
+              value={cookedWeight}
+              onChange={(e) => setCookedWeight(e.target.value)}
+              variant="outlined"
+              InputProps={{
+                style: { color: theme.palette.text.primary }
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <TextField
+              fullWidth
+              label="Target Raw Weight (oz)"
+              type="number"
+              value={targetRawOz}
+              onChange={(e) => setTargetRawOz(e.target.value)}
+              variant="outlined"
+              InputProps={{
+                style: { color: theme.palette.text.primary }
+              }}
+            />
+          </Grid>
+        </Grid>
+        <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+          <Button variant="contained" color="primary" onClick={calculateWeight} size="large">
+            Calculate
+          </Button>
+        </Box>
+      </StyledPaper>
+      {result && (
+        <StyledPaper elevation={3}>
+          <Typography variant="h6" gutterBottom color="primary">
+            Result
+          </Typography>
+          <Typography color="text.primary">{result}</Typography>
         </StyledPaper>
-        {result && (
-          <StyledPaper elevation={3}>
-            <Typography variant="h6" gutterBottom color="primary">
-              Result
-            </Typography>
-            <Typography color="text.primary">{result}</Typography>
-          </StyledPaper>
-        )}
-        {history.length > 0 && (
-          <StyledPaper elevation={3}>
-            <Typography variant="h6" gutterBottom color="primary">
-              History
-            </Typography>
-            <List>
-              {history.map((item, index) => (
-                <ListItem key={index}>
-                  <ListItemText
-                    primary={`${item}g of cooked`}
-                    primaryTypographyProps={{ color: "text.primary" }}
-                  />
-                </ListItem>
-              ))}
-            </List>
-          </StyledPaper>
-        )}
-      </Container>
-    </ThemeProvider>
+      )}
+      {history.length > 0 && (
+        <StyledPaper elevation={3}>
+          <Typography variant="h6" gutterBottom color="primary">
+            History
+          </Typography>
+          <List>
+            {history.map((item, index) => (
+              <ListItem key={index}>
+                <ListItemText
+                  primary={`${item}g of cooked`}
+                  primaryTypographyProps={{ color: "text.primary" }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </StyledPaper>
+      )}
+    </Container>
   )
 }
 
