@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Outlet, useOutlet } from "react-router-dom"
-import Header, { links } from "../header"
+import Header from "../header"
+import { links } from "../header/navbarLinks"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { ThemeProvider } from "@mui/material"
@@ -18,7 +19,7 @@ import { styled } from "@mui/material/styles"
 import ContactForm from "../contactForm/ContactForm"
 import TrebuchetTool from "../pages/trebuchet"
 import UnderRepair from "../underRepair"
-// import Garden from "../garden/Garden"
+import Garden from "../garden/Garden"
 
 const Wrapper = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.dark,
@@ -90,7 +91,7 @@ export default function App() {
             <Route path="/weather" element={getRouteElement("/weather", <Weather />)} />
             <Route path="/trebuchet" element={getRouteElement("/trebuchet", <TrebuchetTool />)} />
             <Route path="/contact" element={getRouteElement("/contact", <ContactForm />)} />
-            {/* <Route path="/garden" element={getRouteElement("/garden", <Garden />)} /> */}
+            <Route path="/garden" element={getRouteElement("/garden", <Garden />)} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
