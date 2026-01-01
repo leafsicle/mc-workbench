@@ -15,11 +15,11 @@ export const links = [
     underRepair: false
   },
   {
-    name: "Garden",
+    name: "Garden!",
     path: "/garden",
     icon: <GrassIcon fontSize="small" />,
     skip: true,
-    underRepair: true
+    underRepair: false
   },
   {
     name: "Calculators",
@@ -39,7 +39,7 @@ export const links = [
     name: "Space",
     path: "/space",
     icon: <RocketLaunchIcon fontSize="small" />,
-    skip: true,
+    skip: false,
     underRepair: false
   },
   {

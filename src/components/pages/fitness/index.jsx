@@ -28,11 +28,11 @@ const Fitness = () => {
 
   return (
     <Template pageTitle="Fitness">
-      <Accordion type="single" collapsible className="w-full max-w-xl">
+      <Accordion type="single" collapsible className="w-full">
         {currentMonths.map((monthGroup) => (
           <AccordionItem key={monthGroup.month} value={monthGroup.month}>
             <AccordionTrigger>
-              <Typography variant="h6" gutterBottom color="black">
+              <Typography variant="h6" gutterBottom color="black" className="flex-1 text-center">
                 {monthGroup.month} ({monthGroup.workouts.length} workouts)
               </Typography>
             </AccordionTrigger>
@@ -43,7 +43,7 @@ const Fitness = () => {
                     key={`${workout.workout_id || workoutIndex}`}
                     value={`${workout.workout_id || workoutIndex}`}>
                     <AccordionTrigger>
-                      <Typography variant="subtitle1" color="black">
+                      <Typography variant="subtitle1" color="black" className="flex-1 text-center">
                         {`${workout.title} - ${DateTime.fromISO(workout.start_time)
                           .setZone("America/New_York")
                           .toLocaleString(DateTime.DATE_MED)}`}
