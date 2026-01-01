@@ -12,57 +12,65 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle
 } from "@/components/ui/navigation-menu"
-import WbSunnyIcon from "@mui/icons-material/WbSunny"
+// import WbSunnyIcon from "@mui/icons-material/WbSunny"
 import EmailIcon from "@mui/icons-material/Email"
 
-const links = [
+export const links = [
   {
     name: "Home",
     path: "/",
     icon: <HomeSharpIcon fontSize="small" />,
-    skip: false
+    skip: false,
+    underRepair: false
   },
   {
     name: "Garden",
     path: "/garden",
     icon: <GrassIcon fontSize="small" />,
-    skip: true
+    skip: true,
+    underRepair: false
   },
   {
     name: "Calculators",
     path: "/calculators",
     icon: <RamenDiningIcon fontSize="small" />,
-    skip: false
+    skip: false,
+    underRepair: false
   },
   {
     name: "Hevy Log",
     path: "/fitness",
     icon: <FitnessCenterIcon fontSize="small" />,
-    skip: true
+    skip: false,
+    underRepair: false
   },
   {
     name: "Space",
     path: "/space",
     icon: <RocketLaunchIcon fontSize="small" />,
-    skip: true
+    skip: true,
+    underRepair: false
   },
   {
     name: "Send It",
     path: "/trebuchet",
     icon: <RocketLaunchIcon fontSize="small" />,
-    skip: true
+    skip: false,
+    underRepair: true
   },
   {
     name: "404",
     path: "/404",
     icon: <HomeSharpIcon fontSize="small" />,
-    skip: true
+    skip: true,
+    underRepair: false
   },
   {
     name: "contact",
     path: "/contact",
     icon: <EmailIcon fontSize="small" />,
-    skip: false
+    skip: true,
+    underRepair: false
   }
 ]
 

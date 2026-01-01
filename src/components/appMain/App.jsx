@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Outlet, useOutlet } from "react-router-dom"
-import Header from "../header"
+import Header, { links } from "../header"
 import { ToastContainer } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { ThemeProvider } from "@mui/material"
@@ -17,6 +17,7 @@ import { useState, useEffect } from "react"
 import { styled } from "@mui/material/styles"
 import ContactForm from "../contactForm/ContactForm"
 import TrebuchetTool from "../pages/trebuchet"
+import UnderRepair from "../underRepair"
 // import Garden from "../garden/Garden"
 
 const Wrapper = styled(Box)(({ theme }) => ({
@@ -63,6 +64,15 @@ const Main = () => {
   )
 }
 
+// Helper function to check if a route is under repair
+const getRouteElement = (path, defaultElement) => {
+  const link = links.find((l) => l.path === path)
+  if (link?.underRepair === true) {
+    return <UnderRepair />
+  }
+  return defaultElement
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -73,14 +83,14 @@ export default function App() {
             parent route elements.  <Outlet> is child. */}
         <Routes>
           <Route path="/" exact element={<Main />}>
-            <Route path="/404" element={<NotFound />} />
-            <Route path="/fitness" element={<Fitness />} />
-            <Route path="/calculators" element={<Calculators />} />
-            <Route path="/space" element={<SpaceStuff isThisToday />} />
-            <Route path="/weather" element={<Weather />} />
-            <Route path="/trebuchet" element={<TrebuchetTool />} />
-            <Route path="/contact" element={<ContactForm />} />
-            {/* <Route path="/garden" element={<Garden />} /> */}
+            <Route path="/404" element={getRouteElement("/404", <NotFound />)} />
+            <Route path="/fitness" element={getRouteElement("/fitness", <Fitness />)} />
+            <Route path="/calculators" element={getRouteElement("/calculators", <Calculators />)} />
+            <Route path="/space" element={getRouteElement("/space", <SpaceStuff isThisToday />)} />
+            <Route path="/weather" element={getRouteElement("/weather", <Weather />)} />
+            <Route path="/trebuchet" element={getRouteElement("/trebuchet", <TrebuchetTool />)} />
+            <Route path="/contact" element={getRouteElement("/contact", <ContactForm />)} />
+            {/* <Route path="/garden" element={getRouteElement("/garden", <Garden />)} /> */}
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
