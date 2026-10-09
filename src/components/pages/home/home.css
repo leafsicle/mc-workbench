@@ -58,13 +58,6 @@
   color: rgba(244, 247, 242, 0.86);
 }
 
-.home-hero__ctas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.75rem;
-}
-
 .home-hero__anim {
   animation: home-rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -75,10 +68,6 @@
 
 .home-hero__anim--delay-2 {
   animation-delay: 170ms;
-}
-
-.home-hero__anim--delay-3 {
-  animation-delay: 250ms;
 }
 
 @keyframes home-rise {
@@ -112,10 +101,6 @@
   font-size: 1.05rem;
   line-height: 1.55;
   color: rgba(232, 240, 228, 0.78);
-}
-
-.home-scrapyard-teaser {
-  border-top: 1px solid rgba(183, 212, 176, 0.18);
 }
 
 .home-contact {
