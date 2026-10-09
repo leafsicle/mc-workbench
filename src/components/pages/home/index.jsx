@@ -43,19 +43,6 @@ const Home = () => {
         </div>
       </section>
 
-      <section className="home-section home-scrapyard-teaser" aria-labelledby="scrapyard-heading">
-        <h2 id="scrapyard-heading" className="home-section__title">
-          The Scrapyard
-        </h2>
-        <p className="home-section__support">
-          A pile of things I wired up online and left running — calculators, workout logs, space
-          pictures, a trebuchet. Nothing polished on purpose.
-        </p>
-        <Button asChild variant="neutral">
-          <Link to="/scrapyard">Browse the pile →</Link>
-        </Button>
-      </section>
-
       <section className="home-section home-contact" aria-labelledby="contact-heading">
         <h2 id="contact-heading" className="home-section__title">
           Contact
