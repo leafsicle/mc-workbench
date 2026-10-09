@@ -1,8 +1,25 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import Socials from "@/components/socials"
 import { Button } from "@/components/ui/button"
+import { LLM_CONTEXT_MARKDOWN } from "@/data/llmContext"
+import useToast from "@/hooks/useToast"
 
 const Home = () => {
+  const showToast = useToast()
+  const [copied, setCopied] = useState(false)
+
+  const copyForLlms = async () => {
+    try {
+      await navigator.clipboard.writeText(LLM_CONTEXT_MARKDOWN)
+      setCopied(true)
+      showToast("Copied for LLMs — paste into your agent chat", "success")
+      window.setTimeout(() => setCopied(false), 2000)
+    } catch {
+      showToast("Couldn't copy — select and copy manually if needed", "error")
+    }
+  }
+
   return (
     <div className="home-page">
       <section className="home-hero" aria-label="Introduction">
@@ -49,9 +66,21 @@ const Home = () => {
         <div className="home-contact__socials">
           <Socials title="" avatarColor="#2e7d32" />
         </div>
-        <Button asChild variant="neutral" className="mt-4">
-          <Link to="/contact">Open contact form</Link>
-        </Button>
+        <div className="home-contact__actions">
+          <Button asChild variant="neutral">
+            <Link to="/contact">Open contact form</Link>
+          </Button>
+          <Button
+            type="button"
+            variant="default"
+            onClick={copyForLlms}
+            aria-label="Copy About Me and resume markdown for LLMs">
+            {copied ? "Copied" : "Copy for LLMs"}
+          </Button>
+        </div>
+        <p className="home-llm-hint">
+          Pastes structured About Me + professional history as markdown for other agents.
+        </p>
       </section>
     </div>
   )
