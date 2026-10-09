@@ -1,0 +1,94 @@
+.scrapyard-page {
+  min-height: calc(100vh - 3.5rem);
+  color: #eef3ea;
+  font-family: "Figtree", system-ui, sans-serif;
+  background:
+    radial-gradient(ellipse at top left, rgba(46, 125, 50, 0.16), transparent 45%),
+    linear-gradient(180deg, #101610 0%, #0c100c 100%);
+}
+
+.scrapyard-header {
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.25rem, 4vw, 2rem) 1.25rem;
+}
+
+.scrapyard-eyebrow {
+  margin: 0;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8fba88;
+}
+
+.scrapyard-title {
+  margin: 0.4rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.scrapyard-support {
+  margin: 0.75rem 0 0;
+  max-width: 36rem;
+  color: rgba(238, 243, 234, 0.75);
+  line-height: 1.5;
+}
+
+.scrapyard-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2rem) 1rem;
+  border-bottom: 1px solid rgba(183, 212, 176, 0.16);
+}
+
+.scrapyard-tab {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: rgba(238, 243, 234, 0.7);
+  font: inherit;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.4rem 0.4rem 0 0;
+  cursor: pointer;
+  transition: color 160ms ease, background-color 160ms ease, border-color 160ms ease;
+}
+
+.scrapyard-tab:hover {
+  color: #f4f7f2;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.scrapyard-tab--active {
+  color: #101610;
+  background: #b7d4b0;
+  border-color: #b7d4b0;
+}
+
+.scrapyard-tab:focus-visible {
+  outline: 2px solid #b7d4b0;
+  outline-offset: 2px;
+}
+
+.scrapyard-panel {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1rem clamp(0.75rem, 3vw, 1.5rem) 3rem;
+}
+
+@media (max-width: 640px) {
+  .scrapyard-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .scrapyard-tab {
+    white-space: nowrap;
+  }
+}
