@@ -31,10 +31,9 @@
 
 .treb__levels {
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   margin-bottom: 0.9rem;
-  overflow-x: auto;
-  padding-bottom: 0.25rem;
 }
 
 .treb-pill {
@@ -355,6 +354,16 @@
 }
 
 @media (max-width: 640px) {
+  .treb__levels {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .treb__levels::-webkit-scrollbar {
+    display: none;
+  }
+
   .treb__controls {
     grid-template-columns: 1fr;
   }

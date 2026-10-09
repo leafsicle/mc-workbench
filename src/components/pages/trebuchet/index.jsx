@@ -202,7 +202,7 @@ const TrebuchetTool = () => {
   const level = randomLevel ?? LEVELS[levelIndex]
 
   const [angle, setAngle] = useState(45)
-  const [counterweight, setCounterweight] = useState(900)
+  const [counterweight, setCounterweight] = useState(600)
   const [phase, setPhase] = useState("aiming")
   const [shots, setShots] = useState(0)
   const [lastResult, setLastResult] = useState(null)
