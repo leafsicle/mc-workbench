@@ -33,7 +33,9 @@ export default defineConfig({
     port: 3001,
     historyApiFallback: true
   },
-  base: "https://mattcooke.tech/",
+  // Site is served from the domain root (mattcooke.tech). Keep relative so local
+  // preview and production both resolve assets correctly.
+  base: "/",
   build: {
     rollupOptions: {
       onwarn(warning, warn) {

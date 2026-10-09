@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { Outlet, useOutlet } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import Header from "../header"
 import { links } from "../header/navbarLinks"
 import { ToastContainer } from "react-toastify"
@@ -12,15 +12,16 @@ import Fitness from "../pages/fitness/index"
 import NotFound from "../404/index"
 import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
-import Typography from "@mui/material/Typography"
 import Weather from "../pages/weather/index"
-import { DateTime } from "luxon"
-import { useState, useEffect } from "react"
 import { styled } from "@mui/material/styles"
 import ContactForm from "../contactForm/ContactForm"
 import TrebuchetTool from "../pages/trebuchet"
 import UnderRepair from "../underRepair"
 import Garden from "../garden/Garden"
+import Home from "../pages/home"
+import Scrapyard from "../pages/scrapyard"
+import "../pages/home/home.css"
+import "../pages/scrapyard/scrapyard.css"
 
 const Wrapper = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.background.dark,
@@ -29,39 +30,10 @@ const Wrapper = styled(Box)(({ theme }) => ({
 }))
 
 const Main = () => {
-  const outlet = useOutlet()
-
-  const [time, setTime] = useState(
-    DateTime.fromObject({ day: 22, hour: 12 }, { zone: "America/New_York" }).toLocaleString(
-      DateTime.TIME_SIMPLE
-    )
-  )
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(DateTime.now().toLocaleString(DateTime.TIME_SIMPLE))
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [])
   return (
     <Wrapper>
       <Header />
-      {/*Note: outlet renders the child routes */}
       <Outlet />
-      {!outlet && (
-        <Box className="flex flex-col items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-image-background">
-          <Typography variant="h4" color={theme.palette.text.darkBackground}>
-            Hey, Y&apos;all!
-          </Typography>
-          <br />
-          <Typography variant="h6" className="text-white">
-            I&apos;m Matt, a software engineer and breaker of things.
-          </Typography>
-          <Typography variant="body1" className="text-white">
-            It is currently {time}
-          </Typography>
-        </Box>
-      )}
     </Wrapper>
   )
 }
@@ -84,7 +56,9 @@ export default function App() {
             parent route paths, and nested route elements render inside
             parent route elements.  <Outlet> is child. */}
         <Routes>
-          <Route path="/" exact element={<Main />}>
+          <Route path="/" element={<Main />}>
+            <Route index element={<Home />} />
+            <Route path="/scrapyard" element={<Scrapyard />} />
             <Route path="/404" element={getRouteElement("/404", <NotFound />)} />
             <Route
               path="/fitness"

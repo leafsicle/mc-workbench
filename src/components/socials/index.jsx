@@ -28,11 +28,13 @@ const Socials = ({
 }) => {
   return (
     <Grid container justifyContent="center" alignItems="center" flexDirection="column">
-      <Grid item xs={12}>
-        <Typography variant="h6" gutterBottom>
-          {title}
-        </Typography>
-      </Grid>
+      {title ? (
+        <Grid item xs={12}>
+          <Typography variant="h6" gutterBottom>
+            {title}
+          </Typography>
+        </Grid>
+      ) : null}
       <Grid item xs={12}>
         <Grid container spacing={2}>
           {socials

@@ -1,11 +1,13 @@
 import React from "react"
 import HomeSharpIcon from "@mui/icons-material/HomeSharp"
+import HardwareIcon from "@mui/icons-material/Hardware"
+import EmailIcon from "@mui/icons-material/Email"
 import RamenDiningIcon from "@mui/icons-material/RamenDining"
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import GrassIcon from "@mui/icons-material/Grass"
-import EmailIcon from "@mui/icons-material/Email"
 import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined"
+
 export const links = [
   {
     name: "Home",
@@ -14,6 +16,21 @@ export const links = [
     skip: false,
     underRepair: false
   },
+  {
+    name: "Scrapyard",
+    path: "/scrapyard",
+    icon: <HardwareIcon fontSize="small" />,
+    skip: false,
+    underRepair: false
+  },
+  {
+    name: "Contact",
+    path: "/contact",
+    icon: <EmailIcon fontSize="small" />,
+    skip: false,
+    underRepair: false
+  },
+  // Tool routes stay available for deep links / scrapyard tabs, hidden from nav
   {
     name: "Garden!",
     path: "/garden",
@@ -25,41 +42,34 @@ export const links = [
     name: "Calculators",
     path: "/calculators",
     icon: <RamenDiningIcon fontSize="small" />,
-    skip: false,
+    skip: true,
     underRepair: false
   },
   {
     name: "Hevy Log",
     path: "/fitness",
     icon: <FitnessCenterIcon fontSize="small" />,
-    skip: false,
+    skip: true,
     underRepair: false
   },
   {
     name: "Space",
     path: "/space",
     icon: <RocketLaunchIcon fontSize="small" />,
-    skip: false,
+    skip: true,
     underRepair: false
   },
   {
     name: "Send It",
     path: "/trebuchet",
     icon: <ArchitectureOutlinedIcon fontSize="small" />,
-    skip: false,
+    skip: true,
     underRepair: false
   },
   {
     name: "404",
     path: "/404",
     icon: <HomeSharpIcon fontSize="small" />,
-    skip: true,
-    underRepair: false
-  },
-  {
-    name: "contact",
-    path: "/contact",
-    icon: <EmailIcon fontSize="small" />,
     skip: true,
     underRepair: false
   }
