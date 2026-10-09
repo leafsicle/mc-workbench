@@ -32,14 +32,6 @@ const Home = () => {
           <p className="home-hero__support home-hero__anim home-hero__anim--delay-2">
             Software engineer by day. Experiments, plants, and leftover tools live in the scrapyard.
           </p>
-          <div className="home-hero__ctas home-hero__anim home-hero__anim--delay-3">
-            <Button asChild size="lg">
-              <Link to="/scrapyard">Enter the Scrapyard</Link>
-            </Button>
-            <Button asChild variant="neutral" size="lg">
-              <Link to="/contact">Say hello</Link>
-            </Button>
-          </div>
         </div>
       </section>
 
