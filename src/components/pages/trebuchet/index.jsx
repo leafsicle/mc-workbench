@@ -1,480 +1,509 @@
-import React, { useState, useRef, useEffect, useCallback } from "react"
-import paper from "paper"
-import { Box, Typography, Stack, useTheme } from "@mui/material"
-import InputField from "@/components/input/InputField"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { LEVELS, generateSiege } from "./levels"
+import {
+  ANGLE_MAX,
+  ANGLE_MIN,
+  CW_MAX,
+  CW_MIN,
+  FOLLOW_ARM_DEG,
+  RELEASE_ARM_DEG,
+  REST_ARM_DEG,
+  checkImpact,
+  createShot,
+  describeImpact,
+  flatRange,
+  launchSpeed,
+  requiredDescent,
+  solveLevel,
+  stepShot
+} from "./physics"
+import { createCamera, renderScene } from "./renderer"
+import "./trebuchet.css"
 
-const DataDisplay = ({ releaseTime, projectileDistance, projectileVelocity }) => {
-  return (
-    <Box sx={{ mt: 2, p: 2, bgcolor: "grey.100", borderRadius: 1, color: "black" }}>
-      <Typography variant="h6" sx={{ mb: 1 }}>
-        Results
-      </Typography>
-      <Stack spacing={1}>
-        <Typography variant="body2">Release Time: {releaseTime}s</Typography>
-        <Typography variant="body2">Distance: {projectileDistance}m</Typography>
-        <Typography variant="body2">Initial Velocity: {projectileVelocity}m/s</Typography>
-      </Stack>
-    </Box>
-  )
+const SWING_TIME = 0.45
+const IMPACT_TIME = 1.1
+const RELOAD_TIME = 0.7
+const TIME_SCALE = 1.5
+const SIM_DT = 1 / 240
+const STORAGE_KEY = "scrapyard:trebuchet-stars"
+
+const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
+const lerp = (a, b, t) => a + (b - a) * t
+const easeInCubic = (t) => t * t * t
+const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3)
+
+const starsFor = (shots) => (shots <= 1 ? 3 : shots <= 3 ? 2 : 1)
+
+const loadStars = () => {
+  try {
+    return JSON.parse(window.localStorage.getItem(STORAGE_KEY)) ?? {}
+  } catch {
+    return {}
+  }
 }
 
-const TrebuchetTool = () => {
-  const [Mcw, setMcw] = useState(100)
-  const [mp, setMp] = useState(10)
-  const [h, setH] = useState(10)
-  const [ds, setDs] = useState(5)
-  const [dsa, setDsa] = useState(2)
-  const [dla, setDla] = useState(4)
-  const [desiredAngle, setDesiredAngle] = useState(45)
-  const [releaseTime, setReleaseTime] = useState(null)
-  const [projectileDistance, setProjectileDistance] = useState(null)
-  const [projectileVelocity, setProjectileVelocity] = useState(null)
-  const [validationWarnings, setValidationWarnings] = useState([])
+const freshGame = () => ({
+  phase: "aiming",
+  phaseT: 0,
+  arm: REST_ARM_DEG,
+  reloadFrom: REST_ARM_DEG,
+  shot: null,
+  launch: null,
+  ghosts: [],
+  particles: [],
+  destroyed: false,
+  flash: 0,
+  time: 0
+})
 
-  const paperCanvasRef = useRef(null)
-  const containerRef = useRef(null)
-  const theme = useTheme()
+const IMPACT_PALETTES = {
+  target: ["#ffb35c", "#ff7a3d", "#ffd99a", "#6b4a3a"],
+  obstacle: ["#9a9ea6", "#6c7079", "#cfc8b8"],
+  ground: ["#6b5a40", "#8a7550", "#4a3d2a"]
+}
 
-  // Set up Paper.js on component mount
-  useEffect(() => {
-    if (paperCanvasRef.current) {
-      paper.setup(paperCanvasRef.current)
-      // Initial resize to fit container
-      handleResize()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  const simulate = useCallback(() => {
-    const desiredAngleRad = desiredAngle * (Math.PI / 180)
-    const g = 9.81
-
-    const a = (Mcw * g) / (dsa + dla)
-    let t = 0
-    const dt = 0.001
-    let slingAngle = 0
-
-    while (slingAngle < desiredAngleRad && t < 10) {
-      t += dt
-      slingAngle = 0.5 * a * t * t
-    }
-
-    setReleaseTime(t.toFixed(3))
-    const v = ds * a * t
-    setProjectileVelocity(v.toFixed(3))
-    const range = (v * v * Math.sin(2 * desiredAngleRad)) / g
-    // Ensure distance is never negative
-    setProjectileDistance(Math.max(0, range).toFixed(3))
-  }, [Mcw, ds, dsa, dla, desiredAngle])
-
-  const drawTrajectoryPaperJS = useCallback(() => {
-    if (!projectileDistance || !projectileVelocity || !paper.project) return
-
-    const v = parseFloat(projectileVelocity)
-    const theta = desiredAngle * (Math.PI / 180)
-    const g = 9.81
-    const flightTime = (2 * v * Math.sin(theta)) / g
-    const range = parseFloat(projectileDistance)
-    const H_max = (v * v * Math.sin(theta) * Math.sin(theta)) / (2 * g)
-
-    paper.project.clear()
-
-    const canvas = paperCanvasRef.current
-    if (!canvas) return
-
-    const canvasWidth = canvas.width
-    const canvasHeight = canvas.height
-
-    // Set up the coordinate system
-    const padding = 40
-    const originX = padding
-    const originY = canvasHeight - padding
-
-    // Calculate available drawing space
-    const availableWidth = canvasWidth - 2 * padding
-    const availableHeight = canvasHeight - 2 * padding
-
-    // Calculate scale factors
-    const scaleX = availableWidth / range
-    const scaleY = availableHeight / H_max
-    const scale = Math.min(scaleX, scaleY) * 0.8
-
-    // Draw grid
-    const gridSpacing = 50
-    const gridColor = new paper.Color(0.2, 0.2, 0.2, 0.1)
-
-    for (let x = originX; x < canvasWidth - padding; x += gridSpacing) {
-      new paper.Path.Line({
-        from: new paper.Point(x, padding),
-        to: new paper.Point(x, originY),
-        strokeColor: gridColor,
-        strokeWidth: 1
-      })
-    }
-
-    for (let y = padding; y < originY; y += gridSpacing) {
-      new paper.Path.Line({
-        from: new paper.Point(originX, y),
-        to: new paper.Point(canvasWidth - padding, y),
-        strokeColor: gridColor,
-        strokeWidth: 1
-      })
-    }
-
-    // Draw axes
-    new paper.Path.Line({
-      from: new paper.Point(originX, originY),
-      to: new paper.Point(canvasWidth - padding, originY),
-      strokeColor: "black",
-      strokeWidth: 2
+const spawnImpact = (game, result) => {
+  const hit = result.outcome === "target"
+  const palette = IMPACT_PALETTES[result.outcome] ?? IMPACT_PALETTES.ground
+  const count = hit ? 70 : 26
+  for (let i = 0; i < count; i++) {
+    const angle = Math.PI * (0.1 + Math.random() * 0.8)
+    const speed = (hit ? 6 : 3) + Math.random() * (hit ? 14 : 8)
+    const life = 0.6 + Math.random() * (hit ? 1.4 : 0.8)
+    game.particles.push({
+      x: result.x,
+      y: Math.max(0.5, result.y),
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life,
+      maxLife: life,
+      size: 0.3 + Math.random() * 0.7,
+      color: palette[i % palette.length]
     })
+  }
+}
 
-    new paper.Path.Line({
-      from: new paper.Point(originX, originY),
-      to: new paper.Point(originX, padding),
-      strokeColor: "black",
-      strokeWidth: 2
-    })
+const updateGame = (game, dt, level, events) => {
+  game.time += dt
+  game.phaseT += dt
+  game.flash = Math.max(0, game.flash - dt * 2.5)
 
-    // Draw trajectory
-    const path = new paper.Path()
-    path.strokeColor = "blue"
-    path.strokeWidth = 2
-    path.moveTo(new paper.Point(originX, originY))
-
-    const numPoints = 100
-    for (let i = 0; i <= numPoints; i++) {
-      const t_i = flightTime * (i / numPoints)
-      const x = v * Math.cos(theta) * t_i
-      let y = v * Math.sin(theta) * t_i - 0.5 * g * t_i * t_i
-      if (y < 0) y = 0
-
-      const x_canvas = originX + x * scale
-      const y_canvas = originY - y * scale
-
-      path.lineTo(new paper.Point(x_canvas, y_canvas))
+  if (game.phase === "swinging") {
+    const t = clamp(game.phaseT / SWING_TIME, 0, 1)
+    game.arm = lerp(REST_ARM_DEG, RELEASE_ARM_DEG, easeInCubic(t))
+    if (t >= 1) {
+      game.shot = createShot(game.launch)
+      game.phase = "flying"
+      game.phaseT = 0
     }
-
-    // Draw origin point
-    new paper.Path.Circle({
-      center: new paper.Point(originX, originY),
-      radius: 4,
-      fillColor: "green"
-    })
-
-    // Draw launch angle label near the origin point
-    new paper.PointText({
-      point: new paper.Point(originX + 30, originY - 30),
-      content: `${desiredAngle}°`,
-      fillColor: "white",
-      fontSize: 14,
-      fontWeight: "bold",
-      justification: "left"
-    })
-
-    // Draw apex point
-    const t_apex = (v * Math.sin(theta)) / g
-    const x_apex = v * Math.cos(theta) * t_apex
-    const y_apex = H_max
-    const x_apex_canvas = originX + x_apex * scale
-    const y_apex_canvas = originY - y_apex * scale
-    const apexPoint = new paper.Point(x_apex_canvas, y_apex_canvas)
-
-    new paper.Path.Circle({
-      center: apexPoint,
-      radius: 4,
-      fillColor: "orange"
-    })
-
-    // Draw height label above the apex point
-    new paper.PointText({
-      point: new paper.Point(apexPoint.x, apexPoint.y - 20),
-      content: `${H_max.toFixed(1)}m`,
-      fillColor: "white",
-      fontSize: 14,
-      fontWeight: "bold",
-      justification: "center"
-    })
-
-    // Draw landing point
-    const landingPoint = path.lastSegment.point
-    new paper.Path.Circle({
-      center: landingPoint,
-      radius: 4,
-      fillColor: "red"
-    })
-
-    // Draw distance label above the landing point
-    new paper.PointText({
-      point: new paper.Point(landingPoint.x, landingPoint.y - 20),
-      content: `${parseFloat(projectileDistance).toFixed(1)}m`,
-      fillColor: "white",
-      fontSize: 14,
-      fontWeight: "bold",
-      justification: "center"
-    })
-
-    paper.view.draw()
-  }, [projectileDistance, projectileVelocity, desiredAngle])
-
-  // Handle window resize
-  const handleResize = useCallback(() => {
-    if (!containerRef.current || !paperCanvasRef.current || !paper.view) return
-
-    const container = containerRef.current
-    const canvas = paperCanvasRef.current
-
-    // Set canvas size to match container
-    const width = container.clientWidth
-    const height = container.clientHeight
-
-    canvas.width = width
-    canvas.height = height
-
-    paper.view.viewSize = new paper.Size(width, height)
-
-    // Redraw with new dimensions
-    drawTrajectoryPaperJS()
-  }, [drawTrajectoryPaperJS])
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [handleResize])
-
-  // Validate physics constraints
-  useEffect(() => {
-    const warnings = []
-
-    if (mp >= Mcw) {
-      warnings.push(
-        "Warning: Projectile mass should be much less than counterweight mass for realistic physics"
-      )
+  } else if (game.phase === "flying") {
+    game.arm = lerp(game.arm, FOLLOW_ARM_DEG, Math.min(1, dt * 6))
+    let remaining = dt * TIME_SCALE
+    while (remaining > 0) {
+      const step = Math.min(SIM_DT, remaining)
+      remaining -= step
+      stepShot(game.shot, step)
+      const impact = checkImpact(game.shot, level)
+      if (impact) {
+        const result = describeImpact(game.shot, impact)
+        game.shot.trail.push({ x: game.shot.x, y: result.y })
+        game.phase = "impact"
+        game.phaseT = 0
+        if (result.outcome === "target") {
+          game.destroyed = true
+          game.flash = 1
+        }
+        spawnImpact(game, result)
+        events.onImpact(result)
+        break
+      }
     }
-
-    if (dla <= dsa) {
-      warnings.push(
-        "Warning: Long arm should be longer than short arm for proper trebuchet mechanics"
-      )
+  } else if (game.phase === "impact") {
+    game.arm = lerp(game.arm, FOLLOW_ARM_DEG, Math.min(1, dt * 6))
+    if (!game.destroyed && game.phaseT >= IMPACT_TIME) {
+      game.phase = "reloading"
+      game.phaseT = 0
+      game.reloadFrom = game.arm
     }
-
-    if (Mcw < mp * 10) {
-      warnings.push("Tip: Counterweight should typically be 10-100x heavier than the projectile")
+  } else if (game.phase === "reloading") {
+    const t = clamp(game.phaseT / RELOAD_TIME, 0, 1)
+    game.arm = lerp(game.reloadFrom, REST_ARM_DEG, easeOutCubic(t))
+    if (t >= 1) {
+      game.phase = "aiming"
+      game.phaseT = 0
+      events.onReady()
     }
-
-    setValidationWarnings(warnings)
-  }, [Mcw, mp, dsa, dla])
-
-  // Run simulation when parameters change
-  useEffect(() => {
-    simulate()
-  }, [Mcw, mp, h, ds, dsa, dla, desiredAngle, simulate])
-
-  // Update visualization when results change
-  useEffect(() => {
-    drawTrajectoryPaperJS()
-  }, [drawTrajectoryPaperJS])
-
-  const fieldDefinitions = [
-    {
-      key: "counterweight",
-      label: (
-        <>
-          Counterweight Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>)
-        </>
-      ),
-      value: Mcw,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setMcw(Math.max(1, Math.min(1000, value)))
-      },
-      type: "number",
-      inputProps: { min: 1, max: 1000, step: 1 }
-    },
-    {
-      key: "projectile",
-      label: (
-        <>
-          Projectile Mass (<span style={{ color: theme.palette.secondary.main }}>kg</span>)
-        </>
-      ),
-      value: mp,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setMp(Math.max(0.1, Math.min(100, value)))
-      },
-      inputProps: { min: 0.1, max: 100, step: 0.1 }
-    },
-    {
-      key: "pivot",
-      label: (
-        <>
-          Pivot Height (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-        </>
-      ),
-      value: h,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setH(Math.max(0.1, Math.min(20, value)))
-      },
-      inputProps: { min: 0.1, max: 20, step: 0.1 }
-    },
-    {
-      key: "sling",
-      label: (
-        <>
-          Sling Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-        </>
-      ),
-      value: ds,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setDs(Math.max(0.1, Math.min(10, value)))
-      },
-      inputProps: { min: 0.1, max: 10, step: 0.1 }
-    },
-    {
-      key: "shortArm",
-      label: (
-        <>
-          Short Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-        </>
-      ),
-      value: dsa,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setDsa(Math.max(0.1, Math.min(5, value)))
-      },
-      inputProps: { min: 0.1, max: 5, step: 0.1 }
-    },
-    {
-      key: "longArm",
-      label: (
-        <>
-          Long Arm Length (<span style={{ color: theme.palette.secondary.main }}>m</span>)
-        </>
-      ),
-      value: dla,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        setDla(Math.max(0.1, Math.min(10, value)))
-      },
-      inputProps: { min: 0.1, max: 10, step: 0.1 }
-    },
-    {
-      key: "releaseAngle",
-      label: (
-        <>
-          Release Angle (<span style={{ color: theme.palette.secondary.main }}>°</span>)
-        </>
-      ),
-      value: desiredAngle,
-      onChange: (e) => {
-        const value = Number(e.target.value)
-        // Cap angle between 0 and 90 degrees
-        setDesiredAngle(Math.max(0, Math.min(90, value)))
-      },
-      inputProps: { min: 0, max: 90, step: 1 }
-    }
-  ]
-
-  const Title = () => {
-    return (
-      <Typography variant="h4" color={theme.palette.text.primary} sx={{ mb: 2 }}>
-        Trebuchet Physics Tool
-      </Typography>
-    )
   }
 
+  for (const p of game.particles) {
+    p.vy -= 9.81 * dt
+    p.x += p.vx * dt
+    p.y += p.vy * dt
+    if (p.y < 0) {
+      p.y = 0
+      p.vy *= -0.3
+      p.vx *= 0.6
+    }
+    p.life -= dt
+  }
+  game.particles = game.particles.filter((p) => p.life > 0)
+}
+
+const describeResult = (result, level) => {
+  if (!result) return null
+  const { target } = level
+  switch (result.outcome) {
+    case "target":
+      return { tone: "hit", title: "Direct hit!", detail: `The ${target.label} is rubble.` }
+    case "obstacle": {
+      const behind = result.obstacle.x > target.x
+      return {
+        tone: "block",
+        title: `Smacked the ${result.obstacle.label}`,
+        detail: behind ? "Overshot. Ease off a little." : "Lob it higher or hit harder to clear it."
+      }
+    }
+    case "ground":
+      if (result.x < target.x) {
+        return {
+          tone: "miss",
+          title: `Short by ${Math.round(target.x - result.x)} m`,
+          detail: "Needs more distance."
+        }
+      }
+      return {
+        tone: "miss",
+        title: `Long by ${Math.round(result.x - (target.x + target.w))} m`,
+        detail: "Too much. Pull it back."
+      }
+    default:
+      return { tone: "miss", title: "Off the map", detail: "That one's in the next county." }
+  }
+}
+
+const formatWind = (wind) => {
+  if (!wind) return "Calm"
+  return `${wind < 0 ? "← Headwind" : "→ Tailwind"} ${Math.abs(wind).toFixed(1)}`
+}
+
+const Stars = ({ count, total = 3 }) => (
+  <span className="treb-stars" aria-label={`${count} of ${total} stars`}>
+    {Array.from({ length: total }, (_, i) => (
+      <span key={i} className={i < count ? "treb-star treb-star--on" : "treb-star"}>
+        ★
+      </span>
+    ))}
+  </span>
+)
+
+const TrebuchetTool = () => {
+  const [levelIndex, setLevelIndex] = useState(0)
+  const [randomLevel, setRandomLevel] = useState(null)
+  const level = randomLevel ?? LEVELS[levelIndex]
+
+  const [angle, setAngle] = useState(45)
+  const [counterweight, setCounterweight] = useState(900)
+  const [phase, setPhase] = useState("aiming")
+  const [shots, setShots] = useState(0)
+  const [lastResult, setLastResult] = useState(null)
+  const [cleared, setCleared] = useState(null)
+  const [bestStars, setBestStars] = useState(loadStars)
+
+  const canvasRef = useRef(null)
+  const stageRef = useRef(null)
+  const gameRef = useRef(freshGame())
+  const shotsRef = useRef(0)
+  const levelRef = useRef(level)
+  const controlsRef = useRef({ angle, speed: launchSpeed(counterweight) })
+  const eventsRef = useRef({ onImpact: () => {}, onReady: () => {} })
+
+  levelRef.current = level
+  controlsRef.current = { angle, speed: launchSpeed(counterweight) }
+
+  const minDescent = useMemo(() => requiredDescent(solveLevel(level)), [level])
+  const speed = launchSpeed(counterweight)
+  const isRandom = Boolean(randomLevel)
+  const message = describeResult(lastResult, level)
+
+  const resetLevel = useCallback(() => {
+    gameRef.current = freshGame()
+    shotsRef.current = 0
+    setShots(0)
+    setLastResult(null)
+    setCleared(null)
+    setPhase("aiming")
+  }, [])
+
+  useEffect(() => {
+    resetLevel()
+  }, [level, resetLevel])
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(bestStars))
+    } catch {
+      // storage can be unavailable (private mode); stars just won't persist
+    }
+  }, [bestStars])
+
+  eventsRef.current = {
+    onImpact: (result) => {
+      setLastResult(result)
+      setPhase("impact")
+      if (result.outcome !== "target") return
+      const stars = starsFor(shotsRef.current)
+      setCleared({ stars, shots: shotsRef.current })
+      if (!isRandom) {
+        setBestStars((prev) => ({ ...prev, [level.id]: Math.max(prev[level.id] ?? 0, stars) }))
+      }
+    },
+    onReady: () => setPhase("aiming")
+  }
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const stage = stageRef.current
+    const ctx = canvas.getContext("2d")
+    let frame
+    let last = performance.now()
+    const size = { w: 0, h: 0 }
+
+    const resize = () => {
+      const w = stage.clientWidth
+      if (!w || w === size.w) return
+      const h = Math.max(220, Math.round(w * 0.5))
+      const dpr = window.devicePixelRatio || 1
+      canvas.width = Math.round(w * dpr)
+      canvas.height = Math.round(h * dpr)
+      canvas.style.height = `${h}px`
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+      size.w = w
+      size.h = h
+    }
+
+    resize()
+    const observer = new ResizeObserver(resize)
+    observer.observe(stage)
+
+    const tick = (now) => {
+      const dt = Math.min(0.05, (now - last) / 1000)
+      last = now
+      updateGame(gameRef.current, dt, levelRef.current, eventsRef.current)
+      if (size.w) {
+        const cam = createCamera(levelRef.current, size.w, size.h)
+        renderScene(ctx, cam, levelRef.current, gameRef.current, controlsRef.current)
+      }
+      frame = requestAnimationFrame(tick)
+    }
+    frame = requestAnimationFrame(tick)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      observer.disconnect()
+    }
+  }, [])
+
+  const fire = useCallback(() => {
+    const game = gameRef.current
+    if (game.phase !== "aiming") return
+    if (game.shot) {
+      game.ghosts = [...game.ghosts, game.shot.trail].slice(-3)
+      game.shot = null
+    }
+    game.launch = { angle, counterweight, wind: level.wind }
+    game.phase = "swinging"
+    game.phaseT = 0
+    shotsRef.current += 1
+    setShots(shotsRef.current)
+    setLastResult(null)
+    setPhase("swinging")
+  }, [angle, counterweight, level])
+
+  const nudgeAngle = (delta) => setAngle((a) => clamp(a + delta, ANGLE_MIN, ANGLE_MAX))
+  const nudgeWeight = (delta) => setCounterweight((w) => clamp(w + delta, CW_MIN, CW_MAX))
+
+  const onStageKeyDown = (event) => {
+    const big = event.shiftKey
+    if (event.key === "ArrowUp") nudgeAngle(big ? 5 : 1)
+    else if (event.key === "ArrowDown") nudgeAngle(big ? -5 : -1)
+    else if (event.key === "ArrowRight") nudgeWeight(big ? 100 : 25)
+    else if (event.key === "ArrowLeft") nudgeWeight(big ? -100 : -25)
+    else if (event.key === " " || event.key === "Enter") fire()
+    else return
+    event.preventDefault()
+  }
+
+  const pickLevel = (index) => {
+    setRandomLevel(null)
+    setLevelIndex(index)
+  }
+
+  const rollRandom = () => setRandomLevel(generateSiege(Date.now()))
+
+  const nextLevel = () => {
+    if (isRandom) rollRandom()
+    else pickLevel(Math.min(levelIndex + 1, LEVELS.length - 1))
+  }
+
+  const isLastLevel = !isRandom && levelIndex === LEVELS.length - 1
+  const canFire = phase === "aiming" && !cleared
+
   return (
-    <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", p: 2 }}>
-      <Title />
+    <div className="treb">
+      <header className="treb__header">
+        <p className="treb__eyebrow">Trebuchet siege</p>
+        <h2 className="treb__title">Send It</h2>
+        <p className="treb__brief">
+          Set the release angle and counterweight, then let it fly. Walls and tall buildings hide
+          the targets, so some shots need a flat line and others need to come down steeply.
+        </p>
+      </header>
 
-      <Box sx={{ display: "flex", gap: 2, flex: 1, minHeight: 0, overflow: "hidden" }}>
-        {/* Left panel - Controls */}
-        <Stack spacing={2} sx={{ width: 280, flexShrink: 0, overflowY: "auto", paddingTop: 2 }}>
-          <Box>
-            <Stack spacing={2}>
-              {fieldDefinitions.map((field) => (
-                <InputField
-                  key={field.key}
-                  label={field.label}
-                  type="number"
-                  value={field.value}
-                  onChange={field.onChange}
-                  size="small"
-                  fullWidth
-                  inputProps={field.inputProps}
-                />
-              ))}
-            </Stack>
-          </Box>
+      <nav className="treb__levels" aria-label="Levels">
+        {LEVELS.map((l, i) => (
+          <button
+            key={l.id}
+            type="button"
+            className={!isRandom && i === levelIndex ? "treb-pill treb-pill--active" : "treb-pill"}
+            onClick={() => pickLevel(i)}>
+            <span className="treb-pill__index">{i + 1}</span>
+            <span className="treb-pill__name">{l.name}</span>
+            <Stars count={bestStars[l.id] ?? 0} />
+          </button>
+        ))}
+        <button
+          type="button"
+          className={isRandom ? "treb-pill treb-pill--active" : "treb-pill"}
+          onClick={rollRandom}>
+          <span className="treb-pill__name">Random siege</span>
+        </button>
+      </nav>
 
-          {validationWarnings.length > 0 && (
-            <Box
-              sx={{
-                p: 2,
-                bgcolor: "warning.light",
-                borderRadius: 1,
-                border: 1,
-                borderColor: "warning.main"
-              }}>
-              <Typography
-                variant="subtitle2"
-                sx={{ fontWeight: "bold", mb: 1, color: "warning.dark" }}>
-                Physics Alerts
-              </Typography>
-              <Stack spacing={0.5}>
-                {validationWarnings.map((warning, index) => (
-                  <Typography
-                    key={index}
-                    variant="body2"
-                    sx={{ color: "warning.dark", fontSize: "0.75rem" }}>
-                    • {warning}
-                  </Typography>
-                ))}
-              </Stack>
-            </Box>
-          )}
+      <div
+        ref={stageRef}
+        className="treb__stage"
+        tabIndex={0}
+        role="application"
+        aria-label="Trebuchet field. Arrow keys aim, space fires."
+        onKeyDown={onStageKeyDown}
+        onPointerDown={() => stageRef.current?.focus()}>
+        <canvas ref={canvasRef} className="treb__canvas" />
 
-          {releaseTime !== null && (
-            <DataDisplay
-              releaseTime={releaseTime}
-              projectileDistance={projectileDistance}
-              projectileVelocity={projectileVelocity}
-            />
-          )}
-        </Stack>
+        <div className="treb__hud">
+          <span className="treb-chip treb-chip--strong">{level.name}</span>
+          <span className="treb-chip">{formatWind(level.wind)}</span>
+          {minDescent !== null && <span className="treb-chip">Descent ≥ {minDescent}°</span>}
+          <span className="treb-chip">Shots {shots}</span>
+        </div>
 
-        {/* Right panel - Visualization */}
-        <Box
-          sx={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            minWidth: 0,
-            minHeight: 0,
-            border: 1,
-            borderColor: "grey.300",
-            height: "600px"
-          }}>
-          <Box
-            ref={containerRef}
-            sx={{ width: "100%", height: "400px", position: "relative", marginBottom: 2 }}>
-            <Box
-              component="canvas"
-              ref={paperCanvasRef}
-              sx={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%"
-              }}
-            />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+        {message && !cleared && (
+          <div className={`treb__callout treb__callout--${message.tone}`} role="status">
+            <strong>{message.title}</strong>
+            <span>{message.detail}</span>
+          </div>
+        )}
+
+        {cleared && (
+          <div className="treb__cleared" role="dialog" aria-label="Level cleared">
+            <p className="treb__cleared-eyebrow">Target destroyed</p>
+            <Stars count={cleared.stars} />
+            <p className="treb__cleared-detail">
+              {cleared.shots === 1 ? "First shot. Nice." : `Took ${cleared.shots} shots.`}
+            </p>
+            <div className="treb__cleared-actions">
+              <button type="button" className="treb-btn treb-btn--ghost" onClick={resetLevel}>
+                Replay
+              </button>
+              {!isLastLevel && (
+                <button type="button" className="treb-btn" onClick={nextLevel}>
+                  {isRandom ? "New siege" : "Next level"}
+                </button>
+              )}
+              {isLastLevel && (
+                <button type="button" className="treb-btn" onClick={rollRandom}>
+                  Random siege
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p className="treb__level-brief">{level.brief}</p>
+
+      <section className="treb__controls" aria-label="Aim">
+        <label className="treb-slider">
+          <span className="treb-slider__label">
+            Release angle <strong>{angle}°</strong>
+          </span>
+          <input
+            type="range"
+            min={ANGLE_MIN}
+            max={ANGLE_MAX}
+            step={1}
+            value={angle}
+            onChange={(e) => setAngle(Number(e.target.value))}
+          />
+        </label>
+        <label className="treb-slider">
+          <span className="treb-slider__label">
+            Counterweight <strong>{counterweight} kg</strong>
+          </span>
+          <input
+            type="range"
+            min={CW_MIN}
+            max={CW_MAX}
+            step={25}
+            value={counterweight}
+            onChange={(e) => setCounterweight(Number(e.target.value))}
+          />
+        </label>
+        <button
+          type="button"
+          className="treb-btn treb-btn--fire"
+          onClick={fire}
+          disabled={!canFire}>
+          {cleared ? "Cleared" : phase === "aiming" ? "Fire" : "Reloading…"}
+        </button>
+      </section>
+
+      <p className="treb__keys">
+        Click the field, then use ↑ ↓ for angle, ← → for weight (hold Shift for bigger steps), and
+        Space to fire.
+      </p>
+
+      <section className="treb__readouts" aria-label="Physics readout">
+        <div className="treb-stat">
+          <span>Launch speed</span>
+          <strong>{speed.toFixed(1)} m/s</strong>
+        </div>
+        <div className="treb-stat">
+          <span>Flat range (no wind)</span>
+          <strong>{flatRange(counterweight, angle).toFixed(0)} m</strong>
+        </div>
+        <div className="treb-stat">
+          <span>Last distance</span>
+          <strong>{lastResult ? `${lastResult.distance.toFixed(0)} m` : "—"}</strong>
+        </div>
+        <div className="treb-stat">
+          <span>Last apex</span>
+          <strong>{lastResult ? `${lastResult.apex.toFixed(0)} m` : "—"}</strong>
+        </div>
+        <div
+          className={
+            lastResult && minDescent !== null && lastResult.descent < minDescent
+              ? "treb-stat treb-stat--warn"
+              : "treb-stat"
+          }>
+          <span>Last descent</span>
+          <strong>{lastResult ? `${lastResult.descent.toFixed(0)}°` : "—"}</strong>
+        </div>
+        <div className="treb-stat">
+          <span>Flight time</span>
+          <strong>{lastResult ? `${lastResult.flightTime.toFixed(1)} s` : "—"}</strong>
+        </div>
+      </section>
+    </div>
   )
 }
 
