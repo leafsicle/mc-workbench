@@ -18,10 +18,21 @@ const Header = () => {
             .map((link, idx) => (
               <NavigationMenuItem key={idx}>
                 <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
-                  <Link to={link.path} className="flex items-center space-x-2">
-                    {link.icon}
-                    <span>{link.name}</span>
-                  </Link>
+                  {link.href ? (
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2">
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </a>
+                  ) : (
+                    <Link to={link.path} className="flex items-center space-x-2">
+                      {link.icon}
+                      <span>{link.name}</span>
+                    </Link>
+                  )}
                 </NavigationMenuLink>
               </NavigationMenuItem>
             ))}
