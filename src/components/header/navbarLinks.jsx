@@ -7,7 +7,6 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import GrassIcon from "@mui/icons-material/Grass"
 import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined"
-import { LINKEDIN_URL } from "@/data/profileLinks"
 
 export const links = [
   {
@@ -27,7 +26,6 @@ export const links = [
   {
     name: "Contact",
     path: "/contact",
-    href: LINKEDIN_URL,
     icon: <EmailIcon fontSize="small" />,
     skip: false,
     underRepair: false
