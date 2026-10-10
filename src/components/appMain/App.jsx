@@ -14,8 +14,7 @@ import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
 import Weather from "../pages/weather/index"
 import { styled } from "@mui/material/styles"
-import ExternalRedirect from "../externalRedirect"
-import { LINKEDIN_URL } from "@/data/profileLinks"
+import Contact from "../pages/contact"
 import TrebuchetTool from "../pages/trebuchet"
 import UnderRepair from "../underRepair"
 import Garden from "../garden/Garden"
@@ -98,7 +97,7 @@ export default function App() {
                 </DarkThemeWrapper>
               )}
             />
-            <Route path="/contact" element={<ExternalRedirect to={LINKEDIN_URL} />} />
+            <Route path="/contact" element={getRouteElement("/contact", <Contact />)} />
             <Route path="/garden" element={getRouteElement("/garden", <Garden />)} />
             <Route path="*" element={<NotFound />} />
           </Route>
