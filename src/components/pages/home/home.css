@@ -19,8 +19,12 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background:
-    linear-gradient(180deg, rgba(8, 16, 10, 0.35) 0%, rgba(8, 16, 10, 0.78) 55%, rgba(8, 16, 10, 0.92) 100%),
+  background: linear-gradient(
+      180deg,
+      rgba(8, 16, 10, 0.35) 0%,
+      rgba(8, 16, 10, 0.78) 55%,
+      rgba(8, 16, 10, 0.92) 100%
+    ),
     radial-gradient(ellipse at 20% 10%, rgba(46, 125, 50, 0.28), transparent 55%);
 }
 
@@ -106,14 +110,6 @@
 .home-contact {
   border-top: 1px solid rgba(183, 212, 176, 0.18);
   padding-bottom: 5rem;
-}
-
-.home-contact__socials {
-  color: #e8f0e4;
-}
-
-.home-contact__socials h6 {
-  display: none;
 }
 
 .home-contact__actions {

@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
-import Socials from "@/components/socials"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import GitHubIcon from "@mui/icons-material/GitHub"
 import { Button } from "@/components/ui/button"
 import { LLM_CONTEXT_MARKDOWN } from "@/data/llmContext"
+import { GITHUB_URL, LINKEDIN_URL } from "@/data/profileLinks"
 import useToast from "@/hooks/useToast"
 
 const Home = () => {
@@ -40,18 +41,26 @@ const Home = () => {
           Contact
         </h2>
         <p className="home-section__support">
-          Find me on the usual channels, or send a note if you want to chat.
+          Want to chat? Message me on LinkedIn, or see what I&apos;m building on GitHub.
         </p>
-        <div className="home-contact__socials">
-          <Socials title="" avatarColor="#2e7d32" />
+        <div className="home-contact__actions">
+          <Button asChild>
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
+              <LinkedInIcon fontSize="small" />
+              LinkedIn
+            </a>
+          </Button>
+          <Button asChild variant="neutral">
+            <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
+              <GitHubIcon fontSize="small" />
+              GitHub
+            </a>
+          </Button>
         </div>
         <div className="home-contact__actions">
-          <Button asChild variant="neutral">
-            <Link to="/contact">Open contact form</Link>
-          </Button>
           <Button
             type="button"
-            variant="default"
+            variant="neutral"
             onClick={copyForLlms}
             aria-label="Copy About Me and resume markdown for LLMs">
             {copied ? "Copied" : "Copy for LLMs"}
