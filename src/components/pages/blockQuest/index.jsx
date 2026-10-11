@@ -189,7 +189,10 @@ const BlockQuest = () => {
       const action = KEYMAP[event.code]
       const current = screenRef.current
       if (!down) {
-        if (action) inputRef.current[action] = false
+        if (!action) return
+        inputRef.current[action] = false
+        // Space/Enter activate a focused button on keyup, which would toggle the toolbar mid-game.
+        if (current === "playing") event.preventDefault()
         return
       }
       if (event.code === "Escape" || event.code === "KeyP") {
