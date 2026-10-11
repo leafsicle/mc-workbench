@@ -32,7 +32,14 @@ const KEYMAP = {
   KeyF: "attack"
 }
 
-const freshInput = () => ({ left: false, right: false, jump: false, attack: false })
+const freshInput = () => ({
+  left: false,
+  right: false,
+  jump: false,
+  attack: false,
+  jumpTap: false,
+  attackTap: false
+})
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
 
 const readStorage = (key, fallback) => {
@@ -56,6 +63,7 @@ const TouchButton = ({ action, label, className, inputRef }) => {
     event.preventDefault()
     inputRef.current[action] = down
     if (down) {
+      inputRef.current[`${action}Tap`] = true
       sfx.unlock()
       event.currentTarget.setPointerCapture?.(event.pointerId)
     }
@@ -82,6 +90,9 @@ const BlockQuest = () => {
   const [progress, setProgress] = useState(() => readStorage(PROGRESS_KEY, {}))
   const [muted, setMutedState] = useState(() => readStorage(MUTE_KEY, false))
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [showTouch, setShowTouch] = useState(
+    () => "ontouchstart" in window && !window.matchMedia?.("(any-pointer: fine)").matches
+  )
   const [splash] = useState(() => SPLASHES[Math.floor(Math.random() * SPLASHES.length)])
 
   const canvasRef = useRef(null)
@@ -203,6 +214,7 @@ const BlockQuest = () => {
       if (current !== "playing" || !action) return
       event.preventDefault()
       inputRef.current[action] = true
+      if (!event.repeat) inputRef.current[`${action}Tap`] = true
     }
     const keyDown = onKey(true)
     const keyUp = onKey(false)
@@ -269,7 +281,8 @@ const BlockQuest = () => {
       <div
         ref={stageRef}
         className={`bq-stage ${isFullscreen ? "bq-stage--full" : ""}`}
-        tabIndex={-1}>
+        tabIndex={-1}
+        onPointerDown={(event) => event.pointerType === "touch" && setShowTouch(true)}>
         <canvas ref={canvasRef} className="bq-canvas" />
 
         {screen === "title" && (
@@ -416,7 +429,7 @@ const BlockQuest = () => {
               onClick={() => setScreen("paused")}>
               II
             </button>
-            <div className="bq-touch">
+            <div className={`bq-touch ${showTouch ? "bq-touch--on" : ""}`}>
               <div className="bq-touch__group">
                 <TouchButton action="left" label="◀" className="" inputRef={inputRef} />
                 <TouchButton action="right" label="▶" className="" inputRef={inputRef} />

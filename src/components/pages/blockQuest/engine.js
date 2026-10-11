@@ -678,8 +678,11 @@ const step = (game, input, dt, events) => {
 
 export const updateGame = (game, input, dt, events) => {
   const p = game.player
-  if (input.jump && !game.prevInput.jump) p.jumpBuffer = JUMP_BUFFER
-  if (input.attack && !game.prevInput.attack) p.attackQueued = true
+  // Taps are latched by the input layer so a press shorter than one frame still counts.
+  if (input.jumpTap || (input.jump && !game.prevInput.jump)) p.jumpBuffer = JUMP_BUFFER
+  if (input.attackTap || (input.attack && !game.prevInput.attack)) p.attackQueued = true
+  input.jumpTap = false
+  input.attackTap = false
   game.prevInput = { jump: input.jump, attack: input.attack }
 
   game.accumulator = Math.min(game.accumulator + dt, 0.1)

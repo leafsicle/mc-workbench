@@ -233,6 +233,8 @@ const drawHud = (ctx, game, w, ts) => {
   const p = game.player
   const px = Math.max(2, Math.round(ts / 11))
   const low = p.hearts <= 1
+  ctx.fillStyle = "rgba(0, 0, 0, 0.35)"
+  ctx.fillRect(6, 6, MAX_HEARTS * px * 8.5 + px * 2, px * 7 + 12)
   for (let i = 0; i < MAX_HEARTS; i++) {
     const jiggle = low ? Math.round(Math.sin(game.time * 20 + i) * px * 0.6) : 0
     drawHeart(ctx, 12 + i * px * 8.5, 12 + jiggle, px, i < p.hearts)
@@ -243,6 +245,8 @@ const drawHud = (ctx, game, w, ts) => {
   ctx.font = `bold ${size}px ${FONT}`
   const textW = ctx.measureText(label).width
   const iconX = w - 16 - textW - px * 9
+  ctx.fillStyle = "rgba(0, 0, 0, 0.35)"
+  ctx.fillRect(iconX - 6, 6, w - iconX, px * 7 + 12)
   drawDiamondIcon(ctx, iconX, 12, px)
   shadowText(ctx, label, w - 12 - textW, 12 + (px * 7 - size) / 2, size)
 

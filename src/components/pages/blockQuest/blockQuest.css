@@ -290,10 +290,8 @@
   background: rgba(255, 179, 43, 0.3);
 }
 
-@media (hover: none), (pointer: coarse) {
-  .bq-touch {
-    display: flex;
-  }
+.bq-touch--on {
+  display: flex;
 }
 
 .bq-toolbar {
