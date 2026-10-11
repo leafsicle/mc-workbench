@@ -16,6 +16,7 @@ import Weather from "../pages/weather/index"
 import { styled } from "@mui/material/styles"
 import Contact from "../pages/contact"
 import TrebuchetTool from "../pages/trebuchet"
+import BlockQuest from "../pages/blockQuest"
 import UnderRepair from "../underRepair"
 import Garden from "../garden/Garden"
 import Home from "../pages/home"
@@ -94,6 +95,15 @@ export default function App() {
                 "/trebuchet",
                 <DarkThemeWrapper>
                   <TrebuchetTool />
+                </DarkThemeWrapper>
+              )}
+            />
+            <Route
+              path="/blockquest"
+              element={getRouteElement(
+                "/blockquest",
+                <DarkThemeWrapper>
+                  <BlockQuest />
                 </DarkThemeWrapper>
               )}
             />

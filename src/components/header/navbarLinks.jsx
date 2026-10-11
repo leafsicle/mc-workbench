@@ -7,6 +7,7 @@ import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import GrassIcon from "@mui/icons-material/Grass"
 import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined"
+import SportsEsportsIcon from "@mui/icons-material/SportsEsports"
 
 export const links = [
   {
@@ -63,6 +64,13 @@ export const links = [
     name: "Send It",
     path: "/trebuchet",
     icon: <ArchitectureOutlinedIcon fontSize="small" />,
+    skip: true,
+    underRepair: false
+  },
+  {
+    name: "Block Quest",
+    path: "/blockquest",
+    icon: <SportsEsportsIcon fontSize="small" />,
     skip: true,
     underRepair: false
   },
