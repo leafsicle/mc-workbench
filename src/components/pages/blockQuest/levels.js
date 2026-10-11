@@ -100,7 +100,7 @@ const plains = defineLevel({
     b.sign(7, 12, "Jump with SPACE, W or the up arrow. Hold it to jump higher!")
     b.diamond(10, 9)
     b.sign(13, 12, "Watch out for holes! Jump over them.")
-    b.pit(14, 16)
+    b.pit(15, 16)
 
     b.ground(17, 33, 12)
     b.sign(18, 12, "That's a CREEPER! Press X to swing your sword, or jump on his head!")
