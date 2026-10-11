@@ -10,14 +10,14 @@ const CHANNELS = [
     handle: "in/cookem529",
     href: LINKEDIN_URL,
     icon: LinkedInIcon,
-    blurb: "Best way to reach me. Send a message and I'll get back to you."
+    blurb: "I check it more than I'd like to admit. Replies may arrive fashionably late."
   },
   {
     name: "GitHub",
     handle: "@leafsicle",
     href: GITHUB_URL,
     icon: GitHubIcon,
-    blurb: "Side projects, experiments, and the source for this site."
+    blurb: "Side projects, half-finished experiments, and the source for this site. Judge gently."
   }
 ]
 
@@ -28,7 +28,8 @@ const Contact = () => (
         Contact
       </h1>
       <p className="contact-page__support">
-        Want to chat? Message me on LinkedIn, or see what I&apos;m building on GitHub.
+        Want to chat? I&apos;ll do my best if you message me on LinkedIn, or see what I&apos;m
+        building on GitHub.
       </p>
       <ul className="contact-cards">
         {CHANNELS.map(({ name, handle, href, icon: Icon, blurb }) => (
