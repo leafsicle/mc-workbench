@@ -10,14 +10,14 @@ const CHANNELS = [
     handle: "in/cookem529",
     href: LINKEDIN_URL,
     icon: LinkedInIcon,
-    blurb: "Best way to reach me. Send a message and I'll get back to you."
+    blurb: "I check it more than I'd like to admit. Replies may arrive fashionably late."
   },
   {
     name: "GitHub",
     handle: "@leafsicle",
     href: GITHUB_URL,
     icon: GitHubIcon,
-    blurb: "Side projects, experiments, and the source for this site."
+    blurb: "Side projects, half-finished experiments, and the source for this site. Judge gently."
   }
 ]
 
