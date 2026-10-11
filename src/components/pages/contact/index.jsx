@@ -28,7 +28,8 @@ const Contact = () => (
         Contact
       </h1>
       <p className="contact-page__support">
-        Want to chat? Message me on LinkedIn, or see what I&apos;m building on GitHub.
+        Want to chat? I&apos;ll do my best if you message me on LinkedIn, or see what I&apos;m
+        building on GitHub.
       </p>
       <ul className="contact-cards">
         {CHANNELS.map(({ name, handle, href, icon: Icon, blurb }) => (

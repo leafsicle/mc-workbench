@@ -41,7 +41,8 @@ const Home = () => {
           Contact
         </h2>
         <p className="home-section__support">
-          Want to chat? Message me on LinkedIn, or see what I&apos;m building on GitHub.
+          Want to chat? I&apos;ll do my best if you message me on LinkedIn, or see what I&apos;m
+          building on GitHub.
         </p>
         <div className="home-contact__actions">
           <Button asChild>
