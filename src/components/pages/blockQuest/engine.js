@@ -12,6 +12,7 @@ const AIR_ACCEL = 45
 const GROUND_FRICTION = 55
 const AIR_FRICTION = 18
 const JUMP_SPEED = 15
+const MIN_JUMP_TIME = 0.24
 const COYOTE = 0.1
 const JUMP_BUFFER = 0.14
 const INVULN = 1.4
@@ -81,6 +82,7 @@ export const createGame = (level) => {
           invuln: 0,
           knock: 0,
           coyote: 0,
+          jumpT: 0,
           jumpBuffer: 0,
           attackT: -1,
           attackCd: 0,
@@ -366,11 +368,15 @@ const updatePlayer = (game, input, dt, events) => {
     p.vy = -JUMP_SPEED
     p.jumpBuffer = 0
     p.coyote = 0
+    p.jumpT = 0
     sfx.jump()
   }
+  p.jumpT += dt
 
-  // Letting go of jump early pulls you down faster, giving short hops and big leaps.
-  const extraGravity = !input.jump && p.vy < 0 ? GRAVITY * 1.6 : 0
+  // Letting go of jump early pulls you down faster, giving short hops and big leaps. The
+  // first MIN_JUMP_TIME always rises at full strength so a quick tap still clears 2 blocks.
+  const cutJump = !input.jump && p.vy < 0 && p.jumpT > MIN_JUMP_TIME
+  const extraGravity = cutJump ? GRAVITY * 1.6 : 0
   p.vy = Math.min(MAX_FALL, p.vy + (GRAVITY + extraGravity) * dt)
 
   const prevBottom = p.y + p.h
