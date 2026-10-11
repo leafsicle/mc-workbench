@@ -4,6 +4,10 @@
   padding: 0.5rem 0 2rem;
   color: #eef3ea;
   font-family: "Figtree", system-ui, sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bq__eyebrow {
@@ -42,12 +46,66 @@
 }
 
 .bq-stage--full {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
   border: 0;
   border-radius: 0;
 }
 
 .bq-stage--full .bq-canvas {
   height: 100% !important;
+}
+
+.bq-rotate {
+  display: none;
+  position: absolute;
+  top: 4rem;
+  left: 50%;
+  z-index: 1;
+  width: max-content;
+  max-width: 90%;
+  margin: 0;
+  padding: 0.5rem 0.8rem;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffff55;
+  font: 700 0.95rem "Courier New", monospace;
+  text-align: center;
+  text-shadow: 2px 2px 0 #3f3f00;
+  pointer-events: none;
+}
+
+@media (orientation: portrait) {
+  .bq-rotate {
+    display: block;
+  }
+}
+
+.bq-stage :is(canvas, button) {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.bq-fs {
+  position: absolute;
+  top: 0.6rem;
+  left: calc(50% + 1.6rem);
+  z-index: 2;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid #000;
+  background: rgba(122, 122, 122, 0.85);
+  box-shadow: inset 2px 2px 0 #b5b5b5, inset -2px -3px 0 #4a4a4a;
+  color: #fff;
+  font: 900 1rem "Courier New", monospace;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .bq-canvas {
@@ -66,6 +124,7 @@
   gap: 0.9rem;
   padding: 1rem;
   overflow-y: auto;
+  touch-action: pan-y;
   background: rgba(0, 0, 0, 0.55);
   font-family: "Courier New", ui-monospace, monospace;
   font-weight: 700;
@@ -239,7 +298,7 @@
 .bq-pause {
   position: absolute;
   top: 0.6rem;
-  left: 50%;
+  left: calc(50% - 1.6rem);
   transform: translateX(-50%);
   width: 2.4rem;
   height: 2.4rem;
@@ -256,7 +315,8 @@
   inset: auto 0 0 0;
   display: none;
   justify-content: space-between;
-  padding: 0.75rem;
+  padding: 0.75rem max(0.75rem, env(safe-area-inset-right))
+    max(0.75rem, env(safe-area-inset-bottom)) max(0.75rem, env(safe-area-inset-left));
   pointer-events: none;
 }
 

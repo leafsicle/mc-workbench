@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { LEVELS } from "./levels"
 import { createGame, idleGame, respawnPlayer, spawnFirework, updateGame } from "./engine"
-import { renderGame, VIEW_TILES } from "./renderer"
+import { renderGame, tileSize } from "./renderer"
 import { setMuted, sfx } from "./audio"
 import "./blockQuest.css"
 
@@ -41,6 +41,7 @@ const freshInput = () => ({
   attackTap: false
 })
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value))
+const fullscreenElement = () => document.fullscreenElement ?? document.webkitFullscreenElement
 
 const readStorage = (key, fallback) => {
   try {
@@ -102,7 +103,10 @@ const BlockQuest = () => {
   const inputRef = useRef(freshInput())
   const screenRef = useRef(screen)
   const eventsRef = useRef({})
+  const fullscreenRef = useRef(false)
+  const nativeFullscreenRef = useRef(false)
   screenRef.current = screen
+  fullscreenRef.current = isFullscreen
 
   eventsRef.current = {
     onDeath: () => setScreen("dead"),
@@ -142,9 +146,8 @@ const BlockQuest = () => {
     let fireworkT = 0
 
     const resize = () => {
-      const full = document.fullscreenElement === stage
       const w = stage.clientWidth
-      const h = full
+      const h = fullscreenRef.current
         ? stage.clientHeight
         : Math.round(clamp(w * 0.5625, 260, window.innerHeight * 0.78))
       if (!w || (w === size.w && h === size.h)) return
@@ -174,7 +177,7 @@ const BlockQuest = () => {
         fireworkT -= dt
         if (fireworkT <= 0) {
           fireworkT = 0.45
-          const viewW = size.w / (size.h / VIEW_TILES)
+          const viewW = size.w / tileSize(size.w, size.h)
           spawnFirework(
             game,
             game.cam.x + viewW * (0.15 + Math.random() * 0.7),
@@ -223,30 +226,75 @@ const BlockQuest = () => {
       if (screenRef.current === "playing") setScreen("paused")
     }
     const onVisibility = () => document.hidden && pauseIfPlaying()
-    const onFullscreen = () => setIsFullscreen(document.fullscreenElement === stageRef.current)
+    // Leaving native fullscreen with Esc or the back gesture should also drop our layout.
+    const onFullscreen = () => {
+      if (fullscreenElement() || !nativeFullscreenRef.current) return
+      nativeFullscreenRef.current = false
+      setIsFullscreen(false)
+    }
 
     window.addEventListener("keydown", keyDown)
     window.addEventListener("keyup", keyUp)
     window.addEventListener("blur", pauseIfPlaying)
     document.addEventListener("visibilitychange", onVisibility)
     document.addEventListener("fullscreenchange", onFullscreen)
+    document.addEventListener("webkitfullscreenchange", onFullscreen)
     return () => {
       window.removeEventListener("keydown", keyDown)
       window.removeEventListener("keyup", keyUp)
       window.removeEventListener("blur", pauseIfPlaying)
       document.removeEventListener("visibilitychange", onVisibility)
       document.removeEventListener("fullscreenchange", onFullscreen)
+      document.removeEventListener("webkitfullscreenchange", onFullscreen)
     }
   }, [])
 
-  const startLevel = useCallback((index) => {
+  useEffect(() => {
+    if (!isFullscreen) return undefined
+    const root = document.documentElement
+    const previous = [root.style.overflow, document.body.style.overflow]
+    root.style.overflow = "hidden"
+    document.body.style.overflow = "hidden"
+    return () => {
+      root.style.overflow = previous[0]
+      document.body.style.overflow = previous[1]
+    }
+  }, [isFullscreen])
+
+  // iPhones only allow native fullscreen on <video>, so the CSS layout alone has to cover the
+  // screen there; elsewhere native fullscreen also hides the browser bars.
+  const enterFullscreen = () => {
+    setIsFullscreen(true)
+    const stage = stageRef.current
+    const request = stage?.requestFullscreen ?? stage?.webkitRequestFullscreen
+    if (!request || fullscreenElement()) return
+    Promise.resolve(request.call(stage))
+      .then(() => {
+        nativeFullscreenRef.current = true
+        return window.screen?.orientation?.lock?.("landscape")
+      })
+      .catch(() => {})
+  }
+
+  const exitFullscreen = () => {
+    setIsFullscreen(false)
+    nativeFullscreenRef.current = false
+    if (!fullscreenElement()) return
+    const exit = document.exitFullscreen ?? document.webkitExitFullscreen
+    Promise.resolve(exit?.call(document)).catch(() => {})
+  }
+
+  const toggleFullscreen = () => (isFullscreen ? exitFullscreen() : enterFullscreen())
+
+  const startLevel = (index) => {
     sfx.unlock()
+    if (showTouch && !isFullscreen) enterFullscreen()
     gameRef.current = createGame(LEVELS[index])
     setLevelIndex(index)
     setResult(null)
     setScreen("playing")
     stageRef.current?.focus()
-  }, [])
+  }
 
   const respawn = () => {
     respawnPlayer(gameRef.current, true)
@@ -257,11 +305,6 @@ const BlockQuest = () => {
   const resume = () => {
     setScreen("playing")
     stageRef.current?.focus()
-  }
-
-  const toggleFullscreen = () => {
-    if (document.fullscreenElement) document.exitFullscreen?.()
-    else stageRef.current?.requestFullscreen?.()
   }
 
   const firstUnfinished = LEVELS.findIndex((level) => !progress[level.id]?.done)
@@ -282,8 +325,18 @@ const BlockQuest = () => {
         ref={stageRef}
         className={`bq-stage ${isFullscreen ? "bq-stage--full" : ""}`}
         tabIndex={-1}
-        onPointerDown={(event) => event.pointerType === "touch" && setShowTouch(true)}>
+        onPointerDown={(event) => event.pointerType === "touch" && setShowTouch(true)}
+        onContextMenu={(event) => event.preventDefault()}>
         <canvas ref={canvasRef} className="bq-canvas" />
+
+        <button
+          type="button"
+          className="bq-fs"
+          aria-label={isFullscreen ? "Exit full screen" : "Full screen"}
+          onClick={toggleFullscreen}>
+          {isFullscreen ? "✕" : "⛶"}
+        </button>
+        {isFullscreen && <p className="bq-rotate">Turn your phone sideways for a bigger view!</p>}
 
         {screen === "title" && (
           <div className="bq-overlay bq-overlay--title">
