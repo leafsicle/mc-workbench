@@ -1,0 +1,363 @@
+.bq {
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0.5rem 0 2rem;
+  color: #eef3ea;
+  font-family: "Figtree", system-ui, sans-serif;
+}
+
+.bq__eyebrow {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8fba88;
+}
+
+.bq__title {
+  margin: 0.2rem 0 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+  font-weight: 600;
+  color: #f4f7f2;
+}
+
+.bq__brief {
+  margin: 0.5rem 0 1rem;
+  max-width: 40rem;
+  line-height: 1.5;
+  color: rgba(238, 243, 234, 0.75);
+}
+
+.bq-stage {
+  position: relative;
+  overflow: hidden;
+  border: 3px solid #000;
+  border-radius: 4px;
+  background: #000;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+.bq-stage--full {
+  border: 0;
+  border-radius: 0;
+}
+
+.bq-stage--full .bq-canvas {
+  height: 100% !important;
+}
+
+.bq-canvas {
+  display: block;
+  width: 100%;
+  image-rendering: pixelated;
+}
+
+.bq-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: safe center;
+  gap: 0.9rem;
+  padding: 1rem;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.55);
+  font-family: "Courier New", ui-monospace, monospace;
+  font-weight: 700;
+  text-align: center;
+}
+
+.bq-overlay--title {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.55));
+}
+
+.bq-overlay--dead {
+  background: rgba(120, 0, 0, 0.5);
+}
+
+.bq-overlay--victory {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.bq-logo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+
+.bq-logo__top {
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #3f3f3f;
+  letter-spacing: 0.06em;
+}
+
+.bq-logo__main {
+  margin-top: 0.25rem;
+  font-size: clamp(2.2rem, 8vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #c6c6c6;
+  -webkit-text-stroke: 1px #2b2b2b;
+  text-shadow: 3px 3px 0 #6e6e6e, 6px 6px 0 #2b2b2b;
+}
+
+.bq-splash {
+  position: absolute;
+  right: -1.5rem;
+  bottom: -1.1rem;
+  font-size: clamp(0.8rem, 2.2vw, 1.15rem);
+  color: #ffff55;
+  text-shadow: 2px 2px 0 #3f3f00;
+  white-space: nowrap;
+  transform: rotate(-14deg);
+  animation: bq-splash 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes bq-splash {
+  from {
+    transform: rotate(-14deg) scale(0.94);
+  }
+  to {
+    transform: rotate(-14deg) scale(1.06);
+  }
+}
+
+.bq-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  width: min(100%, 26rem);
+  margin-top: 0.75rem;
+}
+
+.bq-btn {
+  appearance: none;
+  border: 2px solid #000;
+  border-radius: 0;
+  padding: 0.55rem 1rem;
+  background: #7a7a7a;
+  box-shadow: inset 2px 2px 0 #b5b5b5, inset -2px -3px 0 #4a4a4a;
+  color: #ffffff;
+  font: inherit;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  text-shadow: 2px 2px 0 #3f3f3f;
+  cursor: pointer;
+}
+
+.bq-btn:hover,
+.bq-btn:focus-visible {
+  outline: none;
+  background: #7e88c9;
+  box-shadow: inset 2px 2px 0 #b9c1f2, inset -2px -3px 0 #4b5594;
+  color: #ffffa0;
+}
+
+.bq-btn:active {
+  transform: translateY(1px);
+}
+
+.bq-btn--wide {
+  width: 100%;
+}
+
+.bq-worlds {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.bq-world {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.45rem 0.5rem;
+}
+
+.bq-world__num {
+  font-size: 0.75em;
+  color: #e0e0e0;
+}
+
+.bq-world__badge {
+  font-size: 0.75em;
+  color: #7dff7d;
+}
+
+.bq-world--done {
+  background: #5f7f5f;
+}
+
+.bq-gem {
+  color: #5decf5;
+}
+
+.bq-heading {
+  margin: 0;
+  font-size: clamp(1.6rem, 5vw, 2.6rem);
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #3f3f3f;
+}
+
+.bq-heading--dead {
+  color: #ffffff;
+  text-shadow: 3px 3px 0 #3f0000;
+}
+
+.bq-heading--gold {
+  color: #ffff55;
+  text-shadow: 3px 3px 0 #3f3f00;
+}
+
+.bq-sub {
+  margin: 0;
+  max-width: 30rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #3f3f3f;
+  line-height: 1.4;
+}
+
+.bq-stats {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: #ffffff;
+  text-shadow: 2px 2px 0 #3f3f3f;
+  line-height: 1.6;
+}
+
+.bq-pause {
+  position: absolute;
+  top: 0.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 2px solid #000;
+  background: rgba(122, 122, 122, 0.85);
+  box-shadow: inset 2px 2px 0 #b5b5b5, inset -2px -3px 0 #4a4a4a;
+  color: #fff;
+  font: 900 0.9rem "Courier New", monospace;
+  cursor: pointer;
+}
+
+.bq-touch {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: none;
+  justify-content: space-between;
+  padding: 0.75rem;
+  pointer-events: none;
+}
+
+.bq-touch__group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.bq-touch__btn {
+  width: 4rem;
+  height: 4rem;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.22);
+  color: #ffffff;
+  font-size: 1.6rem;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6);
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.bq-touch__btn:active {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.bq-touch__btn--jump {
+  background: rgba(93, 236, 245, 0.3);
+}
+
+.bq-touch__btn--attack {
+  background: rgba(255, 179, 43, 0.3);
+}
+
+@media (hover: none), (pointer: coarse) {
+  .bq-touch {
+    display: flex;
+  }
+}
+
+.bq-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+  color: rgba(238, 243, 234, 0.75);
+}
+
+.bq-keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+}
+
+.bq-keys kbd {
+  display: inline-block;
+  min-width: 1.4rem;
+  margin-right: 0.2rem;
+  padding: 0.05rem 0.35rem;
+  border: 1px solid rgba(183, 212, 176, 0.3);
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  font-family: ui-monospace, monospace;
+  font-size: 0.8rem;
+  text-align: center;
+  color: #eef3ea;
+}
+
+.bq-toolbar__actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.bq-chip {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid rgba(183, 212, 176, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(238, 243, 234, 0.82);
+  font: inherit;
+  cursor: pointer;
+}
+
+.bq-chip:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #f4f7f2;
+}
+
+@media (max-width: 560px) {
+  .bq-worlds {
+    grid-template-columns: 1fr;
+  }
+
+  .bq-splash {
+    right: 0;
+  }
+
+  .bq-touch__btn {
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+}

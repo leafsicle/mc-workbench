@@ -4,6 +4,7 @@ import Calculators from "@/components/pages/calculators"
 import Fitness from "@/components/pages/fitness"
 import SpaceStuff from "@/components/pages/spaceStuff"
 import TrebuchetTool from "@/components/pages/trebuchet"
+import BlockQuest from "@/components/pages/blockQuest"
 import Garden from "@/components/garden/Garden"
 import DarkThemeWrapper from "@/components/appMain/DarkThemeWrapper"
 import { cn } from "@/lib/utils"
@@ -13,6 +14,7 @@ const TABS = [
   { id: "fitness", label: "Hevy Log", wrapDark: true, render: () => <Fitness /> },
   { id: "space", label: "Space", wrapDark: true, render: () => <SpaceStuff isThisToday /> },
   { id: "trebuchet", label: "Send It", wrapDark: true, render: () => <TrebuchetTool /> },
+  { id: "blockquest", label: "Block Quest", wrapDark: true, render: () => <BlockQuest /> },
   { id: "garden", label: "Garden", wrapDark: false, render: () => <Garden /> }
 ]
 
@@ -23,10 +25,7 @@ const Scrapyard = () => {
     TABS.some((tab) => tab.id === initialTab) ? initialTab : TABS[0].id
   )
 
-  const activeTab = useMemo(
-    () => TABS.find((tab) => tab.id === activeId) ?? TABS[0],
-    [activeId]
-  )
+  const activeTab = useMemo(() => TABS.find((tab) => tab.id === activeId) ?? TABS[0], [activeId])
 
   const selectTab = (id) => {
     setActiveId(id)
@@ -54,10 +53,7 @@ const Scrapyard = () => {
             id={`scrapyard-tab-${tab.id}`}
             aria-selected={tab.id === activeTab.id}
             aria-controls={`scrapyard-panel-${tab.id}`}
-            className={cn(
-              "scrapyard-tab",
-              tab.id === activeTab.id && "scrapyard-tab--active"
-            )}
+            className={cn("scrapyard-tab", tab.id === activeTab.id && "scrapyard-tab--active")}
             onClick={() => selectTab(tab.id)}>
             {tab.label}
           </button>
