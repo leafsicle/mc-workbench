@@ -16,6 +16,10 @@ import {
 } from "./sprites"
 
 export const VIEW_TILES = 12
+const MIN_VIEW_WIDTH = 14
+
+export const tileSize = (w, h) =>
+  Math.max(12, Math.round(Math.min(h / VIEW_TILES, w / MIN_VIEW_WIDTH)))
 
 // Hurt tint only shows for the first moment of invulnerability, then Steve just blinks.
 const INVULN_FLASH_FROM = 1.15
@@ -73,7 +77,9 @@ const wrapText = (ctx, text, maxWidth) => {
 
 const updateCamera = (game, viewW, viewH, dt, attract) => {
   const maxX = Math.max(0, game.width - viewW)
-  const maxY = Math.max(0, game.height - viewH)
+  // A tall portrait view can be taller than the level; pin the ground to the bottom then.
+  const maxY = game.height - viewH
+  const minY = Math.min(0, maxY)
   if (attract) {
     const span = Math.max(1, maxX)
     const t = (game.time * 1.5) % (span * 2)
@@ -83,7 +89,7 @@ const updateCamera = (game, viewW, viewH, dt, attract) => {
   const p = game.player
   const target = {
     x: clamp(p.x + p.w / 2 - viewW / 2 + p.facing * 1.2, 0, maxX),
-    y: clamp(p.y + p.h / 2 - viewH * 0.55, 0, maxY)
+    y: clamp(p.y + p.h / 2 - viewH * 0.55, minY, Math.max(minY, maxY))
   }
   if (!game.cam) {
     game.cam = target
@@ -280,7 +286,7 @@ const drawBubble = (ctx, text, anchorX, anchorY, w, ts) => {
 
 export const renderGame = (ctx, game, w, h, dt, { attract = false } = {}) => {
   const theme = THEMES[game.level.theme] ?? THEMES.day
-  const ts = Math.max(12, Math.round(h / VIEW_TILES))
+  const ts = tileSize(w, h)
   const cam = updateCamera(game, w / ts, h / ts, dt, attract)
   const shake = game.shake > 0 ? game.shake * ts * 0.35 : 0
   const sx = shake ? (Math.random() - 0.5) * shake : 0
