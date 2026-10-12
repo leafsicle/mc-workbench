@@ -162,10 +162,10 @@ const woods = defineLevel({
 
     b.ground(24, 39, 11)
     b.tree(26, 11)
-    b.set(28, 10, "H")
-    b.fill(29, 8, 31, 8, "H")
-    b.diamond(30, 6)
+    b.fill(27, 10, 28, 10, "H")
+    b.fill(30, 8, 32, 8, "H")
     b.diamond(31, 6)
+    b.diamond(32, 6)
     b.creeper(31, 11)
     b.creeper(37, 11)
     b.pit(40, 42)
