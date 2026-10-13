@@ -1,7 +1,5 @@
 import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import Calculators from "@/components/pages/calculators"
-import Fitness from "@/components/pages/fitness"
 import SpaceStuff from "@/components/pages/spaceStuff"
 import TrebuchetTool from "@/components/pages/trebuchet"
 import BlockQuest from "@/components/pages/blockQuest"
@@ -10,8 +8,6 @@ import DarkThemeWrapper from "@/components/appMain/DarkThemeWrapper"
 import { cn } from "@/lib/utils"
 
 const TABS = [
-  { id: "calculators", label: "Calculators", wrapDark: true, render: () => <Calculators /> },
-  { id: "fitness", label: "Hevy Log", wrapDark: true, render: () => <Fitness /> },
   { id: "space", label: "Space", wrapDark: true, render: () => <SpaceStuff isThisToday /> },
   { id: "trebuchet", label: "Send It", wrapDark: true, render: () => <TrebuchetTool /> },
   { id: "blockquest", label: "Block Quest", wrapDark: true, render: () => <BlockQuest /> },

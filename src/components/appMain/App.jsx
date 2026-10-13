@@ -7,8 +7,6 @@ import "react-toastify/dist/ReactToastify.css"
 import { ThemeProvider } from "@mui/material"
 import theme from "../appMain/themes"
 import DarkThemeWrapper from "../appMain/DarkThemeWrapper"
-import Calculators from "../pages/calculators/index"
-import Fitness from "../pages/fitness/index"
 import NotFound from "../404/index"
 import { Box } from "@mui/material"
 import SpaceStuff from "../pages/spaceStuff/index"
@@ -61,24 +59,6 @@ export default function App() {
             <Route index element={<Home />} />
             <Route path="/scrapyard" element={<Scrapyard />} />
             <Route path="/404" element={getRouteElement("/404", <NotFound />)} />
-            <Route
-              path="/fitness"
-              element={getRouteElement(
-                "/fitness",
-                <DarkThemeWrapper>
-                  <Fitness />
-                </DarkThemeWrapper>
-              )}
-            />
-            <Route
-              path="/calculators"
-              element={getRouteElement(
-                "/calculators",
-                <DarkThemeWrapper>
-                  <Calculators />
-                </DarkThemeWrapper>
-              )}
-            />
             <Route
               path="/space"
               element={getRouteElement(

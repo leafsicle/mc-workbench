@@ -2,8 +2,6 @@ import React from "react"
 import HomeSharpIcon from "@mui/icons-material/HomeSharp"
 import HardwareIcon from "@mui/icons-material/Hardware"
 import EmailIcon from "@mui/icons-material/Email"
-import RamenDiningIcon from "@mui/icons-material/RamenDining"
-import FitnessCenterIcon from "@mui/icons-material/FitnessCenter"
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch"
 import GrassIcon from "@mui/icons-material/Grass"
 import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined"
@@ -36,20 +34,6 @@ export const links = [
     name: "Garden!",
     path: "/garden",
     icon: <GrassIcon fontSize="small" />,
-    skip: true,
-    underRepair: false
-  },
-  {
-    name: "Calculators",
-    path: "/calculators",
-    icon: <RamenDiningIcon fontSize="small" />,
-    skip: true,
-    underRepair: false
-  },
-  {
-    name: "Hevy Log",
-    path: "/fitness",
-    icon: <FitnessCenterIcon fontSize="small" />,
     skip: true,
     underRepair: false
   },
