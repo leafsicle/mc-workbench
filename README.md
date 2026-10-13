@@ -44,8 +44,6 @@ yarn run dev
 ## Features
 
 - [NASA Astronomy Picture of the Day](https://apod.nasa.gov/apod/astropix.html) integration
-- [Hevy](https://api.hevyapp.com/docs/) integration
-
 ### Tools
 
 - [Toast notifications](https://mui.com/components/snackbar/) for error handling
@@ -58,4 +56,3 @@ yarn run dev
 - [Luxon](https://moment.github.io/luxon/#/) - A library for parsing, validating, manipulating, and displaying dates and times in JavaScript
 - [Paper.js](https://paperjs.org/) - A library for creating and manipulating 2D shapes in JavaScript
 - [OpenWeatherMap](https://openweathermap.org/api) - A weather API for getting weather data
-- [Hevy](https://api.hevyapp.com/docs/) - A library for creating and manipulating 2D shapes in JavaScript
